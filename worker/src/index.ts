@@ -7,25 +7,17 @@ export interface Env {
 
 export default {
   async fetch(req: Request, env: Env, _ctx: ExecutionContext) {
-    const url = new URL(req.url);
+    const gate = checkBasicAuth(req, env);
+    if (gate) return gate;
 
-    // Staging: gated + noindex
-    if (url.hostname === "staging.constans.dev") {
-      const gate = checkBasicAuth(req, env);
-      if (gate) return gate;
-
-      const res = await env.STAGING_ASSETS.fetch(req);
-      const headers = new Headers(res.headers);
-      headers.set("X-Robots-Tag", "noindex, nofollow");
-      return new Response(res.body, {
-        status: res.status,
-        statusText: res.statusText,
-        headers,
-      });
-    }
-
-    // Production: untouched pass-through to GH Pages (which serves its own 404.html)
-    return fetch(req);
+    const res = await env.STAGING_ASSETS.fetch(req);
+    const headers = new Headers(res.headers);
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+    return new Response(res.body, {
+      status: res.status,
+      statusText: res.statusText,
+      headers,
+    });
   },
 };
 

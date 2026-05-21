@@ -14,10 +14,6 @@ not_found_handling = "404-page"
 pattern = "staging.constans.dev/*"
 zone_name = "constans.dev"
 
-[[routes]]
-pattern = "constans.dev/*"
-zone_name = "constans.dev"
-
 [vars]
 STAGING_USER = "preview"
 # STAGING_PASS set via `wrangler secret put STAGING_PASS`
