@@ -619,7 +619,9 @@ footer.site .sep { color: var(--rule-strong); }
 .case .case-thumb:has(img) {
   background: none;
   aspect-ratio: auto;
-  padding: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
 }
 .case .case-thumb img {
   display: block;

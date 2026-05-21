@@ -1,0 +1,18 @@
+<header class="top">
+  <div class="id"><a href="/" class="naked">jmc<span class="dot">@</span>constans.dev</a></div>
+  <nav>
+    {% if page.permalink == "projects/" %}
+      <a href="/projects/" aria-current="page">work</a>
+    {% else %}
+      <a href="/projects/">work</a>
+    {% endif %}
+
+    {% if page.collection == "posts" or page.permalink == "writing/" %}
+      <a href="/writing/" aria-current="page">writing</a>
+    {% else %}
+      <a href="/writing/">writing</a>
+    {% endif %}
+    
+    <a href="/maintenance.html">portal</a>
+  </nav>
+</header>

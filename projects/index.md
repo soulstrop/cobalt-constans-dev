@@ -21,7 +21,7 @@ data:
 <span>2025 – present</span>
 </div>
 <h2><a href="https://github.com/soulstrop/pi-agent-space">pi-agent-space</a></h2>
-<p class="body">Agentic squad framework on Raspberry Pi. Local-first multi-agent orchestration using Extreme-Programming-style Actor / Critic loops, with deterministic test gates between every step. Built to make small-model squads reliable enough for production work without a cloud round-trip.</p>
+<p class="body">A system designed to efficiently and systematically explore this multidimensional space. By treating the "builder harness" (the Pi platform) and the "user harness" (the package of skills, prompts, and models) as a composed system, this project optimizes the agent's behavior against a graduated problem suite. It finds configurations on the Pareto frontier of trade-offs, like tokens used, dollars spent, scaling slope across problem difficulties, and overall quality.</p>
 <div class="case-tags">
 <span class="tag">python</span>
 <span class="tag">edge</span>
