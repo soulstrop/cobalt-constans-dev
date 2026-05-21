@@ -8,17 +8,19 @@
     <main>
       <div class="post-sidekick">
         <aside class="meta">
-          <div class="row"><span class="l">kind</span><span class="v" style="color:var(--accent);">paper</span></div>
+          <div class="row"><span class="l">kind</span><span class="v v-accent">paper</span></div>
           <div class="row"><span class="l">date</span><span class="v">{{ page.published_date | date: "%b %Y" }}</span></div>
-          {% if page.data.pages %}<div class="row"><span class="l">pages</span><span class="v">{{ page.data.pages }}</span></div>{% endif %}
-          {% if page.tags %}
+          {%- if page.data.pages %}
+          <div class="row"><span class="l">pages</span><span class="v">{{ page.data.pages }}</span></div>
+          {%- endif %}
+          {%- if page.tags %}
           <div class="row"><span class="l">tags</span><span class="v">{{ page.tags | join: " · " }}</span></div>
-          {% endif %}
-          {% if page.data.pdf_url %}
-          <div class="row" style="margin-top:0.5rem;">
-            <a class="act primary" href="{{ page.data.pdf_url }}" style="font-size:0.78rem;padding:0.4rem 0.8rem;">Read full PDF <span class="arr">↗</span></a>
+          {%- endif %}
+          {%- if page.data.pdf_url %}
+          <div class="row row-pdf">
+            <a class="act primary act-sm" href="{{ page.data.pdf_url }}">Read full PDF <span class="arr">↗</span></a>
           </div>
-          {% endif %}
+          {%- endif %}
           <div class="row"><span class="l">— —</span><span class="v"><a href="/writing/">← all writing</a></span></div>
         </aside>
         <article class="paper">

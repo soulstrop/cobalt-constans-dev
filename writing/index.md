@@ -15,10 +15,10 @@ data:
 <a class="row" href="/{{ post.permalink }}">
 <span class="date">{{ post.published_date | date: "%Y.%m" }}</span>
 <div>
-<span class="title">
+<div class="title">
 {% assign kind = post.data.kind | default: "note" %}
 <span class="kind{% if kind == "paper" %} paper{% endif %}">{{ kind }}</span>{{ post.title }}
-</span>
+</div>
 {% if post.description %}
 <p>{{ post.description | strip_html | truncatewords: 30 }}</p>
 {% elsif post.excerpt %}
@@ -29,4 +29,4 @@ data:
 {% endfor %}
 </div>
 
-<p style="margin-top:2rem;color:var(--fg-3);font-size:0.78rem;"><a href="/feed.xml">rss</a></p>
+<p class="feed-link"><a href="/feed.xml">rss</a></p>

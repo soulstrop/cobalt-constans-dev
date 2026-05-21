@@ -26,6 +26,7 @@ pages:
 ignore:
   - "*.bak"
   - "README.md"
+  - "*-NOTES.md"
   - "!.well-known"
   - "!.well-known/**"
 

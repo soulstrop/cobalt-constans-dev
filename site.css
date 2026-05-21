@@ -520,6 +520,7 @@ footer.site .sep { color: var(--rule-strong); }
   letter-spacing: 0.04em;
 }
 .w-mixed .row .title { font-size: 1rem; line-height: 1.35; }
+.feed-link { margin-top: 2rem; color: var(--fg-3); font-size: 0.78rem; }
 .w-mixed .row:hover .title { color: var(--accent); }
 .w-mixed .row p {
   margin: 0.35rem 0 0;
@@ -588,6 +589,9 @@ footer.site .sep { color: var(--rule-strong); }
 .post-sidekick aside.meta .row .v { color: var(--fg-2); font-size: 0.85rem; }
 .post-sidekick aside.meta .row .v a { color: var(--fg-2); border-bottom-style: dotted; }
 .post-sidekick aside.meta .row .v a:hover { color: var(--accent); }
+.post-sidekick aside.meta .row .v-accent { color: var(--accent); }
+.post-sidekick aside.meta .row-pdf { margin-top: 0.5rem; }
+.act-sm { font-size: 0.78rem; padding: 0.4rem 0.8rem; }
 .post-sidekick .post { margin: 0; max-width: 60ch; }
 .post-sidekick .post header.post-head h1 { margin-top: 0.5rem; }
 .post-sidekick .paper { margin: 0; max-width: 60ch; }
