@@ -1,0 +1,22 @@
+---
+extends: default:liquid
+---
+<div class="post-sidekick">
+  <aside class="meta">
+    <div class="row"><span class="l">kind</span><span class="v">note</span></div>
+    <div class="row"><span class="l">date</span><span class="v">{{ page.published_date | date: "%Y %b %d" | downcase }}</span></div>
+    {% if page.data.read_time %}<div class="row"><span class="l">read</span><span class="v">{{ page.data.read_time }}</span></div>{% endif %}
+    {% if page.tags %}
+    <div class="row"><span class="l">tags</span><span class="v">{{ page.tags | join: " · " }}</span></div>
+    {% endif %}
+    <div class="row"><span class="l">— —</span><span class="v"><a href="/writing/">← all writing</a></span></div>
+  </aside>
+  <article class="post">
+    <header class="post-head">
+      <h1>{{ page.title }}<span class="dot">.</span></h1>
+    </header>
+    <div class="post-body">
+      {{ page.content }}
+    </div>
+  </article>
+</div>

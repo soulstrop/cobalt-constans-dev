@@ -1,0 +1,31 @@
+site:
+  title: J. Michael Constans
+  description: "Fusing Category Theory and systems architecture to engineer deterministic, audit-ready AI infrastructure for the enterprise."
+  base_url: https://constans.dev
+
+source: "."
+destination: "_site"
+
+# Posts collection
+posts:
+  dir: _posts
+  drafts_dir: _drafts
+  default:
+    layout: note.liquid
+    is_draft: false
+
+# Pages: HTML/MD outside _posts. We need templated:true for files
+# that use Liquid (projects/index.html, writing/index.html).
+# Plain index.html has no frontmatter and will be copied verbatim.
+pages:
+  default:
+    layout: default.liquid
+
+# Files / dirs to ignore (don't ship to _site)
+ignore:
+  - "*.bak"
+  - "README.md"
+  - "Wireframes.html"
+  - "Subpage-wireframes.html"
+  - "wireframes.css"
+  - "reference/**"

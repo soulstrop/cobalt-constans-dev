@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%" style="background-color: #16161a; font-family: system-ui, -apple-system, sans-serif;">
+    <defs>
+        <!-- Background Gradient -->
+        <radialGradient id="bgGrad" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#1f1f24" />
+            <stop offset="100%" stop-color="#16161a" />
+        </radialGradient>
+
+        <!-- Glow Filters -->
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <filter id="glow-subtle" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+
+        <!-- Gradients for Polygons -->
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e08a6a" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#e08a6a" stop-opacity="0.02"/>
+        </linearGradient>
+        <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4a4a52" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#1f1f24" stop-opacity="0.9"/>
+        </linearGradient>
+
+        <!-- Grid Pattern -->
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2e2e34" stroke-width="1" opacity="0.4"/>
+            <circle cx="0" cy="0" r="1" fill="#4a4a52" opacity="0.5"/>
+        </pattern>
+    </defs>
+
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="url(#bgGrad)" />
+    <rect width="100%" height="100%" fill="url(#grid)" />
+
+    <!-- MULTIDIMENSIONAL SPACE & GRADUATED PROBLEM SUITE -->
+    <g transform="translate(400, 400)">
+        <!-- Concentric Problem Suite Rings -->
+        <circle cx="0" cy="0" r="100" fill="#1f1f24" opacity="0.5" stroke="#4a4a52" stroke-width="1"/>
+        
+        <circle cx="0" cy="0" r="180" fill="none" stroke="#2e2e34" stroke-width="2" stroke-dasharray="6 6"/>
+        <text x="6" y="-172" fill="#7a7872" font-size="9" font-weight="bold" letter-spacing="1">SUITE L1: BASIC</text>
+        
+        <circle cx="0" cy="0" r="260" fill="none" stroke="#2e2e34" stroke-width="2" stroke-dasharray="6 6"/>
+        <text x="6" y="-252" fill="#7a7872" font-size="9" font-weight="bold" letter-spacing="1">SUITE L2: INTERMEDIATE</text>
+        
+        <circle cx="0" cy="0" r="340" fill="none" stroke="#4a4a52" stroke-width="2" stroke-dasharray="12 8"/>
+        <text x="6" y="-332" fill="#c4c2ba" font-size="9" font-weight="bold" letter-spacing="1">SUITE L3: ADVANCED</text>
+
+        <!-- Radar Axes -->
+        <!-- 1: Quality (Top, -90 deg) -->
+        <line x1="0" y1="-100" x2="0" y2="-370" stroke="#4a4a52" stroke-width="2" />
+        <text x="0" y="-385" fill="#f4f3ef" font-size="12" font-weight="bold" text-anchor="middle" letter-spacing="2">OVERALL QUALITY</text>
+        <circle cx="0" cy="-370" r="3" fill="#4a4a52"/>
+
+        <!-- 2: Tokens (-18 deg) -->
+        <line x1="95.1" y1="-30.9" x2="351.9" y2="-114.3" stroke="#4a4a52" stroke-width="2" />
+        <text x="365" y="-118" fill="#f4f3ef" font-size="12" font-weight="bold" text-anchor="start" letter-spacing="2">TOKENS USED</text>
+        <circle cx="351.9" cy="-114.3" r="3" fill="#4a4a52"/>
+
+        <!-- 3: Dollars (54 deg) -->
+        <line x1="58.8" y1="80.9" x2="217.6" y2="299.3" stroke="#4a4a52" stroke-width="2" />
+        <text x="228" y="312" fill="#f4f3ef" font-size="12" font-weight="bold" text-anchor="start" letter-spacing="2">DOLLARS SPENT</text>
+        <circle cx="217.6" cy="299.3" r="3" fill="#4a4a52"/>
+
+        <!-- 4: Scaling Slope (126 deg) -->
+        <line x1="-58.8" y1="80.9" x2="-217.6" y2="299.3" stroke="#4a4a52" stroke-width="2" />
+        <text x="-228" y="312" fill="#f4f3ef" font-size="12" font-weight="bold" text-anchor="end" letter-spacing="2">SCALING SLOPE</text>
+        <circle cx="-217.6" cy="299.3" r="3" fill="#4a4a52"/>
+
+        <!-- 5: Efficiency (198 deg) -->
+        <line x1="-95.1" y1="-30.9" x2="-351.9" y2="-114.3" stroke="#4a4a52" stroke-width="2" />
+        <text x="-365" y="-118" fill="#f4f3ef" font-size="12" font-weight="bold" text-anchor="end" letter-spacing="2">EFFICIENCY</text>
+        <circle cx="-351.9" cy="-114.3" r="3" fill="#4a4a52"/>
+
+        <!-- EXPLORATION DATA POINTS (Scatter) -->
+        <circle cx="45" cy="-120" r="2" fill="#7a7872" opacity="0.8"/>
+        <circle cx="-60" cy="-150" r="3" fill="#c4c2ba" opacity="0.6"/>
+        <circle cx="120" cy="-80" r="2" fill="#7a7872" opacity="0.8"/>
+        <circle cx="80" cy="140" r="3" fill="#c4c2ba" opacity="0.6"/>
+        <circle cx="-110" cy="90" r="2" fill="#7a7872" opacity="0.8"/>
+        <circle cx="-150" cy="-40" r="3" fill="#c4c2ba" opacity="0.6"/>
+        <circle cx="180" cy="-200" r="2" fill="#7a7872" opacity="0.8"/>
+        <circle cx="-190" cy="-180" r="2" fill="#7a7872" opacity="0.8"/>
+        <circle cx="20" cy="220" r="3" fill="#c4c2ba" opacity="0.6"/>
+
+        <!-- CONFIGURATIONS (Trade-off Polygons) -->
+        
+        <!-- Config 3: Baseline (Low Cost, Low Quality) -->
+        <polygon points="0,-180 332.8,-108.1 205.8,283.1 -188.1,258.8 -285.3,-92.7" 
+                 fill="none" stroke="#7a7872" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+        <circle cx="0" cy="-180" r="4" fill="#1f1f24" stroke="#7a7872" stroke-width="2"/>
+        <circle cx="332.8" cy="-108.1" r="4" fill="#1f1f24" stroke="#7a7872" stroke-width="2"/>
+        <circle cx="205.8" cy="283.1" r="4" fill="#1f1f24" stroke="#7a7872" stroke-width="2"/>
+        <circle cx="-188.1" cy="258.8" r="4" fill="#1f1f24" stroke="#7a7872" stroke-width="2"/>
+        <circle cx="-285.3" cy="-92.7" r="4" fill="#1f1f24" stroke="#7a7872" stroke-width="2"/>
+
+        <!-- Config 2: Balanced -->
+        <polygon points="0,-280 237.7,-77.2 147.0,202.2 -164.6,226.5 -266.2,-86.5" 
+                 fill="none" stroke="#c4c2ba" stroke-width="2" stroke-dasharray="8 4" opacity="0.8"/>
+        <circle cx="0" cy="-280" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+        <circle cx="237.7" cy="-77.2" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+        <circle cx="147.0" cy="202.2" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+        <circle cx="-164.6" cy="226.5" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+        <circle cx="-266.2" cy="-86.5" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+
+        <!-- Config 1: PARETO FRONTIER (Optimal) -->
+        <polygon points="0,-350 142.6,-46.3 88.2,121.3 -117.6,161.8 -237.7,-77.2" 
+                 fill="url(#accentGrad)" stroke="#e08a6a" stroke-width="4" stroke-linejoin="round" filter="url(#glow-subtle)"/>
+        
+        <!-- Pareto Frontier Data Points -->
+        <circle cx="0" cy="-350" r="6" fill="#e08a6a" filter="url(#glow)"/>
+        <circle cx="0" cy="-350" r="2" fill="#f4f3ef"/>
+        
+        <circle cx="142.6" cy="-46.3" r="6" fill="#e08a6a" filter="url(#glow)"/>
+        <circle cx="142.6" cy="-46.3" r="2" fill="#f4f3ef"/>
+        
+        <circle cx="88.2" cy="121.3" r="6" fill="#e08a6a" filter="url(#glow)"/>
+        <circle cx="88.2" cy="121.3" r="2" fill="#f4f3ef"/>
+        
+        <circle cx="-117.6" cy="161.8" r="6" fill="#e08a6a" filter="url(#glow)"/>
+        <circle cx="-117.6" cy="161.8" r="2" fill="#f4f3ef"/>
+        
+        <circle cx="-237.7" cy="-77.2" r="6" fill="#e08a6a" filter="url(#glow)"/>
+        <circle cx="-237.7" cy="-77.2" r="2" fill="#f4f3ef"/>
+
+        <!-- COMPOSED SYSTEM (Central Core) -->
+        <g id="composed-system">
+            <!-- Builder Harness (Outer Shell) -->
+            <circle cx="0" cy="0" r="95" fill="url(#coreGrad)" stroke="#4a4a52" stroke-width="4" />
+            <circle cx="0" cy="0" r="85" fill="none" stroke="#2e2e34" stroke-width="1" />
+            
+            <!-- Segmented Tech Ring -->
+            <circle cx="0" cy="0" r="95" fill="none" stroke="#c4c2ba" stroke-width="4" stroke-dasharray="20 79.4" transform="rotate(15)" />
+            <circle cx="0" cy="0" r="102" fill="none" stroke="#7a7872" stroke-width="1" stroke-dasharray="4 4" />
+
+            <!-- Builder Harness Nodes -->
+            <circle cx="0" cy="-95" r="4" fill="#c4c2ba"/>
+            <circle cx="82.2" cy="-47.5" r="4" fill="#c4c2ba"/>
+            <circle cx="82.2" cy="47.5" r="4" fill="#c4c2ba"/>
+            <circle cx="0" cy="95" r="4" fill="#c4c2ba"/>
+            <circle cx="-82.2" cy="47.5" r="4" fill="#c4c2ba"/>
+            <circle cx="-82.2" cy="-47.5" r="4" fill="#c4c2ba"/>
+
+            <!-- User Harness (Inner Network) -->
+            <!-- Connection Lines to Builder Harness -->
+            <line x1="0" y1="-45" x2="0" y2="-95" stroke="#4a4a52" stroke-width="2" stroke-dasharray="2 2"/>
+            <line x1="38.9" y1="22.5" x2="82.2" y2="47.5" stroke="#4a4a52" stroke-width="2" stroke-dasharray="2 2"/>
+            <line x1="-38.9" y1="22.5" x2="-82.2" y2="47.5" stroke="#4a4a52" stroke-width="2" stroke-dasharray="2 2"/>
+
+            <!-- Inner Triangle Frame -->
+            <polygon points="0,-45 38.9,22.5 -38.9,22.5" fill="none" stroke="#7a7872" stroke-width="1" opacity="0.5"/>
+
+            <!-- Central Agent Node -->
+            <circle cx="0" cy="0" r="16" fill="#e08a6a" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="6" fill="#f4f3ef"/>
+            
+            <!-- Radiating lines from center -->
+            <line x1="0" y1="0" x2="0" y2="-45" stroke="#e08a6a" stroke-width="2" opacity="0.8"/>
+            <line x1="0" y1="0" x2="38.9" y2="22.5" stroke="#e08a6a" stroke-width="2" opacity="0.8"/>
+            <line x1="0" y1="0" x2="-38.9" y2="22.5" stroke="#e08a6a" stroke-width="2" opacity="0.8"/>
+
+            <!-- User Harness Sub-nodes -->
+            <circle cx="0" cy="-45" r="8" fill="#f4f3ef" stroke="#1f1f24" stroke-width="2"/>
+            <circle cx="38.9" cy="22.5" r="8" fill="#f4f3ef" stroke="#1f1f24" stroke-width="2"/>
+            <circle cx="-38.9" cy="22.5" r="8" fill="#f4f3ef" stroke="#1f1f24" stroke-width="2"/>
+
+            <!-- User Harness Labels -->
+            <text x="0" y="-58" fill="#f4f3ef" font-size="8" font-weight="bold" text-anchor="middle" letter-spacing="1">SKILLS</text>
+            <text x="48" y="28" fill="#f4f3ef" font-size="8" font-weight="bold" text-anchor="start" letter-spacing="1">PROMPTS</text>
+            <text x="-48" y="28" fill="#f4f3ef" font-size="8" font-weight="bold" text-anchor="end" letter-spacing="1">MODELS</text>
+        </g>
+    </g>
+
+    <!-- HUD / UI PANELS -->
+    
+    <!-- Connection Lines for HUD -->
+    <path d="M 270 75 L 320 75 L 400 305" fill="none" stroke="#4a4a52" stroke-width="1" opacity="0.5" stroke-dasharray="4 4"/>
+    <path d="M 530 695 L 480 695 L 400 450" fill="none" stroke="#e08a6a" stroke-width="1" opacity="0.3" stroke-dasharray="2 2"/>
+    <path d="M 650 620 L 650 50 L 410 50" fill="none" stroke="#e08a6a" stroke-width="1" opacity="0.4" stroke-dasharray="4 4"/>
+    <circle cx="400" cy="50" r="3" fill="#e08a6a" filter="url(#glow-subtle)"/>
+
+    <!-- Top Left Panel: System Status -->
+    <g transform="translate(30, 30)">
+        <rect width="240" height="90" fill="#1f1f24" stroke="#4a4a52" stroke-width="1" rx="4" opacity="0.95"/>
+        <line x1="0" y1="15" x2="0" y2="75" stroke="#e08a6a" stroke-width="6" rx="3"/>
+        <text x="15" y="25" fill="#f4f3ef" font-size="12" font-weight="bold" letter-spacing="1">PI-AGENT-SPACE</text>
+        <text x="15" y="45" fill="#7a7872" font-size="10">COMPOSED SYSTEM: <tspan fill="#c4c2ba">ACTIVE</tspan></text>
+        <text x="15" y="60" fill="#7a7872" font-size="10">EXPLORATION: <tspan fill="#e08a6a" font-weight="bold">OPTIMIZING</tspan></text>
+        <text x="15" y="75" fill="#7a7872" font-size="10">FRONTIER: <tspan fill="#c4c2ba">PARETO</tspan></text>
+    </g>
+
+    <!-- Top Right Panel: Legend -->
+    <g transform="translate(600, 30)">
+        <rect width="170" height="90" fill="#1f1f24" stroke="#4a4a52" stroke-width="1" rx="4" opacity="0.95"/>
+        <text x="15" y="25" fill="#f4f3ef" font-size="10" font-weight="bold" letter-spacing="1">LEGEND</text>
+
+        <line x1="15" y1="40" x2="35" y2="40" stroke="#e08a6a" stroke-width="3" />
+        <text x="45" y="43" fill="#f4f3ef" font-size="9">PARETO FRONTIER</text>
+
+        <line x1="15" y1="55" x2="35" y2="55" stroke="#c4c2ba" stroke-width="2" stroke-dasharray="4 2"/>
+        <text x="45" y="58" fill="#c4c2ba" font-size="9">BALANCED CONFIG</text>
+
+        <line x1="15" y1="70" x2="35" y2="70" stroke="#7a7872" stroke-width="2" stroke-dasharray="2 2"/>
+        <text x="45" y="73" fill="#7a7872" font-size="9">BASELINE CONFIG</text>
+    </g>
+
+    <!-- Bottom Left Panel: Harness Details -->
+    <g transform="translate(30, 660)">
+        <rect width="220" height="110" fill="#1f1f24" stroke="#4a4a52" stroke-width="1" rx="4" opacity="0.95"/>
+        <text x="15" y="25" fill="#f4f3ef" font-size="12" font-weight="bold" letter-spacing="1">COMPOSED SYSTEM</text>
+
+        <circle cx="20" cy="45" r="4" fill="#1f1f24" stroke="#c4c2ba" stroke-width="2"/>
+        <text x="35" y="48" fill="#c4c2ba" font-size="10" font-weight="bold">BUILDER HARNESS</text>
+        <text x="35" y="60" fill="#7a7872" font-size="9">(PI PLATFORM)</text>
+
+        <circle cx="20" cy="80" r="4" fill="#e08a6a" filter="url(#glow-subtle)"/>
+        <text x="35" y="83" fill="#e08a6a" font-size="10" font-weight="bold">USER HARNESS</text>
+        <text x="35" y="95" fill="#7a7872" font-size="9">(SKILLS, PROMPTS, MODELS)</text>
+    </g>
+
+    <!-- Bottom Right Panel: Configuration Metrics -->
+    <g transform="translate(530, 620)">
+        <rect width="240" height="150" fill="#1f1f24" stroke="#4a4a52" stroke-width="1" rx="4" opacity="0.95"/>
+        <line x1="240" y1="15" x2="240" y2="135" stroke="#e08a6a" stroke-width="6" rx="3" />
+        <text x="15" y="25" fill="#f4f3ef" font-size="12" font-weight="bold" letter-spacing="1">OPTIMAL CONFIG</text>
+
+        <!-- Bar 1: Quality -->
+        <text x="15" y="50" fill="#c4c2ba" font-size="9" font-weight="bold">QUALITY</text>
+        <rect x="90" y="43" width="130" height="8" fill="#2e2e34" rx="4"/>
+        <rect x="90" y="43" width="125" height="8" fill="#e08a6a" rx="4" filter="url(#glow-subtle)"/>
+
+        <!-- Bar 2: Tokens -->
+        <text x="15" y="70" fill="#c4c2ba" font-size="9" font-weight="bold">TOKENS</text>
+        <rect x="90" y="63" width="130" height="8" fill="#2e2e34" rx="4"/>
+        <rect x="90" y="63" width="45" height="8" fill="#c4c2ba" rx="4"/>
+
+        <!-- Bar 3: Dollars -->
+        <text x="15" y="90" fill="#c4c2ba" font-size="9" font-weight="bold">DOLLARS</text>
+        <rect x="90" y="83" width="130" height="8" fill="#2e2e34" rx="4"/>
+        <rect x="90" y="83" width="35" height="8" fill="#c4c2ba" rx="4"/>
+
+        <!-- Bar 4: Slope -->
+        <text x="15" y="110" fill="#c4c2ba" font-size="9" font-weight="bold">SLOPE</text>
+        <rect x="90" y="103" width="130" height="8" fill="#2e2e34" rx="4"/>
+        <rect x="90" y="103" width="75" height="8" fill="#c4c2ba" rx="4"/>
+
+        <!-- Bar 5: Efficiency -->
+        <text x="15" y="130" fill="#c4c2ba" font-size="9" font-weight="bold">EFFICIENCY</text>
+        <rect x="90" y="123" width="130" height="8" fill="#2e2e34" rx="4"/>
+        <rect x="90" y="123" width="105" height="8" fill="#c4c2ba" rx="4"/>
+    </g>
+
+    <!-- Decorative Corner Elements -->
+    <path d="M 10 10 L 30 10 M 10 10 L 10 30" fill="none" stroke="#4a4a52" stroke-width="2"/>
+    <path d="M 790 10 L 770 10 M 790 10 L 790 30" fill="none" stroke="#4a4a52" stroke-width="2"/>
+    <path d="M 10 790 L 30 790 M 10 790 L 10 770" fill="none" stroke="#4a4a52" stroke-width="2"/>
+    <path d="M 790 790 L 770 790 M 790 790 L 790 770" fill="none" stroke="#4a4a52" stroke-width="2"/>
+</svg>

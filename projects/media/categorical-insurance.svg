@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+    <defs>
+        <!-- Gradients -->
+        <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#16161a" />
+            <stop offset="100%" stop-color="#1f1f24" />
+        </linearGradient>
+        
+        <linearGradient id="functor-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#7a7872" />
+            <stop offset="100%" stop-color="#e08a6a" />
+        </linearGradient>
+
+        <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+            <stop offset="50%" stop-color="#16161a" stop-opacity="0" />
+            <stop offset="100%" stop-color="#16161a" stop-opacity="0.8" />
+        </radialGradient>
+
+        <radialGradient id="glow-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#e08a6a" stop-opacity="0.4" />
+            <stop offset="100%" stop-color="#e08a6a" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Filters -->
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+        </filter>
+
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
+        <!-- Markers -->
+        <marker id="arrow-fg3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 8 5 L 0 9 Z" fill="#7a7872" />
+        </marker>
+        
+        <marker id="arrow-fg2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 8 5 L 0 9 Z" fill="#c4c2ba" />
+        </marker>
+
+        <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 8 5 L 0 9 Z" fill="#e08a6a" />
+        </marker>
+
+        <!-- Patterns -->
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2e2e34" stroke-width="1" opacity="0.5"/>
+        </pattern>
+    </defs>
+
+    <!-- Background -->
+    <rect width="800" height="800" fill="url(#bg-grad)" />
+    <rect width="800" height="800" fill="url(#grid)" />
+
+    <!-- Outer Rings (Build Time Laws) -->
+    <circle cx="400" cy="400" r="320" fill="none" stroke="#2e2e34" stroke-width="1" stroke-dasharray="4 12" />
+    <circle cx="400" cy="400" r="330" fill="none" stroke="#2e2e34" stroke-width="2" stroke-dasharray="20 10 5 10" />
+
+    <!-- Background Math / Code Text -->
+    <text x="400" y="60" fill="#4a4a52" font-family="monospace" font-size="16" letter-spacing="2" text-anchor="middle">F(g ∘ f) = F(g) ∘ F(f)</text>
+    <text x="400" y="750" fill="#4a4a52" font-family="monospace" font-size="16" letter-spacing="2" text-anchor="middle">F(id_A) = id_{F(A)}</text>
+
+    <!-- Central Axis -->
+    <line x1="100" y1="400" x2="700" y2="400" stroke="#2e2e34" stroke-width="2" stroke-dasharray="10 10" />
+
+    <!-- ========================================== -->
+    <!-- LEFT CATEGORY: POLICY DSL                  -->
+    <!-- ========================================== -->
+    <g filter="url(#shadow)">
+        <!-- Hexagon Base -->
+        <path d="M 220 210 L 384.5 305 L 384.5 495 L 220 590 L 55.5 495 L 55.5 305 Z" fill="#1f1f24" stroke="#4a4a52" stroke-width="2" />
+        
+        <!-- Faint Code Snippets -->
+        <text x="100" y="380" fill="#2e2e34" font-family="monospace" font-size="10" transform="rotate(-30 100 380)">policy = compose(risk, cover)</text>
+        <text x="120" y="450" fill="#2e2e34" font-family="monospace" font-size="10" transform="rotate(15 120 450)">verify(laws)</text>
+        <text x="250" y="280" fill="#2e2e34" font-family="monospace" font-size="10">f: A -> B</text>
+
+        <!-- Morphisms (Arrows) -->
+        <!-- A1 to B1 -->
+        <line x1="160" y1="325" x2="160" y2="475" stroke="#7a7872" stroke-width="2" marker-end="url(#arrow-fg3)" />
+        <!-- B1 to C1 -->
+        <line x1="180.25" y1="485.5" x2="279.75" y2="414.5" stroke="#7a7872" stroke-width="2" marker-end="url(#arrow-fg3)" />
+        <!-- A1 to C1 (Composition) -->
+        <line x1="180.25" y1="314.5" x2="279.75" y2="385.5" stroke="#7a7872" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrow-fg3)" />
+
+        <!-- Commutes Symbol -->
+        <text x="206" y="406" fill="#7a7872" font-family="sans-serif" font-size="20" text-anchor="middle">⟳</text>
+
+        <!-- Nodes -->
+        <!-- Node A1 -->
+        <g transform="translate(160, 300)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#7a7872" stroke-width="2" />
+            <path d="M -8 -10 L 2 -10 L 8 -4 L 8 10 L -8 10 Z" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <path d="M 2 -10 L 2 -4 L 8 -4" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="0" x2="4" y2="0" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="4" x2="4" y2="4" stroke="#c4c2ba" stroke-width="1.5" />
+        </g>
+        <!-- Node B1 -->
+        <g transform="translate(160, 500)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#7a7872" stroke-width="2" />
+            <path d="M -8 -10 L 2 -10 L 8 -4 L 8 10 L -8 10 Z" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <path d="M 2 -10 L 2 -4 L 8 -4" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="0" x2="4" y2="0" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="4" x2="4" y2="4" stroke="#c4c2ba" stroke-width="1.5" />
+        </g>
+        <!-- Node C1 -->
+        <g transform="translate(300, 400)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#7a7872" stroke-width="2" />
+            <path d="M -8 -10 L 2 -10 L 8 -4 L 8 10 L -8 10 Z" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <path d="M 2 -10 L 2 -4 L 8 -4" fill="none" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="0" x2="4" y2="0" stroke="#c4c2ba" stroke-width="1.5" />
+            <line x1="-4" y1="4" x2="4" y2="4" stroke="#c4c2ba" stroke-width="1.5" />
+        </g>
+    </g>
+    <text x="220" y="620" fill="#7a7872" font-family="monospace" font-size="14" letter-spacing="2" text-anchor="middle">DSL : POLICY</text>
+
+    <!-- ========================================== -->
+    <!-- RIGHT CATEGORY: CLAIM RESOLUTION           -->
+    <!-- ========================================== -->
+    <g filter="url(#shadow)">
+        <!-- Hexagon Base -->
+        <path d="M 580 210 L 744.5 305 L 744.5 495 L 580 590 L 415.5 495 L 415.5 305 Z" fill="#1f1f24" stroke="#4a4a52" stroke-width="2" />
+        
+        <!-- Faint Code Snippets -->
+        <text x="600" y="350" fill="#2e2e34" font-family="monospace" font-size="10" transform="rotate(20 600 350)">F(f): F(A) -> F(B)</text>
+        <text x="500" y="450" fill="#2e2e34" font-family="monospace" font-size="10" transform="rotate(-15 500 450)">resolved = true</text>
+
+        <!-- Morphisms (Arrows) -->
+        <!-- A2 to B2 -->
+        <line x1="520" y1="325" x2="520" y2="475" stroke="#c4c2ba" stroke-width="2" marker-end="url(#arrow-fg2)" />
+        <!-- B2 to C2 -->
+        <line x1="540.25" y1="485.5" x2="639.75" y2="414.5" stroke="#c4c2ba" stroke-width="2" marker-end="url(#arrow-fg2)" />
+        <!-- A2 to C2 (Composition) -->
+        <line x1="540.25" y1="314.5" x2="639.75" y2="385.5" stroke="#c4c2ba" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrow-fg2)" />
+
+        <!-- Commutes Symbol -->
+        <text x="566" y="406" fill="#c4c2ba" font-family="sans-serif" font-size="20" text-anchor="middle">⟳</text>
+
+        <!-- Nodes -->
+        <!-- Node A2 -->
+        <g transform="translate(520, 300)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#c4c2ba" stroke-width="2" />
+            <path d="M -10 -12 L 10 -12 L 10 -2 C 10 8, 0 14, 0 14 C 0 14, -10 8, -10 -2 Z" fill="none" stroke="#f4f3ef" stroke-width="1.5" />
+            <path d="M -4 1 L -1 5 L 5 -3" fill="none" stroke="#e08a6a" stroke-width="2" />
+        </g>
+        <!-- Node B2 -->
+        <g transform="translate(520, 500)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#c4c2ba" stroke-width="2" />
+            <path d="M -10 -12 L 10 -12 L 10 -2 C 10 8, 0 14, 0 14 C 0 14, -10 8, -10 -2 Z" fill="none" stroke="#f4f3ef" stroke-width="1.5" />
+            <path d="M -4 1 L -1 5 L 5 -3" fill="none" stroke="#e08a6a" stroke-width="2" />
+        </g>
+        <!-- Node C2 -->
+        <g transform="translate(660, 400)">
+            <circle cx="0" cy="0" r="24" fill="#16161a" stroke="#c4c2ba" stroke-width="2" />
+            <path d="M -10 -12 L 10 -12 L 10 -2 C 10 8, 0 14, 0 14 C 0 14, -10 8, -10 -2 Z" fill="none" stroke="#f4f3ef" stroke-width="1.5" />
+            <path d="M -4 1 L -1 5 L 5 -3" fill="none" stroke="#e08a6a" stroke-width="2" />
+        </g>
+    </g>
+    <text x="580" y="620" fill="#c4c2ba" font-family="monospace" font-size="14" letter-spacing="2" text-anchor="middle">CAT : RESOLUTION</text>
+
+    <!-- ========================================== -->
+    <!-- FUNCTORS (MAPPING)                         -->
+    <!-- ========================================== -->
+    <g filter="url(#glow)">
+        <!-- Functor F(A) -->
+        <path d="M 160 275 Q 340 150 520 275" fill="none" stroke="url(#functor-grad)" stroke-width="3" stroke-dasharray="8 4" marker-end="url(#arrow-accent)" />
+        <!-- Functor F(B) -->
+        <path d="M 160 525 Q 340 650 520 525" fill="none" stroke="url(#functor-grad)" stroke-width="3" stroke-dasharray="8 4" marker-end="url(#arrow-accent)" />
+        <!-- Functor F(C) -->
+        <path d="M 325 400 Q 480 280 635 400" fill="none" stroke="url(#functor-grad)" stroke-width="3" stroke-dasharray="8 4" marker-end="url(#arrow-accent)" />
+    </g>
+
+    <!-- Functor Labels -->
+    <g>
+        <circle cx="340" cy="212.5" r="12" fill="#1f1f24" stroke="#e08a6a" stroke-width="1" />
+        <text x="340" y="216.5" fill="#e08a6a" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">F</text>
+        
+        <circle cx="340" cy="587.5" r="12" fill="#1f1f24" stroke="#e08a6a" stroke-width="1" />
+        <text x="340" y="591.5" fill="#e08a6a" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">F</text>
+        
+        <circle cx="480" cy="340" r="12" fill="#1f1f24" stroke="#e08a6a" stroke-width="1" />
+        <text x="480" y="344" fill="#e08a6a" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">F</text>
+    </g>
+
+    <!-- Glowing Data Points on Functors -->
+    <circle cx="250" cy="212.5" r="3" fill="#f4f3ef" filter="url(#glow)" />
+    <circle cx="250" cy="587.5" r="3" fill="#f4f3ef" filter="url(#glow)" />
+    <circle cx="402.5" cy="340" r="3" fill="#f4f3ef" filter="url(#glow)" />
+
+    <!-- ========================================== -->
+    <!-- CENTRAL DSL COMPILER                       -->
+    <!-- ========================================== -->
+    <!-- Glow behind compiler -->
+    <circle cx="400" cy="400" r="60" fill="url(#glow-grad)" pointer-events="none" />
+    
+    <g filter="url(#shadow)">
+        <!-- Outer Diamond -->
+        <path d="M 400 350 L 450 400 L 400 450 L 350 400 Z" fill="#16161a" stroke="#4a4a52" stroke-width="2" />
+        <!-- Inner Diamond -->
+        <path d="M 400 365 L 435 400 L 400 435 L 365 400 Z" fill="#1f1f24" stroke="#e08a6a" stroke-width="2" />
+        
+        <!-- Inner Compilation Motif (Checked at build time) -->
+        <circle cx="400" cy="400" r="16" fill="none" stroke="#e08a6a" stroke-width="2" stroke-dasharray="4 2" />
+        <path d="M 394 400 L 398 404 L 408 394" fill="none" stroke="#e08a6a" stroke-width="2" />
+    </g>
+    <text x="400" y="475" fill="#e08a6a" font-family="monospace" font-size="12" letter-spacing="3" text-anchor="middle">COMPILE</text>
+
+    <!-- ========================================== -->
+    <!-- TYPOGRAPHY & BRANDING                      -->
+    <!-- ========================================== -->
+    <!-- Top Left Title -->
+    <text x="50" y="60" fill="#f4f3ef" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" letter-spacing="1">CLAIM RESOLUTION</text>
+    <text x="50" y="85" fill="#7a7872" font-family="monospace" font-size="12">AS COMPOSITION OF MORPHISMS</text>
+
+    <!-- Bottom Right Properties -->
+    <text x="750" y="725" fill="#e08a6a" font-family="monospace" font-size="12" text-anchor="end">✓ AUDITABLE</text>
+    <text x="750" y="745" fill="#e08a6a" font-family="monospace" font-size="12" text-anchor="end">✓ TOTAL</text>
+    <text x="750" y="765" fill="#e08a6a" font-family="monospace" font-size="12" text-anchor="end">✓ PROVABLY CONSISTENT</text>
+
+    <!-- Vignette Overlay -->
+    <rect width="800" height="800" fill="url(#vignette)" pointer-events="none" />
+</svg>

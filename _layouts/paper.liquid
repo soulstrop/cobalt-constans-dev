@@ -1,0 +1,29 @@
+---
+extends: default.liquid
+---
+<div class="post-sidekick">
+<aside class="meta">
+<div class="row"><span class="l">kind</span><span class="v" style="color:var(--accent);">paper</span></div>
+<div class="row"><span class="l">date</span><span class="v">{{ page.published_date | date: "%b %Y" }}</span></div>
+{% if page.data.pages %}<div class="row"><span class="l">pages</span><span class="v">{{ page.data.pages }}</span></div>{% endif %}
+{% if page.tags %}
+<div class="row"><span class="l">tags</span><span class="v">{{ page.tags | join: " · " }}</span></div>
+{% endif %}
+{% if page.data.pdf_url %}
+<div class="row" style="margin-top:0.5rem;">
+<a class="act primary" href="{{ page.data.pdf_url }}" style="font-size:0.78rem;padding:0.4rem 0.8rem;">Read full PDF <span class="arr">↗</span></a>
+</div>
+{% endif %}
+<div class="row"><span class="l">— —</span><span class="v"><a href="/writing/">← all writing</a></span></div>
+</aside>
+<article class="paper">
+<header class="paper-head">
+<p class="paper-kicker">paper</p>
+<h1>{{ page.title }}<span class="dot">.</span></h1>
+</header>
+<section class="abstract">
+<h2>Abstract</h2>
+{{ page.content }}
+</section>
+</article>
+</div>

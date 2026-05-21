@@ -1,0 +1,202 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Background Gradients -->
+        <radialGradient id="bg-grad" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#16163a"/>
+            <stop offset="100%" stop-color="#050510"/>
+        </radialGradient>
+        
+        <!-- Pareto Frontier Fill Gradient -->
+        <radialGradient id="pareto-fill" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff007f" stop-opacity="0.35"/>
+            <stop offset="80%" stop-color="#ff007f" stop-opacity="0.1"/>
+            <stop offset="100%" stop-color="#ff007f" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Central Core Gradient -->
+        <radialGradient id="core-grad" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#d946ef"/>
+            <stop offset="50%" stop-color="#7000ff"/>
+            <stop offset="100%" stop-color="#3a0ca3"/>
+        </radialGradient>
+
+        <!-- Glow Filters -->
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        <filter id="glow-strong" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="12" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
+        <!-- Grid Pattern -->
+        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+        </pattern>
+    </defs>
+
+    <!-- Background -->
+    <rect width="512" height="512" fill="url(#bg-grad)"/>
+    <rect width="512" height="512" fill="url(#grid)"/>
+
+    <!-- Subtle Background Aura -->
+    <circle cx="256" cy="256" r="220" fill="#00e5ff" opacity="0.03" filter="url(#glow-strong)"/>
+
+    <!-- Radar Chart: Multidimensional Space & Graduated Problem Suite -->
+    <g stroke="#00e5ff" stroke-opacity="0.25" stroke-width="1.5" fill="none">
+        <!-- Axes -->
+        <line x1="256" y1="256" x2="256" y2="56"/>
+        <line x1="256" y1="256" x2="429.2" y2="156"/>
+        <line x1="256" y1="256" x2="429.2" y2="356"/>
+        <line x1="256" y1="256" x2="256" y2="456"/>
+        <line x1="256" y1="256" x2="82.8" y2="356"/>
+        <line x1="256" y1="256" x2="82.8" y2="156"/>
+
+        <!-- Concentric Hexagons (Graduated Problem Suite) -->
+        <polygon points="256,216 290.6,236 290.6,276 256,296 221.4,276 221.4,236"/>
+        <polygon points="256,176 325.3,216 325.3,296 256,336 186.7,296 186.7,216"/>
+        <polygon points="256,136 359.9,196 359.9,316 256,376 152.1,316 152.1,196"/>
+        <polygon points="256,96 394.6,176 394.6,336 256,416 117.4,336 117.4,176"/>
+        <!-- Outer Boundary -->
+        <polygon points="256,56 429.2,156 429.2,356 256,456 82.8,356 82.8,156" stroke-opacity="0.5" stroke-width="2"/>
+    </g>
+
+    <!-- Baseline Configuration (Inner Polygon) -->
+    <polygon points="256,186 333.9,211 308.0,286 256,336 195.4,291 178.1,211" 
+             fill="none" stroke="#4facfe" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.8"/>
+
+    <!-- Optimization Lines (Baseline to Pareto) -->
+    <g stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="3 3">
+        <line x1="256" y1="186" x2="256" y2="76"/>
+        <line x1="333.9" y1="211" x2="385.9" y2="181"/>
+        <line x1="308.0" y1="286" x2="351.3" y2="311"/>
+        <line x1="256" y1="336" x2="256" y2="426"/>
+        <line x1="195.4" y1="291" x2="143.4" y2="321"/>
+        <line x1="178.1" y1="211" x2="117.4" y2="176"/>
+    </g>
+
+    <!-- Baseline Nodes -->
+    <g fill="#4facfe">
+        <circle cx="256" cy="186" r="2.5"/>
+        <circle cx="333.9" cy="211" r="2.5"/>
+        <circle cx="308.0" cy="286" r="2.5"/>
+        <circle cx="256" cy="336" r="2.5"/>
+        <circle cx="195.4" cy="291" r="2.5"/>
+        <circle cx="178.1" cy="211" r="2.5"/>
+    </g>
+
+    <!-- Pareto Frontier (Optimal Configuration) -->
+    <polygon points="256,76 385.9,181 351.3,311 256,426 143.4,321 117.4,176" 
+             fill="url(#pareto-fill)" stroke="#ff007f" stroke-width="2.5" filter="url(#glow)"/>
+
+    <!-- Pareto Frontier Nodes -->
+    <g>
+        <!-- Node 1: Quality -->
+        <g transform="translate(256, 76)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+        <!-- Node 2: Scaling Slope -->
+        <g transform="translate(385.9, 181)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+        <!-- Node 3: Dollars Spent -->
+        <g transform="translate(351.3, 311)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+        <!-- Node 4: Tokens Used -->
+        <g transform="translate(256, 426)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+        <!-- Node 5: Speed -->
+        <g transform="translate(143.4, 321)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+        <!-- Node 6: Reliability -->
+        <g transform="translate(117.4, 176)">
+            <circle cx="0" cy="0" r="4" fill="#ffffff" filter="url(#glow)"/>
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#ff007f" stroke-width="1.5"/>
+        </g>
+    </g>
+
+    <!-- Composed System: Builder Harness & User Harness -->
+    <!-- Outer Ring (User Harness: Skills, Prompts, Models) -->
+    <g transform="rotate(-30 256 256)">
+        <ellipse cx="256" cy="256" rx="95" ry="35" fill="none" stroke="#00e5ff" stroke-width="4" stroke-opacity="0.3" filter="url(#glow)"/>
+        <ellipse cx="256" cy="256" rx="95" ry="35" fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="12 6"/>
+        <!-- Harness Nodes -->
+        <circle cx="161" cy="256" r="3" fill="#ffffff" filter="url(#glow)"/>
+        <circle cx="351" cy="256" r="3" fill="#ffffff" filter="url(#glow)"/>
+        <circle cx="256" cy="221" r="3" fill="#ffffff" filter="url(#glow)"/>
+        <circle cx="256" cy="291" r="3" fill="#ffffff" filter="url(#glow)"/>
+    </g>
+
+    <!-- Inner Ring (Builder Harness: Pi Platform) -->
+    <g transform="rotate(45 256 256)">
+        <ellipse cx="256" cy="256" rx="65" ry="22" fill="none" stroke="#ff007f" stroke-width="4" stroke-opacity="0.3" filter="url(#glow)"/>
+        <ellipse cx="256" cy="256" rx="65" ry="22" fill="none" stroke="#ff007f" stroke-width="1.5" stroke-dasharray="8 4"/>
+        <!-- Harness Nodes -->
+        <circle cx="191" cy="256" r="2.5" fill="#ffffff" filter="url(#glow)"/>
+        <circle cx="321" cy="256" r="2.5" fill="#ffffff" filter="url(#glow)"/>
+    </g>
+
+    <!-- Central Agent Core -->
+    <circle cx="256" cy="256" r="36" fill="url(#core-grad)" filter="url(#glow-strong)"/>
+    <circle cx="256" cy="256" r="36" fill="none" stroke="#d946ef" stroke-width="1.5"/>
+    <circle cx="256" cy="256" r="28" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
+
+    <!-- Stylized Pi Symbol -->
+    <path d="M 238 242 H 274 V 246 H 268 V 262 C 268 265, 270 266, 272 266 V 270 C 266 270, 262 267, 262 262 V 246 H 250 V 260 C 250 266, 246 269, 240 269 V 265 C 243 265, 244 263, 244 260 V 246 H 238 V 242 Z" 
+          fill="#ffffff" filter="url(#glow)"/>
+
+    <!-- Trade-off Icons at Axes Ends -->
+    <!-- Axis 0: Overall Quality (Star) -->
+    <g transform="translate(256, 32)">
+        <path d="M0,-12 Q0,0 12,0 Q0,0 0,12 Q0,0 -12,0 Q0,0 0,-12 Z" fill="#ffcf00" filter="url(#glow)"/>
+    </g>
+
+    <!-- Axis 60: Scaling Slope (Chart) -->
+    <g transform="translate(450, 144)">
+        <rect x="-10" y="-10" width="20" height="20" rx="3" fill="none" stroke="#00e5ff" stroke-width="2"/>
+        <path d="M-6,6 L-2,-1 L2,2 L7,-5" fill="none" stroke="#ff007f" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="7" cy="-5" r="1.5" fill="#ff007f"/>
+    </g>
+
+    <!-- Axis 120: Dollars Spent (Coin) -->
+    <g transform="translate(450, 368)">
+        <circle cx="0" cy="0" r="10" fill="none" stroke="#00ff88" stroke-width="2"/>
+        <path d="M0,-6 v12 M-3,-3 c0,-2 6,-2 6,0 c0,2 -6,2 -6,4 c0,2 6,2 6,0" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+    </g>
+
+    <!-- Axis 180: Tokens Used (Chip) -->
+    <g transform="translate(256, 480)">
+        <rect x="-9" y="-9" width="18" height="18" rx="2" fill="none" stroke="#d946ef" stroke-width="2"/>
+        <rect x="-4" y="-4" width="8" height="8" rx="1" fill="none" stroke="#d946ef" stroke-width="1"/>
+        <path d="M-13,-4 h4 M-13,0 h4 M-13,4 h4 M9,-4 h4 M9,0 h4 M9,4 h4 M-4,-13 v4 M0,-13 v4 M4,-13 v4 M-4,9 v4 M0,9 v4 M4,9 v4" stroke="#d946ef" stroke-width="1.5"/>
+    </g>
+
+    <!-- Axis 240: Speed/Latency (Lightning) -->
+    <g transform="translate(62, 368)">
+        <path d="M2,-12 L-8,2 H0 L-2,12 L8,-2 H0 Z" fill="#ffcf00" filter="url(#glow)"/>
+    </g>
+
+    <!-- Axis 300: Reliability (Shield) -->
+    <g transform="translate(62, 144)">
+        <path d="M-9,-9 L0,-13 L9,-9 V0 C9,7 0,13 0,13 C0,13 -9,7 -9,0 Z" fill="none" stroke="#4facfe" stroke-width="2"/>
+        <path d="M-4,0 L-1,3 L5,-3" fill="none" stroke="#4facfe" stroke-width="2"/>
+    </g>
+
+    <!-- Floating Data Particles -->
+    <g fill="#00e5ff" filter="url(#glow)">
+        <circle cx="210" cy="140" r="1.5"/>
+        <circle cx="320" cy="110" r="1"/>
+        <circle cx="390" cy="270" r="2"/>
+        <circle cx="180" cy="380" r="1.5"/>
+        <circle cx="120" cy="240" r="1"/>
+    </g>
+</svg>
