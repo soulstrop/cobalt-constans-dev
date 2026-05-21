@@ -1,6 +1,28 @@
 # _cobalt.staging.yml
 site:
-  url: https://staging.constans.dev
+  base_url: https://staging.constans.dev
   title: "constans.dev (staging)"
 # everything else inherits from _cobalt.yml if you prefer,
 # or duplicate the few keys you need
+source: "."
+destination: "_site"
+
+# Posts collection
+posts:
+  dir: _posts
+  drafts_dir: _drafts
+  default:
+    layout: note.liquid
+    is_draft: false
+
+# Pages: HTML/MD outside _posts. We need templated:true for files
+# that use Liquid (projects/index.md, writing/index.md).
+# Plain index.html has no frontmatter and will be copied verbatim.
+pages:
+  default:
+    layout: default.liquid
+
+# Files / dirs to ignore (don't ship to _site)
+ignore:
+  - "*.bak"
+  - "README.md"

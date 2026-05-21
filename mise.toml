@@ -2,6 +2,9 @@
 [tools]
 rust = "1.83"
 node = "22"
+yq = "4"
+lychee = "latest"
+"npm:html-validate" = "latest"
 
 [env]
 # Loaded automatically when you cd into the repo.
@@ -33,7 +36,16 @@ run = "cobalt build --destination $SITE_DEST_PROD"
 [tasks."build:staging"]
 description = "Build staging site to $SITE_DEST_STAGING"
 depends = ["install-cobalt"]
-run = "cobalt build --config _cobalt.staging.yml --destination $SITE_DEST_STAGING"
+run = '''
+# Merge prod config with the staging overlay → generated file
+yq eval-all 'select(fi==0) * select(fi==1)' \
+  _cobalt.yml _cobalt.staging.overlay.yml \
+  > _cobalt.staging.generated.yml
+
+cobalt build \
+  --config _cobalt.staging.generated.yml \
+  --destination $SITE_DEST_STAGING
+'''
 
 [tasks.clean]
 description = "Remove build artifacts"
@@ -53,7 +65,8 @@ file = "tasks/promote"
 description = "Local sanity checks before promotion"
 depends = ["build:staging"]
 run = '''
-# add real checks here: linkcheck, html-validate, etc.
+lychee $SITE_DEST_STAGING
+html-validate "$SITE_DEST_STAGING/**/*.html"
 test -f $SITE_DEST_STAGING/index.html
 test -f $SITE_DEST_STAGING/404.html
 echo "✓ staging build looks sane"

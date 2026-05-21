@@ -10,6 +10,23 @@ cobalt build          # outputs to _site/
 cobalt serve          # dev server with live reload
 ```
 
+## Mise Tasks
+| Task           | Result                                              |
+| -------------- | --------------------------------------------------- |
+| build          | Build production site to $SITE_DEST_PROD            |
+| build:staging  | Build staging site to $SITE_DEST_STAGING            |
+| check          | Local sanity checks before promotion                |
+| clean          | Remove build artifacts                              |
+| deploy:staging | Build and publish staging Worker + assets           |
+| install-cobalt | Install pinned cobalt-bin if not already present    |
+| isolate        | Launch isolated AI sandbox in the current directory |
+| promote        | Promote staging → production (fast-forward only)    |
+| serve          | Local dev server with live reload                   |
+| ship           | Check, then promote                                 |
+
+
+
+
 ## File layout
 
 ```

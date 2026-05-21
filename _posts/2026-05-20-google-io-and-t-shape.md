@@ -16,7 +16,8 @@ I wrote the post below in order to shut up a late night brain worm,
 with the thought that it might be interesting enough to share.  Then
 today it's almost as if I hear my words coming out of the mouths of
 the presenters of this Google I/O workshop:
-https://io.google/2026/explore/workshop-4
+
+[Build core skills to thrive as an AI-era developer](https://io.google/2026/explore/workshop-4)
 
 > [2026-04-29 Wed 00:26]
 > At one point the ideal engineer was described as t-shaped.  They would
