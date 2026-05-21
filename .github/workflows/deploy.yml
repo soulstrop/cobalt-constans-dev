@@ -1,3 +1,5 @@
+name: Deploy Cobalt Site
+
 on:
   push:
     branches:
