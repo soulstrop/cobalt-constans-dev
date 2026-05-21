@@ -663,3 +663,41 @@ footer.site .sep { color: var(--rule-strong); }
   color: var(--fg-3);
   margin-top: 0.5rem;
 }
+
+/* ============================================================
+   /publickey — PGP fingerprint + key block
+   ============================================================ */
+.pgp-fingerprint {
+  color: var(--fg-2);
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
+  word-wrap: break-word;
+}
+.pgp-fingerprint-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-right: 0.6rem;
+}
+.pgp-fingerprint code {
+  font-family: var(--font-mono);
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.85rem;
+}
+.pgp-key {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--fg-2);
+  margin: 0 0 1.5rem;
+}
