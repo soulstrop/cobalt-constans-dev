@@ -1,0 +1,5 @@
+# lychee link-checker config — see https://lychee.cli.rs/usage/config/
+exclude = [
+  # LinkedIn returns HTTP 999 to block bots — not a real broken link.
+  "linkedin\\.com",
+]
