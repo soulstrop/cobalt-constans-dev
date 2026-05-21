@@ -1,0 +1,65 @@
+# mise.toml
+[tools]
+rust = "1.83"
+node = "22"
+
+[env]
+# Loaded automatically when you cd into the repo.
+# Non-secret defaults only — secrets go in mise.local.toml (gitignored).
+COBALT_VERSION = "0.20.4"
+SITE_DEST_PROD    = "_site"
+SITE_DEST_STAGING = "_site_staging"
+PROD_BRANCH    = "main"
+STAGING_BRANCH = "staging"
+
+[tasks.install-cobalt]
+description = "Install pinned cobalt-bin if not already present"
+run = '''
+if ! command -v cobalt >/dev/null || [ "$(cobalt --version | awk '{print $2}')" != "$COBALT_VERSION" ]; then
+  cargo install cobalt-bin --version "=$COBALT_VERSION" --locked
+fi
+'''
+
+[tasks.serve]
+description = "Local dev server with live reload"
+depends = ["install-cobalt"]
+run = "cobalt serve"
+
+[tasks.build]
+description = "Build production site to $SITE_DEST_PROD"
+depends = ["install-cobalt"]
+run = "cobalt build --destination $SITE_DEST_PROD"
+
+[tasks."build:staging"]
+description = "Build staging site to $SITE_DEST_STAGING"
+depends = ["install-cobalt"]
+run = "cobalt build --config _cobalt.staging.yml --destination $SITE_DEST_STAGING"
+
+[tasks.clean]
+description = "Remove build artifacts"
+run = "rm -rf $SITE_DEST_PROD $SITE_DEST_STAGING"
+
+[tasks."deploy:staging"]
+description = "Build and publish staging Worker + assets"
+depends = ["build:staging"]
+dir = "worker"
+run = "npx wrangler deploy"
+
+[tasks.promote]
+description = "Promote staging → production (fast-forward only)"
+file = "tasks/promote"
+
+[tasks."check"]
+description = "Local sanity checks before promotion"
+depends = ["build:staging"]
+run = '''
+# add real checks here: linkcheck, html-validate, etc.
+test -f $SITE_DEST_STAGING/index.html
+test -f $SITE_DEST_STAGING/404.html
+echo "✓ staging build looks sane"
+'''
+
+[tasks."ship"]
+description = "Check, then promote"
+depends = ["check"]
+run = "mise run promote"

@@ -1,0 +1,16 @@
+# .github/workflows/deploy-staging.yml
+name: Deploy staging
+on:
+  push:
+    branches: [staging]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true        # enables mise tasks
+      - run: mise run deploy:staging

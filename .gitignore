@@ -1,2 +1,6 @@
-_site
-*NC-NOTES.md
+mise.local.toml
+_site/
+_site_staging/
+worker/node_modules/
+worker/.wrangler/
+*-NOTES.md

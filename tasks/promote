@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+#MISE description="Promote staging → production (fast-forward only)"
+#MISE alias="ship"
+# Usage: mise run promote          # interactive confirm
+#        mise run promote -- -y    # skip confirm (for CI / chained tasks)
+set -euo pipefail
+
+PROD="${PROD_BRANCH:-main}"
+STAGING="${STAGING_BRANCH:-staging}"
+REMOTE="${GIT_REMOTE:-origin}"
+
+assume_yes=0
+[[ "${1:-}" == "-y" || "${1:-}" == "--yes" ]] && assume_yes=1
+
+bold() { printf "\033[1m%s\033[0m\n" "$*"; }
+red()  { printf "\033[31m%s\033[0m\n" "$*"; }
+green(){ printf "\033[32m%s\033[0m\n" "$*"; }
+dim()  { printf "\033[2m%s\033[0m\n" "$*"; }
+
+# --- preflight ---------------------------------------------------------------
+
+bold "▸ Preflight"
+
+if [[ -n "$(git status --porcelain)" ]]; then
+  red "  ✗ Working tree is dirty. Commit or stash first."
+  git status --short
+  exit 1
+fi
+dim "  ✓ Working tree clean"
+
+git fetch --quiet "$REMOTE" "$PROD" "$STAGING"
+dim "  ✓ Fetched $REMOTE"
+
+# Staging must be ahead of prod and on top of it (fast-forwardable).
+behind=$(git rev-list --count "$REMOTE/$STAGING..$REMOTE/$PROD")
+ahead=$( git rev-list --count "$REMOTE/$PROD..$REMOTE/$STAGING")
+
+if (( behind > 0 )); then
+  red "  ✗ $STAGING is missing $behind commit(s) from $PROD."
+  red "    Merge $PROD into $STAGING first, then re-run."
+  exit 1
+fi
+if (( ahead == 0 )); then
+  red "  ✗ Nothing to promote — $STAGING == $PROD."
+  exit 0
+fi
+green "  ✓ $STAGING is $ahead commit(s) ahead of $PROD, 0 behind"
+
+# --- show what will ship -----------------------------------------------------
+
+bold "▸ Commits to promote"
+git --no-pager log --oneline --reverse "$REMOTE/$PROD..$REMOTE/$STAGING"
+echo
+
+bold "▸ Files changed"
+git --no-pager diff --stat "$REMOTE/$PROD..$REMOTE/$STAGING"
+echo
+
+# --- confirm -----------------------------------------------------------------
+
+if (( assume_yes == 0 )); then
+  read -r -p "$(bold "Promote $ahead commit(s) to $PROD? [y/N] ")" reply
+  [[ "$reply" =~ ^[Yy]$ ]] || { red "Aborted."; exit 1; }
+fi
+
+# --- execute -----------------------------------------------------------------
+
+current=$(git rev-parse --abbrev-ref HEAD)
+
+bold "▸ Promoting"
+git checkout --quiet "$PROD"
+git pull --ff-only --quiet "$REMOTE" "$PROD"
+git merge --ff-only "$REMOTE/$STAGING"
+git push "$REMOTE" "$PROD"
+green "  ✓ $PROD updated → $(git rev-parse --short HEAD)"
+
+# Return to wherever you were
+git checkout --quiet "$current"
+
+bold "▸ Done"
+echo "GitHub Actions will deploy $PROD to GitHub Pages."
+echo "Watch: gh run watch  (or open https://github.com/soulstrop/cobalt-constans-dev/actions)"

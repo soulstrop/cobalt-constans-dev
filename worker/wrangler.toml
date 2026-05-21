@@ -1,0 +1,23 @@
+# worker/wrangler.toml
+name = "constans-edge"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Staging site bundled as static assets
+[assets]
+directory = "../_site_staging"
+binding = "STAGING_ASSETS"
+not_found_handling = "single-page-application"   # or "404-page"
+
+# Routes
+[[routes]]
+pattern = "staging.constans.dev/*"
+zone_name = "constans.dev"
+
+[[routes]]
+pattern = "constans.dev/*"
+zone_name = "constans.dev"
+
+[vars]
+STAGING_USER = "preview"
+# STAGING_PASS set via `wrangler secret put STAGING_PASS`
