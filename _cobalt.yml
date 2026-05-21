@@ -9,6 +9,7 @@ destination: "_site"
 # Posts collection
 posts:
   dir: _posts
+  rss: feed.xml
   drafts_dir: _drafts
   default:
     layout: note.liquid
