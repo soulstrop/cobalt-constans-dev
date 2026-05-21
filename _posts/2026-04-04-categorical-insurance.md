@@ -3,12 +3,12 @@ layout: paper.liquid
 title: "Categorical learners and governance for insurance contracts"
 published_date: 2026-04-04 09:00:00 -0500
 tags:
-  - applied-ategory-theory
+  - applied-category-theory
   - large-language-models
   - bayesian-optimization
   - pareto-optimization
   - monoidal-categories
-  - haskel
+  - haskell
   - category-theory
   - insurance
   - governance

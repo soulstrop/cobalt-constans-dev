@@ -1,6 +1,11 @@
 <header class="top">
   <div class="id"><a href="/" class="naked">jmc<span class="dot">@</span>constans.dev</a></div>
   <nav>
+    {%- comment -%}
+      Cobalt 0.20 permalinks have NO leading slash — `page.permalink` is
+      e.g. "projects/" not "/projects/". Don't "fix" these checks by
+      adding a slash; it silently breaks the active-link state.
+    {%- endcomment -%}
     {% if page.permalink == "projects/" %}
       <a href="/projects/" aria-current="page">work</a>
     {% else %}

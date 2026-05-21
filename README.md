@@ -16,19 +16,36 @@ cobalt serve          # dev server with live reload
 _cobalt.yml                    # site config
 site.css                       # all production styles (copied verbatim)
 index.html                     # hero-only landing (no frontmatter, copied as-is)
+_includes/
+  head.liquid                  # <head> partial: meta + fonts + /site.css
+  header.liquid                # nav with conditional aria-current
+  footer.liquid                # bottom links
 _layouts/
-  default.liquid               # site chrome (header/nav/footer)
-  note.liquid                  # single note template
-  paper.liquid                 # single paper template
+  default.liquid               # full HTML doc, slots in head/header/footer + page.content
+  note.liquid                  # default doc + .post-sidekick note shell
+  paper.liquid                 # default doc + .post-sidekick paper shell
 projects/
-  index.html                   # /projects/ — case-study cards
+  index.md                     # /projects/ — case-study cards (templated:true)
+  media/                       # case-study screenshots/diagrams
 writing/
-  index.html                   # /writing/ — mixed feed (papers + notes)
+  index.md                     # /writing/ — mixed feed of papers + notes (templated:true)
 _posts/
-  2026-04-04-morphology-becomes-ontology.md   # note example
-  2026-04-04-categorical-insurance.md         # paper example
-  2026-03-15-pi-agent-space.md                # paper example
+  YYYY-MM-DD-slug.md           # posts; layout determines kind
+404.html                       # standalone error page (no _includes — resilient)
+maintenance.html               # portal-stub / generic maintenance shield (standalone)
 ```
+
+## Why _includes + _layouts?
+
+This Cobalt build only resolves the *one* layout named in a post's frontmatter
+— it does not chain layouts via `extends:` (that's frontmatter on layout files,
+which Cobalt does not parse). So every post-layout has to be a full HTML
+document on its own. To stay DRY, we pull the head/header/footer chrome into
+`_includes/` and have each layout `{% include "head.liquid" %}` it.
+
+If you find yourself with a fragment layout (just an inner `<div>` and nothing
+else), you'll get a chrome-less page with no stylesheet — that was the original
+bug. The fix is the include pattern above.
 
 ## Cobalt 0.20 frontmatter rules
 
@@ -56,7 +73,7 @@ tags: [tag-a, tag-b]
 description: "1-2 sentence summary that shows up on /writing/."
 data:
   kind: note
-  read_time: "4 min"   # optional, displays in side meta
+  read_time: "4 min"
 ---
 
 Your body in markdown.
@@ -82,12 +99,12 @@ data:
 The abstract goes in the body (markdown).
 ```
 
-The paper detail page renders only:
-- Title · date · pages · tags
-- Read-PDF button (from `data.pdf_url`)
-- The abstract (post body)
+## Pages with Liquid (`templated: true`)
 
-No authors, no BibTeX, no .tex link — per your card spec.
+`projects/index.md` and `writing/index.md` use Liquid. They each declare
+`templated: true` in their frontmatter so Cobalt processes them as templates.
+Plain HTML files without frontmatter (like the root `index.html`) are copied
+verbatim — no Liquid evaluation.
 
 ## Key Liquid patterns
 
@@ -98,25 +115,20 @@ No authors, no BibTeX, no .tex link — per your card spec.
 - **Format a date**: `{{ post.published_date | date: "%Y.%m" }}`
 - **Strip HTML for excerpts**: `{{ post.description | strip_html | truncatewords: 30 }}`
 
-## Pages with Liquid (`templated: true`)
-
-`projects/index.html` and `writing/index.html` use Liquid. They each declare
-`templated: true` in their frontmatter so Cobalt processes them as templates.
-Plain HTML files without frontmatter (like the root `index.html`) are copied
-verbatim — no Liquid evaluation.
-
-## Replacing PLACEHOLDER content
-
-The two paper posts ship with placeholder abstracts. Replace the body markdown
-with the real abstract from each PDF.
-
 ## What's deliberately *not* used
 
 - `{% extends %}` — this is Liquid-inheritance syntax used by older Cobalt
   (pre-0.15) and by other generators. Cobalt 0.20 uses the frontmatter
-  `layout:` field instead.
+  `layout:` field instead — *and* Cobalt does not parse frontmatter on layout
+  files, so you can't chain layouts via `extends:` either. Use `_includes/`.
 - `| relative_url` / `| absolute_url` — Jekyll-only filters. We use absolute
   paths (`/projects/`, etc.) directly.
 - `| markdownify` — Jekyll-only. Markdown post bodies are processed
   automatically by Cobalt.
 - `site.posts` — old Jekyll convention. Use `collections.posts.pages`.
+
+## Deploy
+
+GitHub Actions workflow at `.github/workflows/deploy.yml` installs Cobalt,
+runs `cobalt build`, and ships `_site/` to GitHub Pages on every push to
+`main`.

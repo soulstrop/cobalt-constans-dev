@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Down for maintenance — J. Michael Constans</title>
+  <meta name="description" content="This resource is temporarily unavailable while we make changes." />
+  <meta name="author" content="J. Michael Constans" />
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/site.css" />
+
+  <style>
+    /* Critical shell — inlined so the page renders correctly even if
+       /site.css fails to load. Mirrors the tokens + base chrome from
+       site.css. */
+    :root {
+      --bg: #fafaf7;
+      --bg-2: #f1f0eb;
+      --fg: #1a1a18;
+      --fg-2: #4a4a47;
+      --fg-3: #8a8a85;
+      --rule: #d5d3cc;
+      --rule-strong: #a8a59c;
+      --accent: #d97757;
+      --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16161a; --bg-2: #1f1f24;
+        --fg: #f4f3ef; --fg-2: #c4c2ba; --fg-3: #7a7872;
+        --rule: #2e2e34; --rule-strong: #4a4a52;
+        --accent: #e08a6a;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; line-height: 1.6;
+      background: var(--bg); color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { max-width: 60rem; margin: 0 auto; padding: 2vh 2rem; }
+    a { color: var(--fg); text-decoration: none; border-bottom: 1px dotted var(--rule-strong); transition: color 120ms, border-color 120ms; }
+    a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    a.naked { border-bottom: 0; }
+    .dot { color: var(--accent); }
+    header.top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 2rem; margin-bottom: 4vh;
+      border-bottom: 1px solid var(--rule); flex-wrap: wrap;
+    }
+    header.top .id { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: -0.01em; }
+    header.top nav { display: flex; gap: 1.5rem; font-size: 0.78rem; color: var(--fg-3); }
+    header.top nav a { border-bottom: 0; color: var(--fg-2); }
+    header.top nav a:hover { color: var(--accent); }
+    header.top nav a[aria-current="page"] { color: var(--accent); }
+    header.top nav a[aria-current="page"]::before { content: "→ "; }
+    footer.site {
+      margin-top: 6vh; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+      font-size: 0.74rem; color: var(--fg-3);
+    }
+    footer.site a { color: var(--fg-2); border-bottom: 0; }
+    footer.site a:hover { color: var(--accent); }
+    footer.site .sep { color: var(--rule-strong); }
+    .act {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem; color: var(--fg);
+      border: 1px solid var(--rule-strong); padding: 0.5rem 0.9rem;
+      border-radius: 3px; background: var(--bg); text-decoration: none;
+    }
+    .act:hover { color: var(--accent); border-color: var(--accent); }
+    .act.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .act.primary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .act .arr { color: var(--fg-3); }
+    .act.primary .arr { color: color-mix(in oklab, var(--bg) 70%, transparent); }
+    .act:hover .arr { color: var(--accent); }
+    .act.primary:hover .arr { color: var(--bg); }
+
+    /* Page-local styles. These will move into the DS when we lift it. */
+    .maint {
+      padding: clamp(2rem, 8vh, 6rem) 0 clamp(2rem, 6vh, 4rem);
+    }
+    .maint .kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      margin: 0 0 0.75rem;
+    }
+    .maint h1 {
+      margin: 0 0 1.25rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: clamp(2.25rem, 6vw, 4rem);
+      letter-spacing: -0.04em;
+      line-height: 0.98;
+      max-width: 14ch;
+      text-wrap: balance;
+    }
+    .maint .lede {
+      max-width: 56ch;
+      font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+      line-height: 1.65;
+      color: var(--fg-2);
+      margin: 0 0 2rem;
+    }
+    .signal {
+      margin: 2.5rem 0;
+      background: repeating-linear-gradient(45deg, var(--bg-2) 0 12px, var(--rule) 12px 13px);
+      border: 1px solid var(--rule);
+      aspect-ratio: 21 / 9;
+      max-height: 18rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      color: var(--fg-3);
+      letter-spacing: 0.04em;
+      padding: 1rem;
+      text-align: center;
+    }
+    .signal .signal-status {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--accent);
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    /* Slow blink for the status dot — readable, not annoying. */
+    .signal .signal-status::before {
+      content: "";
+      display: inline-block;
+      width: 0.5rem; height: 0.5rem;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    .signal .signal-line {
+      font-size: clamp(0.85rem, 1.4vw, 1rem);
+      color: var(--fg-2);
+    }
+    .maint .actions {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin: 0 0 2.5rem;
+    }
+    .maint .meta-row {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--fg-3);
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.4rem 1.25rem;
+      align-items: baseline;
+    }
+    .maint .meta-row .l {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.68rem;
+      color: var(--fg-3);
+    }
+    .maint .meta-row .v { color: var(--fg-2); font-size: 0.85rem; }
+    .maint .meta-row .v code {
+      font-family: var(--font-mono);
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="top">
+      <div class="id"><a href="/" class="naked">jmc<span class="dot">@</span>constans.dev</a></div>
+      <nav>
+        <a href="/projects/">work</a>
+        <a href="/writing/">writing</a>
+        <a href="/maintenance.html" aria-current="page">portal</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="maint" aria-labelledby="maint-title">
+        <p class="kicker">status · maintenance</p>
+        <h1 id="maint-title">back shortly<span class="dot">.</span></h1>
+        <p class="lede">This resource is temporarily unavailable while we make changes. Nothing is lost; the page will return at this URL. If you arrived looking for the customer portal, it is not yet open — when it launches it will live here.</p>
+
+        <div class="signal" role="img" aria-label="Maintenance in progress indicator">
+          <span class="signal-status">in progress</span>
+          <span class="signal-line">scheduled · check back soon</span>
+        </div>
+
+        <div class="actions">
+          <a class="act primary" href="/">← return home <span class="arr">↗</span></a>
+          <a class="act" href="/writing/">→ writing <span class="arr">↗</span></a>
+        </div>
+
+        <dl class="meta-row">
+          <dt class="l">status</dt><dd class="v">503 · service unavailable</dd>
+          <dt class="l">contact</dt><dd class="v"><code>jmc@constans.dev</code></dd>
+          <dt class="l">eta</dt><dd class="v">no estimate published</dd>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="site">
+      <div class="lf">© 2026 J. Michael Constans</div>
+      <div class="rt">
+        <a href="/terms/privacy-policy.html">privacy</a>
+        <span class="sep">·</span>
+        <a href="/terms/t-o-s.html">terms</a>
+        <span class="sep">·</span>
+        <a href="/security/policy.txt">security.txt</a>
+        <span class="sep">·</span>
+        <a href="/publickey.html">pgp 52E0…9355</a>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

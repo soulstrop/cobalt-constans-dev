@@ -48,4 +48,3 @@ categoriacl theoretic model...">
 </article>
 
 </div>
-

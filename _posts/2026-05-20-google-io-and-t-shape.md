@@ -58,4 +58,3 @@ https://io.google/2026/explore/workshop-4
 > human trait.  Just like we shaped ourselves into T's or thumbtacks
 > because that is what was needed to create the best software teams, we
 > can shape ourselves into what is needed next
-

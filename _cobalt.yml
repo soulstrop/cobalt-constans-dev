@@ -1,6 +1,6 @@
 site:
   title: J. Michael Constans
-  description: "Fusing Category Theory and systems architecture to engineer deterministic, audit-ready AI infrastructure for the enterprise."
+  description: "Research-grounded systems architecture. Deterministic, audit-ready AI infrastructure for the enterprise."
   base_url: https://constans.dev
 
 source: "."
@@ -15,7 +15,7 @@ posts:
     is_draft: false
 
 # Pages: HTML/MD outside _posts. We need templated:true for files
-# that use Liquid (projects/index.html, writing/index.html).
+# that use Liquid (projects/index.md, writing/index.md).
 # Plain index.html has no frontmatter and will be copied verbatim.
 pages:
   default:
@@ -25,7 +25,3 @@ pages:
 ignore:
   - "*.bak"
   - "README.md"
-  - "Wireframes.html"
-  - "Subpage-wireframes.html"
-  - "wireframes.css"
-  - "reference/**"
