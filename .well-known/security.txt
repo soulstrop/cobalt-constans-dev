@@ -1,0 +1,8 @@
+# Our vulnerability disclosure policy
+Contact: mailto:security@constans.dev
+Expires: 2027-04-01T12:00:00.000Z
+Acknowledgments: https://constans.dev/security/hall-of-fame
+Preferred-Languages: en, es
+Canonical: https://constans.dev/.well-known/security.txt
+Policy: https://constans.dev/security/policy.txt
+

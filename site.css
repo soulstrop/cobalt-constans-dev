@@ -243,6 +243,10 @@ footer.site .sep { color: var(--rule-strong); }
   text-transform: uppercase;
   margin: 0 0 3rem;
 }
+.page-content {
+    max-width: 65;
+    line-height: 1.6;
+}
 
 /* ============================================================
    /projects — project entries

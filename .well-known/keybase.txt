@@ -1,0 +1,51 @@
+
+I hereby claim:
+
+  * I am an admin of https://constans.dev
+  * I am constans (https://keybase.io/constans) on keybase.
+  * I have a public key ASCht6owIFjI1CHfA1St7raS5CzaEecqn-QysRj1_q0j2Ao
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120a1b7aa302058c8d421df0354adeeb692e42cda11e72a9fe432b118f5fead23d80a",
+      "host": "keybase.io",
+      "kid": "0120a1b7aa302058c8d421df0354adeeb692e42cda11e72a9fe432b118f5fead23d80a",
+      "uid": "ec58e2fa1e41b1324f188532fe6a6800",
+      "username": "constans"
+    },
+    "merkle_root": {
+      "ctime": 1755110056,
+      "hash": "af0e1083d8df6bb08022641621acf63682f09b0b089298fb908b8e238edf5b0effab44e9f49c4491812894cb3fec3ad1f99c180132d4d95beb759a52bed55687",
+      "hash_meta": "d3cb2bfdfc01a1704a1fc75b1e7be8b2dc1625ede89e2cde61ef97605cdfec68",
+      "seqno": 27018106
+    },
+    "service": {
+      "entropy": "pjY6iLZUm5CL2+fErAMnQjtY",
+      "hostname": "constans.dev",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "6.5.1"
+  },
+  "ctime": 1755110136,
+  "expire_in": 504576000,
+  "prev": "9e69aecde90fae19cc9f5223bdf9d441dde0305c74c24e4358e18f89bcf2adaa",
+  "seqno": 6,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgobeqMCBYyNQh3wNUre62kuQs2hHnKp/kMrEY9f6tI9gKp3BheWxvYWTESpcCBsQgnmmuzekPrhnMn1IjvfnUQd3gMFx0wk5DWOGPibzyrarEIOfKdRXNu7oTDv4Rr5EBYFg/1UIb8Pmd6rbohD65lS1kAgHCo3NpZ8RAnrExgqAZCDH0HV05sLv6PPVNNQkYdHHXSvOQLF7FkMO4ro5UMLpvr9tVk9ZIWiY6GouFHQmX+nmp2tZy+6O5DKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIK8wvSCeTIlPTdtXPCrpc/BK1NpN6bItddzLut4LCMeSo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/constans

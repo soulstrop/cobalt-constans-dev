@@ -63,13 +63,15 @@ file = "tasks/promote"
 
 [tasks."check"]
 description = "Local sanity checks before promotion"
-depends = ["build:staging"]
+depends = ["build", "build:staging"]
 run = '''
-lychee $SITE_DEST_STAGING
-html-validate "$SITE_DEST_STAGING/**/*.html"
-test -f $SITE_DEST_STAGING/index.html
-test -f $SITE_DEST_STAGING/404.html
-echo "✓ staging build looks sane"
+for dir in $SITE_DEST_PROD $SITE_DEST_STAGING; do
+  lychee --root-dir "$PWD/$dir" "$dir"
+  html-validate "$dir/**/*.html"
+  test -f "$dir/index.html"
+  test -f "$dir/404.html"
+done
+echo "✓ prod and staging builds look sane"
 '''
 
 [tasks."ship"]

@@ -1,0 +1,27 @@
+Vulnerability Disclosure Policy
+Introduction
+I value the work of security researchers and believe that a responsible disclosure process is essential to maintaining the integrity of constans.dev. This policy outlines how I work with the community to resolve discovered vulnerabilities.
+
+Safe Harbor
+If you make a good-faith effort to comply with this policy during your security research, I will consider your research to be authorized. I will not pursue civil or criminal action against you for activities that follow these guidelines.
+
+Guidelines
+Do not perform "Denial of Service" (DoS) attacks or cause service disruptions.
+
+Do not attempt to access, modify, or delete user data that does not belong to you.
+
+Provide a detailed report with reproducible steps.
+
+Allow a reasonable amount of time (typically 30–90 days) for a fix to be implemented before public disclosure.
+
+Out of Scope
+The following are generally not eligible for acknowledgment:
+
+Theoretical vulnerabilities without a proof of concept.
+
+Missing security headers that do not lead to a direct exploit (e.g., Strict-Transport-Security).
+
+Reports of "best practices" (e.g., DMARC/SPF/DKIM settings) unless they result in a bypass of authentication.
+
+Recognition
+Researchers who report valid, previously unknown vulnerabilities that result in a security change will be invited to be listed on our Security Hall of Fame.
