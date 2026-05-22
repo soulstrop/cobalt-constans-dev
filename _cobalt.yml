@@ -14,6 +14,7 @@ posts:
   default:
     layout: note.liquid
     is_draft: false
+    permalink: "/writing/{{ slug }}/"
 
 # Pages: HTML/MD outside _posts. We need templated:true for files
 # that use Liquid (projects/index.md, writing/index.md).
@@ -26,7 +27,13 @@ pages:
 ignore:
   - "*.bak"
   - "README.md"
-  - "*-NOTES.md"
+  - ".notes/**"
+  - "mise.toml"
+  - "mise.local.toml"
+  - "lychee.toml"
+  - ".htmlvalidate.json"
+  - "tasks/**"
+  - "worker/**"
   - "!.well-known"
   - "!.well-known/**"
 

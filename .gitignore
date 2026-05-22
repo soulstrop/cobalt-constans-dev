@@ -3,7 +3,7 @@ _site/
 _site_staging/
 worker/node_modules/
 worker/.wrangler/
-*-NOTES.md
+.notes/
 secrets.json
 /.secrets.json
 /_cobalt.staging.generated.yml

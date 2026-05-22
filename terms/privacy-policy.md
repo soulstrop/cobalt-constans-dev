@@ -2,7 +2,7 @@
 layout: page.liquid
 title: Privacy Policy
 description: "How constans.dev handles visitor information."
-permalink: "/terms/privacy-policy.html"
+permalink: "/terms/privacy-policy/"
 data:
   updated: 2025-08-20
 ---

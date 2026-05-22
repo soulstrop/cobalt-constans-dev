@@ -41,7 +41,7 @@ if (( behind > 0 )); then
   exit 1
 fi
 if (( ahead == 0 )); then
-  red "  ✗ Nothing to promote — $STAGING == $PROD."
+  green "  ✓ Nothing to promote — $STAGING == $PROD."
   exit 0
 fi
 green "  ✓ $STAGING is $ahead commit(s) ahead of $PROD, 0 behind"

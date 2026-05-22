@@ -2,7 +2,7 @@
 layout: page.liquid
 title: Public Key
 description: "PGP public key for J. Michael Constans."
-permalink: "/publickey.html"
+permalink: "/publickey/"
 ---
 
 <p class="pgp-fingerprint">

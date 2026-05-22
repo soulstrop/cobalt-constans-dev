@@ -2,7 +2,7 @@
 layout: page.liquid
 title: Terms of Service
 description: "Terms of use for constans.dev."
-permalink: "/terms/t-o-s.html"
+permalink: "/terms/t-o-s/"
 data:
   updated: 2025-08-20
 ---

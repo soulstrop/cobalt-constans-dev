@@ -15,13 +15,13 @@ layout: raw.liquid
     <loc>{{ site.base_url }}/writing/</loc>
   </url>
   <url>
-    <loc>{{ site.base_url }}/publickey.html</loc>
+    <loc>{{ site.base_url }}/publickey/</loc>
   </url>
   <url>
-    <loc>{{ site.base_url }}/terms/privacy-policy.html</loc>
+    <loc>{{ site.base_url }}/terms/privacy-policy/</loc>
   </url>
   <url>
-    <loc>{{ site.base_url }}/terms/t-o-s.html</loc>
+    <loc>{{ site.base_url }}/terms/t-o-s/</loc>
   </url>
   {%- for post in collections.posts.pages %}
   <url>
