@@ -32,6 +32,18 @@ jobs:
       - name: Build Site
         run: cobalt build
 
+      - name: Fingerprint site.css
+        run: ./tasks/fingerprint _site
+
+      - name: Validate HTML
+        run: npx --yes html-validate "_site/**/*.html"
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --root-dir ${{ github.workspace }}/_site ./_site
+          fail: true
+
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:

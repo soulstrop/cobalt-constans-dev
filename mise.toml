@@ -31,7 +31,10 @@ run = "cobalt serve"
 [tasks.build]
 description = "Build production site to $SITE_DEST_PROD"
 depends = ["install-cobalt"]
-run = "cobalt build --destination $SITE_DEST_PROD"
+run = '''
+cobalt build --destination $SITE_DEST_PROD
+./tasks/fingerprint $SITE_DEST_PROD
+'''
 
 [tasks."build:staging"]
 description = "Build staging site to $SITE_DEST_STAGING"
@@ -45,6 +48,8 @@ yq eval-all 'select(fi==0) * select(fi==1)' \
 cobalt build \
   --config _cobalt.staging.generated.yml \
   --destination $SITE_DEST_STAGING
+
+./tasks/fingerprint $SITE_DEST_STAGING
 '''
 
 [tasks.clean]

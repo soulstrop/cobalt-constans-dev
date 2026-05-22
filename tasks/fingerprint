@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Usage: tasks/fingerprint <site-dir>
+# Renames <site-dir>/site.css to site.<8-char-hash>.css and rewrites every
+# /site.css reference inside the built HTML to match.
+set -euo pipefail
+
+DIR="${1:?usage: fingerprint <site-dir>}"
+
+if [[ ! -f "$DIR/site.css" ]]; then
+  echo "fingerprint: $DIR/site.css not found" >&2
+  exit 1
+fi
+
+HASH=$(sha256sum "$DIR/site.css" | awk '{print substr($1, 1, 8)}')
+NEW="site.${HASH}.css"
+
+mv "$DIR/site.css" "$DIR/$NEW"
+find "$DIR" -name "*.html" -exec sed -i "s|/site\.css|/${NEW}|g" {} +
+
+echo "✓ fingerprinted: /${NEW}"

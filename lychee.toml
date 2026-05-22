@@ -2,4 +2,7 @@
 exclude = [
   # LinkedIn returns HTTP 999 to block bots — not a real broken link.
   "linkedin\\.com",
+  # Don't check our own deployed URLs (e.g. sitemap absolute URL in robots.txt).
+  # The local build is the source of truth here.
+  "^https?://(staging\\.)?constans\\.dev",
 ]
