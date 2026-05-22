@@ -7,4 +7,3 @@ worker/.wrangler/
 secrets.json
 /.secrets.json
 /_cobalt.staging.generated.yml
-/_cobalt.staging.overlay.yml

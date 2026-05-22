@@ -1,0 +1,4 @@
+# _cobalt.staging.overlay.yml — only the differences
+site:
+  title: "constans.dev (staging)"
+  base_url: "https://staging.constans.dev"
