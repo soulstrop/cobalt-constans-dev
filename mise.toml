@@ -1,6 +1,6 @@
 # mise.toml
 [tools]
-rust = "1.83"
+rust = "1.85"
 node = "22"
 yq = "4"
 lychee = "latest"
