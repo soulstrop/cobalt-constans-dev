@@ -1,0 +1,18 @@
+# OpenTofu / Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Variable files may contain secrets
+*.tfvars
+*.auto.tfvars
+!*.tfvars.example
+
+# CLI overrides
+.terraformrc
+terraform.rc
+
+# Note: .terraform.lock.hcl SHOULD be committed (pins provider versions).

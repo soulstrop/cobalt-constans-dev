@@ -1,0 +1,11 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+# Alternatively, set these as TF_VAR_<name> env vars (preferred for the API token).
+
+cloudflare_account_id = "18c6371e36cafdee68d6463c80e9ff69"
+zone_id               = "FILL_ME_IN"   # Dashboard → constans.dev → Overview → right sidebar
+
+# API token: do NOT put it here. Use:
+#   export TF_VAR_cloudflare_api_token="<token>"
+#
+# Or, if you must use a file, put it in a separate *.auto.tfvars that is
+# gitignored, and rotate the token if you ever accidentally commit it.
