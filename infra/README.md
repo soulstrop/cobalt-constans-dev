@@ -25,8 +25,11 @@ $EDITOR terraform.tfvars   # set zone_id
 # 4. Initialize:
 tofu init
 
-# 5. Capture the EXISTING cloudflare state. Edit imports.tf, fill in the
-#    real resource IDs (instructions in that file), then:
+# 5. Capture the EXISTING cloudflare state. Generate import blocks from
+#    the live zone (read-only inspection):
+tasks/list-cf > imports.tf
+#    Inspect — every existing resource should map to an `import {}` block,
+#    everything else is a "# skipped" comment for visibility.
 tofu plan
 # … expect: imports happen, "0 to add, 0 to change, 0 to destroy"
 tofu apply
