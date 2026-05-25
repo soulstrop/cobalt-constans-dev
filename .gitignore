@@ -7,3 +7,10 @@ worker/.wrangler/
 secrets.json
 /.secrets.json
 /_cobalt.staging.generated.yml
+
+# OpenTofu working artifacts (tracked source lives on the infra/opentofu branch)
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfvars
+!infra/*.tfvars.example
