@@ -20,7 +20,15 @@
         </aside>
         <article class="post">
           <header class="post-head">
-            <h1>{{ page.title }}<span class="dot">.</span></h1>
+            {% comment %} Wrap a trailing ? in .qm; otherwise append the .dot signature. {% endcomment %}
+            <h1>
+              {%- assign t = page.title | strip -%}
+              {%- if t contains "?" -%}
+                {{- t | replace: "?", '<span class="qm">?</span>' -}}
+              {%- else -%}
+                {{- t -}}<span class="dot">.</span>
+              {%- endif -%}
+            </h1>
           </header>
           <div class="post-body">
             {{ page.content }}

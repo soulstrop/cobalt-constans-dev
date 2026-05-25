@@ -734,3 +734,31 @@ footer.site .sep { color: var(--rule-strong); }
   color: var(--fg-2);
   margin: 0 0 1.5rem;
 }
+
+/* Question mark with accent dot — overlays the glyph's own dot.
+   JetBrains Mono 700 metrics: the '?' dot is a 0.17em × 0.13em ellipse
+   sitting on the baseline. With line-height: 1 the baseline lands
+   0.14em from the inline-block's bottom edge. Defaults add a hair
+   of margin so anti-aliased edges of the underlying dot don't peek.
+
+   --qm-x: horizontal nudge (positive = right). Per-instance tweak
+   for the rare case where rendering needs a half-pixel correction. */
+.qm {
+  position: relative;
+  display: inline-block;
+  line-height: 1;            /* predictable coord system */
+  vertical-align: baseline;
+}
+.qm::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: var(--qm-bottom, 0.13em);
+  width:  var(--qm-w, 0.18em);
+  height: var(--qm-h, 0.14em);
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateX(calc(-50% + var(--qm-x, 0em)));
+  pointer-events: none;
+}
+
