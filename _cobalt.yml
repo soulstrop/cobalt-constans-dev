@@ -27,11 +27,13 @@ pages:
 ignore:
   - "*.bak"
   - "README.md"
+  - "POSTING.md"
   - ".notes/**"
   - "mise.toml"
   - "mise.local.toml"
   - "lychee.toml"
   - ".htmlvalidate.json"
+  - "infra/**"
   - "tasks/**"
   - "worker/**"
   - "!.well-known"
