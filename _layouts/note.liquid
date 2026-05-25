@@ -20,7 +20,7 @@
         </aside>
         <article class="post">
           <header class="post-head">
-            {% comment %} Wrap a trailing ? in .qm; otherwise append the .dot signature. {% endcomment %}
+            {%- comment %} Wrap a trailing ? in .qm; otherwise append the .dot signature. {% endcomment %}
             <h1>
               {%- assign t = page.title | strip -%}
               {%- if t contains "?" -%}
@@ -36,7 +36,6 @@
         </article>
       </div>
     </main>
-
     {% include "footer.liquid" %}
   </div>
 </body>

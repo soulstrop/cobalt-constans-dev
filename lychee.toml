@@ -5,4 +5,7 @@ exclude = [
   # Don't check our own deployed URLs (e.g. sitemap absolute URL in robots.txt).
   # The local build is the source of truth here.
   "^https?://(staging\\.)?constans\\.dev",
+  # XML namespace identifier in sitemap.xml — not a fetchable link, and the
+  # sitemaps spec mandates the http:// form. Must not be "resolved".
+  "^http://www\\.sitemaps\\.org/schemas/sitemap/",
 ]

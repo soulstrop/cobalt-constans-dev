@@ -21,7 +21,7 @@ from the `categorical-insurance` reference implementation, which
 exposes the constructions described here as a small embedded DSL. A category-theoretic model of insurance contracts; deterministic, auditable claim resolution via composable morphisms."
 data:
   kind: paper
-  pdf_url: "https://github.com/soulstrop/categorical-insurance/raw/main/docs/math.pdf"
+  pdf_url: "https://raw.githubusercontent.com/soulstrop/categorical-insurance/main/docs/math.pdf"
 ---
 
 Abstract—As large language model (LLM) agents become

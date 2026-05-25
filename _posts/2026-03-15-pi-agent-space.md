@@ -16,7 +16,7 @@ Bayesian Optimization problem and defining the categorical semantics
 of agent workflows."
 data:
   kind: paper
-  pdf_url: "https://github.com/soulstrop/pi-agent-space/raw/main/docs/math.pdf"
+  pdf_url: "https://raw.githubusercontent.com/soulstrop/pi-agent-space/main/docs/math.pdf"
 ---
 
 **ABSTRACT**—As large language model (LLM) agents become
