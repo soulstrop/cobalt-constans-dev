@@ -3,16 +3,17 @@ name = "constans-edge"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 
+# Deploy as a bare script: no workers.dev route, no custom routes.
+# The staging.constans.dev/* route is owned by OpenTofu (infra/workers.tf),
+# so the CI token running `wrangler deploy` needs only Workers Scripts: Edit
+# (plus Account Settings: Read and User Memberships: Read for introspection).
+workers_dev = false
+
 # Staging site bundled as static assets
 [assets]
 directory = "../_site_staging"
 binding = "STAGING_ASSETS"
 not_found_handling = "404-page"
-
-# Routes
-[[routes]]
-pattern = "staging.constans.dev/*"
-zone_name = "constans.dev"
 
 [vars]
 STAGING_USER = "preview"
