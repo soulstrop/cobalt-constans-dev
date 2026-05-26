@@ -2,6 +2,8 @@
 exclude = [
   # LinkedIn returns HTTP 999 to block bots — not a real broken link.
   "linkedin\\.com",
+  # WAF 403s the checker, verified live in browser 2026-05-26
+  "https://www.mdpi.com/2504-2289/10/1/38",
   # Don't check our own deployed URLs (e.g. sitemap absolute URL in robots.txt).
   # The local build is the source of truth here.
   "^https?://(staging\\.)?constans\\.dev",

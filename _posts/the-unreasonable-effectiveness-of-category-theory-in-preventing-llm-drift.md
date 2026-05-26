@@ -33,8 +33,8 @@ design patterns and guiding principles for model-driven engineering.
 More recent compositional-systems work (Censi, Zardini, Bakirtzis,
 Spivak) shows the approach scaling to real co-design of
 hardware/software systems. So the premise that architecture can be
-expressed categorically is well-established.<br/> 
-[Theory and Practice of Software Architecture](http://www.cs.ox.ac.uk/research/pdt/ap/ssgp/slides/fiadeiro.pdf)<br/>
+expressed categorically is well-established.<br> 
+[Theory and Practice of Software Architecture](http://www.cs.ox.ac.uk/research/pdt/ap/ssgp/slides/fiadeiro.pdf)<br>
 [Category Theory and Model-Driven Engineering](https://arxiv.org/pdf/1209.1433)
 
 
@@ -55,11 +55,11 @@ The LLM half is where the recent and most relevant evidence lives, and
  reducing hallucinations and syntactic errors, and multi-agent
  frameworks like ReDeFo use formal specifications to bridge the gap
  between ambiguous natural language requirements and precise
- executable code, enabling rigorous reasoning about correctness.<br/>
-[Type-Constrained Code Generation with Language Models](https://arxiv.org/pdf/2504.09246)<br/>
-[Type-Driven Development: Specifications Over Implementation](https://understandingdata.com/posts/type-driven-development/)<br/>
+ executable code, enabling rigorous reasoning about correctness.<br>
+[Type-Constrained Code Generation with Language Models](https://arxiv.org/pdf/2504.09246)<br>
+[Type-Driven Development: Specifications Over Implementation](https://understandingdata.com/posts/type-driven-development/)<br>
 [Integrating Symbolic Execution with LLMs for Automated Generation of
- Program Specifications](https://arxiv.org/abs/2506.09550)<br/>
+ Program Specifications](https://arxiv.org/abs/2506.09550)<br>
 [Requirements Development and Formalization for Reliable Code Generation: A Multi-Agent Vision]( https://arxiv.org/pdf/2508.18675)
  
 The "intent drift" intuition is also empirically real and addressable.
@@ -72,9 +72,9 @@ The "intent drift" intuition is also empirically real and addressable.
  directly: inferring intent as an explicit specification and having a
  reviewer agent vet patches against it yielded more than 50%
  improvement in efficacy over its predecessor on SWE-Bench. That's the
- closest existing analog to your "skeleton catches drift" claim.<br/>
+ closest existing analog to your "skeleton catches drift" claim.<br>
 [Keeping AI Programmers on Track: Minimizing Context Drift in
- LLM-Assisted Workflows](https://leonas5555.github.io/ai-tech-site/articles/v1-llm-context-drift/)<br/>
+ LLM-Assisted Workflows](https://leonas5555.github.io/ai-tech-site/articles/v1-llm-context-drift/)<br>
 [SpecRover: Code Intent Extraction via LLMs](https://arxiv.org/pdf/2408.02232)
 
 ## Evidence undermining the theses
@@ -101,8 +101,8 @@ Worse, there's direct evidence that LLMs reason poorly over abstract
  distributional problem you can infer from this body of work: heavily
  categorical code (Haskell with deep abstractions, Idris, Lean) is
  rare in training data, so a CT skeleton risks being out of
- distribution — making the model less fluent, not more.<br/> 
-[Understanding Formal Reasoning Failures in LLMs as Abstract Interpreters](https://arxiv.org/abs/2503.12686v2)<br/>
+ distribution — making the model less fluent, not more.<br> 
+[Understanding Formal Reasoning Failures in LLMs as Abstract Interpreters](https://arxiv.org/abs/2503.12686v2)<br>
 [Thinking Machines: Mathematical Reasoning in the Age of LLMs](https://www.mdpi.com/2504-2289/10/1/38)
 
 Finally, your "more legible, less slop" claim cuts both ways. The
@@ -115,9 +115,9 @@ at an extremely high level of generality, layering abstraction on
 abstraction, where good grounding examples are genuinely hard to find.
 A skeleton only improves legibility if the humans maintaining it are
 fluent in it; otherwise it adds a layer of slop of a more rarefied
-kind.<br/>
-[Bartosz Milewski's Programming Café](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)<br/> 
-[Theory and Practice of Software Architecture](http://www.cs.ox.ac.uk/research/pdt/ap/ssgp/slides/fiadeiro.pdf)<br/>
+kind.<br>
+[Bartosz Milewski's Programming Café](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)<br> 
+[Theory and Practice of Software Architecture](http://www.cs.ox.ac.uk/research/pdt/ap/ssgp/slides/fiadeiro.pdf)<br>
 [Category Theory and Model-Driven Engineering](https://arxiv.org/pdf/1209.1433)
 
 ##  Evaluation
@@ -183,7 +183,7 @@ inconsistently — a requirement one model version handles well, the
 next version can degrade on by more than 20%. If the model reliably
 reconstructed missing intent, forcing yourself to pin it down up front
 would buy little. It doesn't, so the act of making intent explicit and
-external is where the value lives. That's your hypothesis, vindicated.<br/>
+external is where the value lives. That's your hypothesis, vindicated.<br>
 [What Prompts Don't Say](https://arxiv.org/pdf/2505.13360)
 
 
@@ -203,9 +203,9 @@ fully translate only roughly half of samples in benchmarks, so the
 oracle helps but doesn't close the gap — which means you want a
 runtime equivalence check between the Haskell reference and the
 production output (differential testing on shared inputs,
-TRACE-style), not just a checkpoint where you read the diff and nod.<br/>
+TRACE-style), not just a checkpoint where you read the diff and nod.<br>
 [SPECTRA: Enhancing the Code Translation Ability of Language Models by
-Generating Multi-Modal Specifications](https://arxiv.org/abs/2405.18574v1)<br/>
+Generating Multi-Modal Specifications](https://arxiv.org/abs/2405.18574v1)<br>
 [LLM-Based Code Translation Needs Formal Compositional Reasoning](https://openreview.net/forum?id=wGj8LU2EOf)
 
 Now two places I'd push, because they're where the method is weaker
@@ -239,10 +239,10 @@ Second, the gap-recognition claim — the LLM noticing "this isn't
  confidence when queries omit necessary conditions, traced partly to
  reward structures that incentivize guessing over abstention. So a
  model running on vibes will tend to confabulate plausible filler for
- the uncovered case rather than flag it.<br/>
+ the uncovered case rather than flag it.<br>
 [AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions](https://arxiv.org/pdf/2506.09038)</br>
  [Ambig-SWE: Interactive Agents to Overcome Underspecificity in
- software engineering](https://arxiv.org/pdf/2502.13069)<br/>
+ software engineering](https://arxiv.org/pdf/2502.13069)<br>
  [Abstrain-R1: Calibrated Abstention and Post-Refusal Clarification
  via Verifiable RL](https://arxiv.org/abs/2604.17073)
 
@@ -264,8 +264,8 @@ But — and this is the part that actually rescues your design — the gap
  that simply don't admit the case) mechanically surfaces a subset of
  those gaps for free. So the weakest claim in your thesis becomes a
  structural strength, but only because the spec is explicit and
- executable, not because the LLM got smarter.<br/>
-[Ask or Assume? Uncertainty-Aware Clarification-Seeking in Coding Agents](https://arxiv.org/html/2603.26233)<br/>
+ executable, not because the LLM got smarter.<br>
+[Ask or Assume? Uncertainty-Aware Clarification-Seeking in Coding Agents](https://arxiv.org/html/2603.26233)<br>
 [AMBIG-SWE: Interactive Agents to Overcome Underspecificity in
  Software Engineering](https://arxiv.org/abs/2502.13069)
 
