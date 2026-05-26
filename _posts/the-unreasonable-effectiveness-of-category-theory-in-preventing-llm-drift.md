@@ -59,7 +59,7 @@ The LLM half is where the recent and most relevant evidence lives, and
 [Type-Constrained Code Generation with Language Models](https://arxiv.org/pdf/2504.09246)<br/>
 [Type-Driven Development: Specifications Over Implementation](https://understandingdata.com/posts/type-driven-development/)<br/>
 [Integrating Symbolic Execution with LLMs for Automated Generation of
- Program Specifications](https://arxiv.org/pdf/2506.09550)
+ Program Specifications](https://arxiv.org/abs/2506.09550)<br/>
 [Requirements Development and Formalization for Reliable Code Generation: A Multi-Agent Vision]( https://arxiv.org/pdf/2508.18675)
  
 The "intent drift" intuition is also empirically real and addressable.
@@ -204,8 +204,9 @@ oracle helps but doesn't close the gap — which means you want a
 runtime equivalence check between the Haskell reference and the
 production output (differential testing on shared inputs,
 TRACE-style), not just a checkpoint where you read the diff and nod.<br/>
-https://arxiv.org/html/2405.18574v1<br/>
-https://openreview.net/forum?id=wGj8LU2EOf
+[SPECTRA: Enhancing the Code Translation Ability of Language Models by
+Generating Multi-Modal Specifications](https://arxiv.org/abs/2405.18574v1)<br/>
+[LLM-Based Code Translation Needs Formal Compositional Reasoning](https://openreview.net/forum?id=wGj8LU2EOf)
 
 Now two places I'd push, because they're where the method is weaker
 than it sounds.
@@ -264,8 +265,9 @@ But — and this is the part that actually rescues your design — the gap
  those gaps for free. So the weakest claim in your thesis becomes a
  structural strength, but only because the spec is explicit and
  executable, not because the LLM got smarter.<br/>
- https://arxiv.org/html/2603.26233<br/>
- https://arxiv.org/pdf/2502.13069
+[Ask or Assume? Uncertainty-Aware Clarification-Seeking in Coding Agents](https://arxiv.org/html/2603.26233)<br/>
+[AMBIG-SWE: Interactive Agents to Overcome Underspecificity in
+ Software Engineering](https://arxiv.org/abs/2502.13069)
 
 One risk worth naming that the literature doesn't foreground: lossy
  projection across the chain. Categorical laws you can state but can't
