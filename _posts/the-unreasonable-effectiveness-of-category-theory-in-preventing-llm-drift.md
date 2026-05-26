@@ -240,7 +240,7 @@ Second, the gap-recognition claim — the LLM noticing "this isn't
  reward structures that incentivize guessing over abstention. So a
  model running on vibes will tend to confabulate plausible filler for
  the uncovered case rather than flag it.<br>
-[AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions](https://arxiv.org/pdf/2506.09038)</br>
+[AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions](https://arxiv.org/pdf/2506.09038)<br>
  [Ambig-SWE: Interactive Agents to Overcome Underspecificity in
  software engineering](https://arxiv.org/pdf/2502.13069)<br>
  [Abstrain-R1: Calibrated Abstention and Post-Refusal Clarification
