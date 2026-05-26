@@ -6,8 +6,7 @@ published_date: 2026-02-28 14:36:00 -0700
 tags:
   - software
   - philosophy
-description: "Your attention should be on refining and articulating
-your aesthetics"
+description: "Spend your time on refining and articulating your aesthetics"
 data:
   kind: note
   read_time: "3 min"
