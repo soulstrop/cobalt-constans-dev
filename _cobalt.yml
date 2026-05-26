@@ -8,13 +8,18 @@ destination: "_site"
 
 # Posts collection
 posts:
+
   dir: _posts
+  drafts_dir: _drafts 
   rss: feed.xml
-  drafts_dir: _drafts
   default:
     layout: note.liquid
+    title: ~
+    description: ~
     is_draft: false
     permalink: "/writing/{{ slug }}/"
+    tags: ~
+    data: {kind: ~, read_time: ~}
 
 # Pages: HTML/MD outside _posts. We need templated:true for files
 # that use Liquid (projects/index.md, writing/index.md).
