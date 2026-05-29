@@ -86,4 +86,4 @@ echo "✓ prod and staging builds look sane"
 [tasks."ship"]
 description = "Check, then promote"
 depends = ["check"]
-run = "mise run promote"
+run = "mise run promote -- -y"
