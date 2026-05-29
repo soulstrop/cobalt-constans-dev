@@ -1,99 +1,187 @@
-# merge-bundle/ — ship the whitepaper system to constans.dev
+# constans.dev — Cobalt 0.20.x build
 
-A commit-ready set of files for `soulstrop/cobalt-constans-dev`. Mirrors
-the target tree exactly: copy paths under `merge-bundle/` to the same
-paths in your local clone of that repo, on the **`staging`** branch.
+A static site for [constans.dev](https://constans.dev) targeting **Cobalt 0.20.4**.
 
-## What's in here
-
-| File | Verb | Reason |
-|------|------|--------|
-| `_includes/head.liquid` | **modify** | Conditional `<link rel="stylesheet" href="/whitepaper.css">` for `data.kind == "whitepaper"` pages only — keeps the asset off non-whitepaper pages. |
-| `_includes/footer.liquid` | **modify** | Absorbs the trailing-punctuation autoscript from `default.liquid`. Selector broadened to `.post-body, .wp-body` so the whitepaper layout participates without duplicating code. Now the only place body-foot scripts live. |
-| `_layouts/default.liquid` | **modify** | (1) Removes the stale autoscript (now in `footer.liquid`). (2) Fixes a latent rendering bug: two bare `//` comment lines were sitting *outside* the `<script>` tag and rendering as visible text on every default-layout page. |
-| `_layouts/whitepaper.liquid` | **new** | Full HTML document, follows the `paper.liquid` / `note.liquid` pattern (head / header / footer includes). The previous `dist-cobalt/whitepaper.liquid` was a fragment with `extends: default:liquid` frontmatter — Cobalt 0.20 doesn't chain layouts, so that file would have rendered chrome-less. |
-| `whitepaper.css` | **new** | Long-form layout: meta header, epigraph, drop cap on lede, auto-numbered `§` headings, Tufte-style sidenotes/marginnotes floating into a 260px right rail, full-bleed figures, footnotes block. Scoped under `.wp` so it can't leak into `.post` / `.paper`. Collapses inline on `<= 880px`. |
-| `_posts/2026-05-26-determinism-under-load.md` | **new** | First whitepaper post. Frontmatter matches `whitepaper.liquid`'s contract. |
-| `writing/index.md` | **modify** | Adds an `elsif kind == "whitepaper"` branch so the kind badge can take the `.kind.whitepaper` inverse-fill style. Without this the badge would render as a plain `.kind` pill. |
-
-Seven files. Three modifications, four additions.
-
-## Why not the previously-discussed `dist-cobalt/` resync
-
-Inspecting the live repo showed `dist-cobalt/` here is a stale snapshot
-of an earlier `main`. Production has since added self-hosted JetBrains
-Mono fonts in `/fonts/`, the `.qm` accent-dot system in `site.css`, five
-new posts, a staging branch + `POSTING.md` workflow, the
-`terms/` / `security/` / `worker/` / `tasks/` / `.well-known/` trees,
-and assorted infra files (`favicon.svg`, `robots.txt`, `sitemap.md`,
-`lychee.toml`, `mise.toml`, `.htmlvalidate.json`, `_cobalt.staging.yml`,
-`publickey.md`, `public-key.asc`). None of that was tracked here.
-
-The right move is to **stop syncing `dist-cobalt/`** — it's pretending to
-be a deploy mirror but isn't one. Either delete it, or move it under
-`reference/` as a historical snapshot. The only valuable bits in it were
-the whitepaper system, which this bundle promotes directly into the live
-repo.
-
-## How to land it (per `POSTING.md`)
+## Quickstart
 
 ```sh
-# In your local clone of cobalt-constans-dev
-git switch staging && git pull --ff-only
-
-# Copy bundle files in
-cp -r /path/to/this/merge-bundle/. .
-
-# Verify
-git status
-# Expected: M _includes/head.liquid
-#           M _includes/footer.liquid
-#           M _layouts/default.liquid
-#           A _layouts/whitepaper.liquid
-#           A whitepaper.css
-#           A _posts/2026-05-26-determinism-under-load.md
-#           M writing/index.md
-
-mise run build:staging
-
-git add _includes/head.liquid _includes/footer.liquid \
-        _layouts/default.liquid _layouts/whitepaper.liquid \
-        whitepaper.css \
-        _posts/2026-05-26-determinism-under-load.md \
-        writing/index.md
-git commit -m "whitepaper: layout + css + first post (determinism under load)
-
-Adds the long-form whitepaper system as a third writing kind alongside
-notes and papers. Tufte-style sidenotes/marginnotes in a 260px right
-rail, auto-numbered sections, drop cap on the lede, optional epigraph
-and footnotes blocks.
-
-- _layouts/whitepaper.liquid: full HTML doc, head/header/footer includes
-- whitepaper.css: scoped under .wp, collapses inline at <= 880px
-- _includes/head.liquid: conditionally loads /whitepaper.css for
-  data.kind == \"whitepaper\" pages
-- _includes/footer.liquid: absorbs the trailing-punctuation autoscript
-  (was duplicated/misplaced in default.liquid); selector broadened to
-  cover .wp-body too
-- _layouts/default.liquid: drops the autoscript (moved to footer.liquid)
-  and fixes a latent bug where two bare // comment lines outside the
-  <script> tag rendered as visible text on every default-layout page
-- writing/index.md: kind badge gains a whitepaper branch
-- _posts/2026-05-26-determinism-under-load.md: first whitepaper"
-
-git push origin staging
-# Preview at https://staging.constans.dev/writing/determinism-under-load/
-# Sanity-check: sidenotes float right at >= 880px, collapse inline below.
-# Check the kind badge on /writing/ shows the inverse-fill whitepaper pill.
-
-mise run ship
+cargo install cobalt-bin --version "^0.20"
+cobalt build          # outputs to _site/
+cobalt serve          # dev server with live reload
 ```
 
-## Open question for you
+## Mise Tasks
+| Task           | Result                                              |
+| -------------- | --------------------------------------------------- |
+| build          | Build production site to $SITE_DEST_PROD            |
+| build:staging  | Build staging site to $SITE_DEST_STAGING            |
+| check          | Local sanity checks before promotion                |
+| clean          | Remove build artifacts                              |
+| deploy:staging | Build and publish staging Worker + assets           |
+| install-cobalt | Install pinned cobalt-bin if not already present    |
+| isolate        | Launch isolated AI sandbox in the current directory |
+| promote        | Promote staging → production (fast-forward only)    |
+| serve          | Local dev server with live reload                   |
+| ship           | Check, then promote                                 |
 
-`whitepaper.css` declares `.kind.whitepaper` at the bottom of the file
-(inverse fill — black on light, light on dark). The comment in that file
-suggests promoting it into `site.css` once the kind is committed to.
-You could do that in this commit or wait until the second whitepaper
-ships. I'd wait — keeping it next to the layout it relates to is fine
-for now, and the promotion is a clean follow-up commit.
+
+
+
+## File layout
+
+```
+_cobalt.yml                    # site config
+site.css                       # all production styles (copied verbatim)
+whitepaper.css                 # long-form layout styles (loaded only for whitepaper pages)
+index.html                     # hero-only landing (no frontmatter, copied as-is)
+_includes/
+  head.liquid                  # <head> partial: meta + fonts + /site.css; conditionally loads /whitepaper.css
+  header.liquid                # nav with conditional aria-current
+  footer.liquid                # bottom links + trailing-punctuation autoscript
+_layouts/
+  default.liquid               # full HTML doc, slots in head/header/footer + page.content
+  note.liquid                  # default doc + .post-sidekick note shell
+  paper.liquid                 # default doc + .post-sidekick paper shell
+  whitepaper.liquid            # full HTML doc + .wp-body long-form shell (sidenotes, epigraph, etc.)
+projects/
+  index.md                     # /projects/ — case-study cards (templated:true)
+  media/                       # case-study screenshots/diagrams
+writing/
+  index.md                     # /writing/ — mixed feed of papers + notes (templated:true)
+papers/                        # linkable PDF assets
+_posts/
+  YYYY-MM-DD-slug.md           # posts; layout determines kind
+404.html                       # standalone error page (no _includes — resilient)
+maintenance.html               # portal-stub / generic maintenance shield (standalone)
+```
+
+## Why _includes + _layouts?
+
+This Cobalt build only resolves the *one* layout named in a post's frontmatter
+— it does not chain layouts via `extends:` (that's frontmatter on layout files,
+which Cobalt does not parse). So every post-layout has to be a full HTML
+document on its own. To stay DRY, we pull the head/header/footer chrome into
+`_includes/` and have each layout `{% include "head.liquid" %}` it.
+
+If you find yourself with a fragment layout (just an inner `<div>` and nothing
+else), you'll get a chrome-less page with no stylesheet — that was the original
+bug. The fix is the include pattern above.
+
+## Cobalt 0.20 frontmatter rules
+
+Cobalt only recognizes a fixed set of top-level frontmatter fields:
+
+```
+permalink, slug, title, description, excerpt, categories, tags,
+excerpt_separator, published_date, format, templated, layout,
+is_draft, weight, data, pagination
+```
+
+**Anything else MUST live under `data:`**. The templates access these as
+`page.data.<field>`.
+
+### Adding a note
+
+Create `_posts/YYYY-MM-DD-slug.md`:
+
+```yaml
+---
+layout: note.liquid
+title: "Your title"
+published_date: 2026-05-18 12:00:00 -0500
+tags: [tag-a, tag-b]
+description: "1-2 sentence summary that shows up on /writing/."
+data:
+  kind: note
+  read_time: "4 min"
+---
+
+Your body in markdown.
+```
+
+### Adding a paper
+
+Create `_posts/YYYY-MM-DD-slug.md` with `layout: paper.liquid`:
+
+```yaml
+---
+layout: paper.liquid
+title: "Paper title"
+published_date: 2026-05-18 09:00:00 -0500
+tags: [topic-a, topic-b]
+description: "1-2 sentence summary that shows up on /writing/."
+data:
+  kind: paper
+  pdf_url: "https://github.com/.../docs/math.pdf"
+  pages: 18              # optional, displays in side meta
+---
+
+The abstract goes in the body (markdown).
+```
+
+### Adding a whitepaper
+
+Create `_posts/YYYY-MM-DD-slug.md` with `layout: whitepaper.liquid`. Drop the
+PDF asset in `papers/` and link it via `pdf_url`. The `epigraph` / `epigraph_attr`
+fields are optional.
+
+```yaml
+---
+layout: whitepaper.liquid
+title: "Whitepaper title"
+published_date: 2026-05-26 09:00:00 -0500
+tags: [topic-a, topic-b]
+description: "1-2 sentence summary that shows up on /writing/."
+data:
+  kind: whitepaper
+  subtitle: "One-line sub-headline shown under the title."
+  version: "1.0"
+  author: "J. Michael Constans"
+  pages: "8 min · ~1,400 words"
+  epigraph: "Optional pull-quote at the top."        # optional
+  epigraph_attr: "— attribution"                     # optional
+  pdf_url: "/papers/your-slug-v1.pdf"                # optional
+---
+
+The body in markdown. Use `{: .sidenote }` / `{: .marginnote }` for
+Tufte-style side annotations. Headings are auto-numbered with § markers.
+```
+
+Sidenotes float into a 260 px right rail at ≥ 880 px and collapse inline
+below that. `whitepaper.css` is scoped under `.wp` so it cannot leak into
+`.post` / `.paper` pages; `head.liquid` only loads it when `data.kind ==
+"whitepaper"`.
+
+## Pages with Liquid (`templated: true`)
+
+`projects/index.md` and `writing/index.md` use Liquid. They each declare
+`templated: true` in their frontmatter so Cobalt processes them as templates.
+Plain HTML files without frontmatter (like the root `index.html`) are copied
+verbatim — no Liquid evaluation.
+
+## Key Liquid patterns
+
+- **Iterate posts**: `{% for post in collections.posts.pages %}` (sorted newest-first by default)
+- **Per-post custom field**: `{{ post.data.kind }}`
+- **Per-page custom field**: `{{ page.data.read_time }}`
+- **Build a URL**: `/{{ post.permalink }}`
+- **Format a date**: `{{ post.published_date | date: "%Y.%m" }}`
+- **Strip HTML for excerpts**: `{{ post.description | strip_html | truncatewords: 30 }}`
+
+## What's deliberately *not* used
+
+- `{% extends %}` — this is Liquid-inheritance syntax used by older Cobalt
+  (pre-0.15) and by other generators. Cobalt 0.20 uses the frontmatter
+  `layout:` field instead — *and* Cobalt does not parse frontmatter on layout
+  files, so you can't chain layouts via `extends:` either. Use `_includes/`.
+- `| relative_url` / `| absolute_url` — Jekyll-only filters. We use absolute
+  paths (`/projects/`, etc.) directly.
+- `| markdownify` — Jekyll-only. Markdown post bodies are processed
+  automatically by Cobalt.
+- `site.posts` — old Jekyll convention. Use `collections.posts.pages`.
+
+## Deploy
+
+GitHub Actions workflow at `.github/workflows/deploy.yml` installs Cobalt,
+runs `cobalt build`, and ships `_site/` to GitHub Pages on every push to
+`main`.

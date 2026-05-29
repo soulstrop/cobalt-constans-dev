@@ -16,8 +16,8 @@ data:
   epigraph: "An audit is only as deep as its replays."
   epigraph_attr: "engineering folklore, attribution unclear"
   pdf_url: "/papers/determinism-under-load-v1.pdf"
+  slop: true 
 ---
-
 <p class="lede">Determinism, as a property of a system, is easy to define and hard to keep. A system is deterministic when the same input set, under the same configuration, produces the same output. The challenge is the second half — <em>the same configuration</em> — because configuration is the part that drifts.</p>
 
 Drift can be enumerated. Library upgrades, kernel patches, hardware substitutions, schema additions, prompt edits, the occasional cosmic ray<span class="sn-ref"></span><span class="sidenote">We exclude here genuinely non-deterministic operations — hardware RNG taps, wall-clock reads, network jitter. Those are out-of-scope by construction: an audit-grade system either avoids them or vendors them through a seeded interface.</span>. Each is a transition that, on a long enough timeline, will change an output you swore last week was settled. The question is not whether your system drifts — it does — but whether you can prove what it did, when.
