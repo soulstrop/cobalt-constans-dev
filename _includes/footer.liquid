@@ -10,3 +10,41 @@
     <a href="/publickey/">pgp 52E0…9355</a>
   </div>
 </footer>
+
+{%- comment -%}
+  Trailing-punctuation autoscript. Wraps the final '.' or '?' of the last
+  paragraph in any long-form body with .dot / .qm so the accent picks it
+  up. Lives here in footer.liquid (loaded by every layout) rather than in
+  a single layout, so every long-form kind participates uniformly.
+
+  Selector list: .post-body (notes) + .wp-body (whitepapers). The paper
+  layout's .abstract is intentionally excluded — abstracts read as
+  fragments and shouldn't get the period flourish.
+
+  Idempotent: the markdown can hand-author <span class="dot">.</span>
+  wrappers and this script won't double-wrap (it only acts when the last
+  text node ends in a bare '.' or '?').
+{%- endcomment -%}
+<script>
+  (function () {
+    document.querySelectorAll('.post-body, .wp-body').forEach(function (body) {
+      var ps = body.querySelectorAll(':scope > p');
+      if (!ps.length) return;
+      var last = ps[ps.length - 1];
+      // Walk to the deepest last child so a trailing <em>.</em> still works.
+      var node = last;
+      while (node.lastChild && node.lastChild.nodeType !== 3) node = node.lastChild;
+      var tn = node.lastChild;
+      if (!tn || tn.nodeType !== 3) return;
+      var txt = tn.nodeValue.replace(/\s+$/, '');
+      var ch = txt.slice(-1);
+      if (ch !== '.' && ch !== '?') return;
+      var cls = ch === '?' ? 'qm' : 'dot';
+      tn.nodeValue = txt.slice(0, -1);
+      var span = document.createElement('span');
+      span.className = cls;
+      span.textContent = ch;
+      node.appendChild(span);
+    });
+  })();
+</script>

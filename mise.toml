@@ -6,6 +6,9 @@ yq = "4"
 lychee = "latest"
 "npm:html-validate" = "latest"
 wrangler = "latest"
+actionlint = "latest"
+rg = "latest"
+yamllint = "latest"
 
 [env]
 # Loaded automatically when you cd into the repo.

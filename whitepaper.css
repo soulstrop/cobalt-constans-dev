@@ -1,0 +1,404 @@
+/* ============================================================
+   constans.dev — white-paper layout
+   Long-form, formal, with Tufte-style sidenotes & marginnotes.
+   Adapted to monospace + terracotta. Scoped under .wp so it can
+   live alongside .post / .paper without conflict.
+
+   Authoring contract:
+     <article class="wp">
+       <header class="wp-head"> … </header>
+       <blockquote class="epigraph"> … </blockquote>      (optional)
+       <div class="wp-body">
+         <p class="lede">First paragraph (gets drop cap).</p>
+         <p>Body text with a sidenote ref<span class="sn-ref"></span><span class="sidenote">The note itself.</span> continues here.</p>
+         <p>Unnumbered aside <span class="marginnote">Aside.</span> floats into the margin.</p>
+         <h2>Section heading auto-numbers as § 01</h2>
+         …
+       </div>
+       <section class="wp-footnotes"> … </section>        (optional)
+       <footer class="wp-foot"> … </footer>
+     </article>
+
+   Numbering: <span class="sn-ref"></span> increments a counter and
+   prints itself as a superscript. The next <span class="sidenote">
+   reads the same counter — so refs and notes auto-match as long as
+   the source order is (ref, note, ref, note, …).
+
+   IMPORTANT: sidenotes / marginnotes MUST be <span>, not <aside>.
+   <aside> is flow content and the HTML parser auto-closes the parent
+   <p> when it appears inside. <span> is phrasing content and floats
+   correctly while preserving paragraph integrity.
+   ============================================================ */
+
+.wp {
+  max-width: 920px;
+  margin: 0 auto;
+  padding-right: 260px;
+  position: relative;
+  counter-reset: sn section figc;
+}
+
+/* ----- Header ----------------------------------------------- */
+.wp .wp-head {
+  padding: 1rem 0 2.25rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+  /* Header spans the full container; only the prose elements below
+     constrain themselves so the meta row has room to breathe. */
+}
+.wp .wp-head h1 { max-width: 28ch; }
+.wp .wp-kicker {
+  margin: 0 0 0.85rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.wp .wp-kicker .v { color: var(--accent); }
+.wp .wp-head h1 {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.wp .wp-subtitle {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--fg-2);
+  max-width: 55ch;
+  text-wrap: balance;
+}
+.wp .wp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--fg-2);
+}
+/* Keep each label+value pair from breaking across lines — wrap whole
+   items, not their internals. */
+.wp .wp-meta > span,
+.wp .wp-meta > a { white-space: nowrap; }
+.wp .wp-meta .l {
+  margin-right: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  color: var(--fg-3);
+}
+
+/* ----- Epigraph --------------------------------------------- */
+.wp .epigraph {
+  margin: 0 0 2.25rem;
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  border-left: 2px solid var(--accent);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--fg-2);
+  max-width: 55ch;
+}
+.wp .epigraph p { margin: 0 0 0.5rem; }
+.wp .epigraph .attr {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.wp .epigraph .attr::before { content: "— "; }
+
+/* ----- Body ------------------------------------------------- */
+.wp .wp-body {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--fg);
+  max-width: 55ch;
+}
+.wp .wp-body p { margin: 0 0 1.2rem; }
+
+/* Drop cap on the lede — extends the existing first-letter accent */
+.wp .wp-body > p.lede::first-letter,
+.wp .wp-body > p:first-of-type:not(.no-drop)::first-letter {
+  float: left;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 3.4em;
+  line-height: 0.88;
+  padding: 0.15em 0.32em 0 0;
+  color: var(--accent);
+}
+
+/* Section headings — auto-numbered */
+.wp .wp-body h2 {
+  counter-increment: section;
+  counter-reset: subsection;
+  margin: 2.5rem 0 1rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.wp .wp-body h2::before {
+  content: "§ " counter(section, decimal-leading-zero) "  ";
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+}
+.wp .wp-body h3 {
+  counter-increment: subsection;
+  margin: 1.75rem 0 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-2);
+}
+.wp .wp-body h3::before {
+  content: counter(section) "." counter(subsection) "  ";
+  color: var(--accent);
+}
+
+/* Lists */
+.wp .wp-body ul,
+.wp .wp-body ol {
+  padding-left: 1.25rem;
+  margin: 0 0 1.25rem;
+}
+.wp .wp-body li { margin-bottom: 0.4rem; }
+.wp .wp-body ul li::marker { color: var(--accent); }
+
+/* Inline code, blocks */
+.wp .wp-body code {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.wp .wp-body pre {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1rem;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.wp .wp-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Blockquote */
+.wp .wp-body blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 2px solid var(--accent);
+  color: var(--fg-2);
+}
+
+/* Tables */
+.wp .wp-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+}
+.wp .wp-body th,
+.wp .wp-body td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+.wp .wp-body th {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+/* ----- Sidenote ref (inline superscript) -------------------- */
+.wp .sn-ref {
+  counter-increment: sn;
+  display: inline-block;
+  vertical-align: super;
+  font-size: 0.7em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  margin: 0 0.05em;
+  line-height: 0;
+}
+.wp .sn-ref::after { content: counter(sn); }
+
+/* ----- Sidenote / marginnote — float into right rail -------- */
+.wp .sidenote,
+.wp .marginnote {
+  float: right;
+  clear: right;
+  width: 220px;
+  margin-right: -260px;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  margin-left: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.55;
+  color: var(--fg-2);
+  position: relative;
+}
+.wp .sidenote::before {
+  content: counter(sn);
+  position: absolute;
+  top: 0;
+  left: -1.4rem;
+  font-weight: 600;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
+/* Figures */
+.wp figure {
+  margin: 2rem 0;
+}
+.wp figure .frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  background: repeating-linear-gradient(45deg, var(--bg-2) 0 12px, var(--rule) 12px 13px);
+  border: 1px solid var(--rule);
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.wp figure img,
+.wp figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+.wp figure figcaption {
+  counter-increment: figc;
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--fg-3);
+  max-width: 55ch;
+}
+.wp figure figcaption::before {
+  content: "FIG " counter(figc, decimal-leading-zero) " · ";
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+/* Full-bleed figures extend into the right rail */
+.wp figure.full-bleed {
+  margin-right: -260px;
+  max-width: none;
+}
+.wp figure.full-bleed figcaption { max-width: none; }
+
+/* ----- Footnotes block (end of doc) -------------------------- */
+.wp .wp-footnotes {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  max-width: 55ch;
+}
+.wp .wp-footnotes h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--fg-3);
+}
+.wp .wp-footnotes ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--fg-2);
+}
+.wp .wp-footnotes li { margin-bottom: 0.5rem; }
+.wp .wp-footnotes li::marker {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ----- Footer ---------------------------------------------- */
+.wp .wp-foot {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.78rem;
+  color: var(--fg-3);
+  max-width: 55ch;
+}
+.wp .wp-foot a { color: var(--fg-2); border-bottom: 0; }
+.wp .wp-foot a:hover { color: var(--accent); }
+
+/* ----- Mobile: collapse sidenotes inline -------------------- */
+@media (max-width: 880px) {
+  .wp { padding-right: 0; }
+  .wp .wp-head,
+  .wp .wp-body,
+  .wp .wp-footnotes,
+  .wp .wp-foot { max-width: none; }
+  .wp .sidenote,
+  .wp .marginnote {
+    float: none;
+    clear: none;
+    width: auto;
+    margin: 0.75rem 0;
+    padding: 0.35rem 0 0.35rem 0.85rem;
+    border-left: 2px solid var(--accent);
+    font-size: 0.8rem;
+  }
+  .wp .sidenote::before {
+    position: static;
+    margin-right: 0.45rem;
+  }
+  .wp figure.full-bleed {
+    margin-right: 0;
+  }
+}
+
+/* ============================================================
+   .kind badge — whitepaper variant
+   Inverse fill (matches .act.primary), reads as "weightier than
+   a note, more formal than a paper". Promote into site.css once
+   the kind is committed to.
+   ============================================================ */
+.kind.whitepaper {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}

@@ -11,30 +11,5 @@
 
     {% include "footer.liquid" %}
   </div>
-// Wrap trailing '.' or '?' of the last paragraph in .post-body.
-// Idempotent — re-running on an already-wrapped node is a no-op.
-<script>
-  (function () {
-    document.querySelectorAll('.post-body').forEach(function (body) {
-      var ps = body.querySelectorAll('p');
-      if (!ps.length) return;
-      var last = ps[ps.length - 1];
-      // Walk to the last text node
-      var node = last;
-      while (node.lastChild && node.lastChild.nodeType !== 3) node = node.lastChild;
-      var tn = node.lastChild;
-      if (!tn || tn.nodeType !== 3) return;
-      var txt = tn.nodeValue.replace(/\s+$/, '');
-      var ch = txt.slice(-1);
-      if (ch !== '.' && ch !== '?') return;
-      var cls = ch === '?' ? 'qm' : 'dot';
-      tn.nodeValue = txt.slice(0, -1);
-      var span = document.createElement('span');
-      span.className = cls;
-      span.textContent = ch;
-      node.appendChild(span);
-    });
-  })();
-</script>
 </body>
 </html>

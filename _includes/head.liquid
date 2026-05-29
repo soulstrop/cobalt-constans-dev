@@ -16,4 +16,11 @@
   <meta property="og:type" content="{% if page.collection == 'posts' %}article{% else %}website{% endif %}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/site.css">
+  <link rel="stylesheet" href="/whitepaper.css">
+  {%- comment -%}
+    Whitepaper layout adds an extra stylesheet. Conditional so non-whitepaper
+    pages don't pay the request. Keyed off page.data.kind (not page.layout)
+    because the data is the canonical declaration of "what kind of writing
+    this is" — layout is the rendering choice that follows from it.
+  {%- endcomment -%}
 </head>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.liquid" %}
+<body>
+  <div class="page">
+    {% include "header.liquid" %}
+
+    <main>
+      {%- comment -%}
+        Whitepaper layout — long-form, with sidenotes / marginnotes / footnotes.
+        Cobalt 0.20 conventions: page.published_date, page.data.X, page.content.
+        Mirrors paper.liquid's chrome (head/header/footer includes); differs in
+        the article shell — .wp instead of .paper, and a header that surfaces
+        version + length + tags + PDF in a single meta row.
+
+        Front-matter contract (custom keys under `data:`):
+          title:           required
+          published_date:  required
+          tags:            optional, list
+          description:     optional (used in feed + meta)
+          data:
+            kind:           must be "whitepaper" — drives /whitepaper.css load
+            subtitle:       optional, one-liner under title
+            author:         optional (defaults to "J. Michael Constans")
+            version:        optional, e.g. "1.0" → shown in kicker
+            pages:          optional, est. read length / page count
+            epigraph:       optional, italic preamble
+            epigraph_attr:  optional, attribution
+            pdf_url:        optional, "Download PDF" action
+            no_drop:        optional bool, skip the drop cap if true
+            footnotes:      optional list of strings, rendered at end
+      {%- endcomment -%}
+      <article class="wp">
+
+        <header class="wp-head">
+          <p class="wp-kicker">
+            <span class="v">white paper</span>
+            {%- if page.data.version %} · v{{ page.data.version }}{%- endif %}
+            {%- if page.published_date %} · {{ page.published_date | date: "%Y %b %d" | downcase }}{%- endif %}
+          </p>
+          <h1>{{ page.title }}<span class="dot">.</span></h1>
+          {%- if page.data.subtitle %}
+          <p class="wp-subtitle">{{ page.data.subtitle }}</p>
+          {%- endif %}
+          <p class="wp-meta">
+            <span><span class="l">author</span>{{ page.data.author | default: "J. Michael Constans" }}</span>
+            {%- if page.data.pages %}
+            <span><span class="l">length</span>{{ page.data.pages }}</span>
+            {%- endif %}
+            {%- if page.tags %}
+            <span><span class="l">tags</span>{{ page.tags | join: " · " }}</span>
+            {%- endif %}
+            {%- if page.data.pdf_url %}
+            <a class="act act-sm" href="{{ page.data.pdf_url }}">PDF <span class="arr">↓</span></a>
+            {%- endif %}
+          </p>
+        </header>
+
+        {%- if page.data.epigraph %}
+        <blockquote class="epigraph">
+          <p>{{ page.data.epigraph }}</p>
+          {%- if page.data.epigraph_attr %}
+          <span class="attr">{{ page.data.epigraph_attr }}</span>
+          {%- endif %}
+        </blockquote>
+        {%- endif %}
+
+        <div class="wp-body{% if page.data.no_drop %} no-drop{% endif %}">
+          {{ page.content }}
+        </div>
+
+        {%- if page.data.footnotes %}
+        <section class="wp-footnotes">
+          <h2>Footnotes</h2>
+          <ol>
+            {%- for fn in page.data.footnotes %}
+            <li>{{ fn }}</li>
+            {%- endfor %}
+          </ol>
+        </section>
+        {%- endif %}
+
+        <footer class="wp-foot">
+          <a href="/writing/">← all writing</a>
+          <span>{{ page.published_date | date: "%Y" }} · constans.dev</span>
+        </footer>
+
+      </article>
+    </main>
+
+    {% include "footer.liquid" %}
+  </div>
+</body>
+</html>
