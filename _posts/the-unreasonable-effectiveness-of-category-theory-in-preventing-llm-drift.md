@@ -14,8 +14,8 @@ data:
   author: "J. Michael Constans"
   pages: "15 min · ~1,800 words"
   epigraph: "With apologies to Eugene Wigner..."
+  watermark: "draft"
 ---
-
 <p class="lede">Expressing the shape of a software architecture solution for a problem domain using Category Theory creates a skeleton upon which an LLM coding assistant can iterate towards an implementation and detect and eliminate intent drift more efficiently and effectively, producing codebases that are more legible and contain far less "AI Slop".</p>
 
 ## Evidence supporting the thesis
