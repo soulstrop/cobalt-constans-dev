@@ -29,7 +29,7 @@
             pdf_url:        optional, "Download PDF" action
             no_drop:        optional bool, skip the drop cap if true
             footnotes:      optional list of strings, rendered at end
-            slop:             optional, boolean, adds a watermark 
+            slop:             optional, boolean, adds a watermark
       {%- endcomment -%}
       <article class="wp">
 
@@ -68,9 +68,9 @@
 
         <div class="wp-body{% if page.data.no_drop %} no-drop{% endif %}">
           {{ page.content }}
-          {% if page.data.slop %}
+          {%- if page.data.slop -%}
                <div class="wp-watermark-overlay"></div>
-          {% endif %}
+          {%- endif -%}
         </div>
 
         {%- if page.data.footnotes %}
