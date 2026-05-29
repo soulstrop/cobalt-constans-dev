@@ -16,7 +16,7 @@ data:
   epigraph: "An audit is only as deep as its replays."
   epigraph_attr: "engineering folklore, attribution unclear"
   pdf_url: "/papers/determinism-under-load-v1.pdf"
-  watermark: "draft"
+  watermark: "slop"
 ---
 <p class="lede">Determinism, as a property of a system, is easy to define and hard to keep. A system is deterministic when the same input set, under the same configuration, produces the same output. The challenge is the second half — <em>the same configuration</em> — because configuration is the part that drifts.</p>
 
