@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design system — constans.dev</title>
+  <meta name="description" content="The visual language of constans.dev — tokens, type, components, and flourishes.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Design system — constans.dev">
+  <meta property="og:description" content="The visual language of constans.dev — tokens, type, components, and flourishes.">
+  <meta property="og:url" content="https://constans.dev/design/">
+  <meta property="og:type" content="website">
+
+  <!-- Self-hosted JetBrains Mono is declared @font-face in site.css.
+       Pull production styles directly so this page can't drift. -->
+  <link rel="stylesheet" href="/site.css">
+
+  <style>
+    /* ============================================================
+       Local-only chrome for the design-system page.
+       Anything reusable already lives in site.css — these styles
+       only handle the documentation layout itself.
+       ============================================================ */
+
+    .ds-toc {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+      margin: 0 calc(-1 * clamp(1.25rem, 4vw, 3rem));
+      padding: 0.75rem clamp(1.25rem, 4vw, 3rem);
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--fg-3);
+    }
+    .ds-toc a {
+      color: var(--fg-2);
+      border-bottom: 0;
+    }
+    .ds-toc a:hover { color: var(--accent); }
+    .ds-toc .ds-toc-l {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--fg-3);
+      margin-right: 0.5rem;
+    }
+
+    /* Section header — borrows from the .demo-section pattern
+       used in Design Flourishes, formalized here. */
+    section.ds {
+      margin: 4rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      scroll-margin-top: 4rem;
+    }
+    section.ds > .ds-h {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin: 0 0 0.5rem;
+    }
+    section.ds > .ds-h .ds-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+    }
+    section.ds > .ds-h h2 {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+    }
+    section.ds > .ds-lede {
+      font-size: 0.95rem;
+      color: var(--fg-2);
+      max-width: 64ch;
+      line-height: 1.65;
+      margin: 0 0 2rem;
+    }
+    section.ds .ds-sub {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      margin: 2rem 0 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Specimen frame — used to display a sample on a clean bg. */
+    .spec {
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      padding: 2rem 1.75rem;
+      margin: 0.5rem 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .spec.compact { padding: 1.25rem 1.5rem; }
+    .spec.dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0;
+      background: var(--rule);
+    }
+    .spec.dual > .spec-half {
+      background: var(--bg);
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .spec.dark-half {
+      /* the right half forces a synthetic dark scheme */
+      background: var(--rule);
+    }
+
+    /* Tiny caption above a specimen */
+    .spec-label {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+
+    /* ----- Color tokens grid ----- */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+    .swatch {
+      background: var(--bg);
+      padding: 0.9rem 0.9rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .swatch .chip {
+      width: 100%;
+      height: 56px;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      margin-bottom: 0.4rem;
+    }
+    .swatch .name {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+    .swatch .hex {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--fg-3);
+    }
+    .swatch .use {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--fg-3);
+      letter-spacing: 0.04em;
+    }
+
+    /* The right column simulates dark mode regardless of the user's OS
+       setting, so a light-mode visitor can still see the dark tokens. */
+    .scheme-dark {
+      --bg: #16161a;
+      --bg-2: #1f1f24;
+      --fg: #f4f3ef;
+      --fg-2: #c4c2ba;
+      --fg-3: #7a7872;
+      --rule: #2e2e34;
+      --rule-strong: #4a4a52;
+      --accent: #e08a6a;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .scheme-light {
+      --bg: #fafaf7;
+      --bg-2: #f1f0eb;
+      --fg: #1a1a18;
+      --fg-2: #4a4a47;
+      --fg-3: #8a8a85;
+      --rule: #d5d3cc;
+      --rule-strong: #a8a59c;
+      --accent: #d97757;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    /* ----- Type scale rows ----- */
+    .type-row {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      gap: 1.5rem;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .type-row:last-child { border-bottom: 1px solid var(--rule); }
+    .type-row .type-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--fg-3);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+    .type-row .type-meta strong { color: var(--fg-2); font-weight: 600; display: block; font-size: 0.78rem; }
+    .type-sample { font-family: var(--font-mono); color: var(--fg); }
+
+    /* ----- Spacing / scale visualization ----- */
+    .scale-row {
+      display: grid;
+      grid-template-columns: 5rem 1fr 7rem;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      border-top: 1px solid var(--rule);
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+    .scale-row:last-child { border-bottom: 1px solid var(--rule); }
+    .scale-row .scale-name { color: var(--fg); }
+    .scale-row .scale-bar {
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      height: 14px;
+    }
+    .scale-row .scale-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      opacity: 0.7;
+    }
+    .scale-row .scale-px { color: var(--fg-3); text-align: right; }
+
+    /* ----- Code snippets (mirror Design Flourishes) ----- */
+    pre.snippet {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 0.9rem 1.1rem;
+      overflow-x: auto;
+      color: var(--fg);
+      margin: 0.5rem 0 1.25rem;
+    }
+    pre.snippet .c { color: var(--fg-3); }
+    pre.snippet .k { color: var(--accent); }
+    pre.snippet .s { color: var(--fg-2); }
+
+    /* ----- Component shelf — places components in a calm frame ----- */
+    .shelf {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    /* ----- Anatomy bullets (for explaining a component) ----- */
+    .anatomy {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--fg-2);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .anatomy li::before {
+      content: "·  ";
+      color: var(--accent);
+    }
+    .anatomy code {
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      padding: 0 4px;
+      border-radius: 2px;
+      font-size: 0.85em;
+    }
+
+    /* Big close-up of the dot/qmark, like the flourishes page */
+    .closeup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 0.5rem 0 1.25rem;
+    }
+    .closeup > div {
+      background: var(--bg);
+      padding: 2.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 180px;
+    }
+    .closeup .spec-label {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.9rem;
+    }
+    .closeup .glyph {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: clamp(6rem, 12vw, 9rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    /* Sticky mini header offset for in-page jumps */
+    section.ds[id] { scroll-margin-top: 5rem; }
+
+    /* The qm flourish from site (re-imported tokens) */
+    .qm {
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      vertical-align: baseline;
+    }
+    .qm::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0.13em;
+      width: 0.18em;
+      height: 0.14em;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translateX(calc(-50% + -0.035em));
+      pointer-events: none;
+    }
+
+    /* Watermark overlay — contained demo of the .wp-watermark-overlay
+       feature. The real overlay is position: fixed covering the viewport;
+       here it's position: absolute so the tiling stays inside the specimen. */
+    .wm-demo {
+      position: relative;
+      overflow: hidden;
+      padding: 1.75rem;
+      border: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .wm-demo > p { position: relative; z-index: 0; }
+    .wm-demo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-repeat: repeat;
+      background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27200%27 height=%27200%27%3E%3Ctext x=%2750%25%27 y=%2750%25%27 font-size=%2730%27 font-weight=%27bold%27 fill=%27grey%27 font-family=%27sans-serif%27 text-anchor=%27middle%27 dominant-baseline=%27middle%27 transform=%27rotate(-45 100 100)%27%3EDRAFT%3C/text%3E%3C/svg%3E');
+    }
+
+    @media (max-width: 720px) {
+      .spec.dual { grid-template-columns: 1fr; }
+      .closeup { grid-template-columns: 1fr; }
+      .type-row { grid-template-columns: 1fr; }
+      .scale-row { grid-template-columns: 4rem 1fr 5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Site header — same component as production -->
+    <header class="top">
+      <div class="id"><a href="/" class="naked">jmc<span class="dot">@</span>constans.dev</a></div>
+      <nav aria-label="Primary">
+        <a href="/projects/">work</a>
+        <a href="/writing/">writing</a>
+        <a href="/maintenance.html">portal</a>
+        <a href="/design/" aria-current="page">design</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <h1 class="page-title">Design system<span class="dot">.</span></h1>
+      <p class="page-sub">constans.dev · v1 · extracted from <code style="font-family:var(--font-mono); text-transform: none; letter-spacing: 0; color: var(--fg-2);">site.css</code></p>
+
+      <p style="color: var(--fg-2); max-width: 64ch; line-height: 1.7; margin: 0 0 2rem;">
+        One sheet. Monospace, warm-neutral, terracotta accent, the orange
+        dot as signature. This page is rendered <em>with</em> the system
+        it documents — it pulls
+        <code style="font-family:var(--font-mono);">/site.css</code>
+        directly, so the swatches and components on this page are the
+        ones the site actually ships<span class="dot">.</span>
+      </p>
+
+      <!-- In-page TOC -->
+      <nav class="ds-toc" aria-label="On this page">
+        <span class="ds-toc-l">on this page</span>
+        <a href="#brand">brand</a>
+        <a href="#color">color</a>
+        <a href="#type">type</a>
+        <a href="#scale">spacing</a>
+        <a href="#flourishes">flourishes</a>
+        <a href="#components">components</a>
+        <a href="#layout">layout</a>
+        <a href="#whitepaper">white paper</a>
+        <a href="#voice">voice</a>
+      </nav>
+
+      <!-- ============================================================
+           01 · BRAND
+           ============================================================ -->
+      <section class="ds" id="brand">
+        <div class="ds-h"><span class="ds-num">/ 01</span><h2>Brand</h2></div>
+        <p class="ds-lede">
+          The site has one identity element: a terracotta dot at terminal
+          positions. It stamps the masthead (<code>jmc@constans.dev</code>),
+          the period after every page title, and the trailing punctuation
+          of post bodies. Used sparingly — two stamps per post, total. The
+          dot is the entire brand; everything else is structural typography.
+        </p>
+
+        <div class="spec">
+          <div class="spec-label">Masthead identity</div>
+          <div style="font-family: var(--font-mono); font-size: 1.4rem; letter-spacing: -0.01em;">jmc<span class="dot">@</span>constans.dev</div>
+        </div>
+
+        <div class="spec">
+          <div class="spec-label">Display name treatment — home page</div>
+          <div style="font-family: var(--font-mono); font-weight: 700; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 0.95; letter-spacing: -0.04em;">
+            <span style="display:block;">J<span class="dot">.</span> Michael</span>
+            <span style="display:block; letter-spacing: calc(1ch / 8 - 0.04em);">Constans<span class="dot">.</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           02 · COLOR
+           ============================================================ -->
+      <section class="ds" id="color">
+        <div class="ds-h"><span class="ds-num">/ 02</span><h2>Color</h2></div>
+        <p class="ds-lede">
+          Eight tokens. Warm neutrals (slight yellow in light, slight blue
+          in dark) so the page reads as paper-with-ink rather than UI. One
+          accent — terracotta — at a single chroma, hue-shifted slightly
+          warmer in dark mode for legibility. Saturation is kept low on
+          everything else so the accent does its job.
+        </p>
+
+        <div class="ds-sub">Tokens — light</div>
+        <div class="scheme-light token-grid">
+          <div class="swatch"><div class="chip" style="background: #fafaf7;"></div><div class="name">--bg</div><div class="hex">#fafaf7</div><div class="use">page background</div></div>
+          <div class="swatch"><div class="chip" style="background: #f1f0eb;"></div><div class="name">--bg-2</div><div class="hex">#f1f0eb</div><div class="use">code / tag / pill</div></div>
+          <div class="swatch"><div class="chip" style="background: #1a1a18;"></div><div class="name">--fg</div><div class="hex">#1a1a18</div><div class="use">body text</div></div>
+          <div class="swatch"><div class="chip" style="background: #4a4a47;"></div><div class="name">--fg-2</div><div class="hex">#4a4a47</div><div class="use">secondary copy</div></div>
+          <div class="swatch"><div class="chip" style="background: #8a8a85;"></div><div class="name">--fg-3</div><div class="hex">#8a8a85</div><div class="use">meta / labels</div></div>
+          <div class="swatch"><div class="chip" style="background: #d5d3cc;"></div><div class="name">--rule</div><div class="hex">#d5d3cc</div><div class="use">hairlines</div></div>
+          <div class="swatch"><div class="chip" style="background: #a8a59c;"></div><div class="name">--rule-strong</div><div class="hex">#a8a59c</div><div class="use">button borders</div></div>
+          <div class="swatch"><div class="chip" style="background: #d97757;"></div><div class="name">--accent</div><div class="hex">#d97757</div><div class="use">terracotta · the dot</div></div>
+        </div>
+
+        <div class="ds-sub">Tokens — dark</div>
+        <div class="scheme-dark token-grid">
+          <div class="swatch"><div class="chip" style="background: #16161a;"></div><div class="name">--bg</div><div class="hex">#16161a</div><div class="use">page background</div></div>
+          <div class="swatch"><div class="chip" style="background: #1f1f24;"></div><div class="name">--bg-2</div><div class="hex">#1f1f24</div><div class="use">code / tag / pill</div></div>
+          <div class="swatch"><div class="chip" style="background: #f4f3ef;"></div><div class="name">--fg</div><div class="hex">#f4f3ef</div><div class="use">body text</div></div>
+          <div class="swatch"><div class="chip" style="background: #c4c2ba;"></div><div class="name">--fg-2</div><div class="hex">#c4c2ba</div><div class="use">secondary copy</div></div>
+          <div class="swatch"><div class="chip" style="background: #7a7872;"></div><div class="name">--fg-3</div><div class="hex">#7a7872</div><div class="use">meta / labels</div></div>
+          <div class="swatch"><div class="chip" style="background: #2e2e34;"></div><div class="name">--rule</div><div class="hex">#2e2e34</div><div class="use">hairlines</div></div>
+          <div class="swatch"><div class="chip" style="background: #4a4a52;"></div><div class="name">--rule-strong</div><div class="hex">#4a4a52</div><div class="use">button borders</div></div>
+          <div class="swatch"><div class="chip" style="background: #e08a6a;"></div><div class="name">--accent</div><div class="hex">#e08a6a</div><div class="use">terracotta · warmer</div></div>
+        </div>
+
+        <p class="ds-lede" style="margin-top: 2rem;">
+          Light and dark are bound to <code>prefers-color-scheme</code>. No
+          toggle UI is shipped — the system honors the user's OS setting.
+        </p>
+
+<pre class="snippet"><span class="k">:root</span> {
+  <span class="c">/* light · default */</span>
+  --bg: #fafaf7;  --bg-2: #f1f0eb;
+  --fg: #1a1a18;  --fg-2: #4a4a47;  --fg-3: #8a8a85;
+  --rule: #d5d3cc;  --rule-strong: #a8a59c;
+  --accent: #d97757;
+}
+<span class="k">@media (prefers-color-scheme: dark)</span> {
+  <span class="k">:root</span> { <span class="c">/* dark · slightly warmer accent */</span>
+    --bg: #16161a;  --bg-2: #1f1f24;
+    --fg: #f4f3ef;  --fg-2: #c4c2ba;  --fg-3: #7a7872;
+    --rule: #2e2e34;  --rule-strong: #4a4a52;
+    --accent: #e08a6a;
+  }
+}</pre>
+      </section>
+
+      <!-- ============================================================
+           03 · TYPE
+           ============================================================ -->
+      <section class="ds" id="type">
+        <div class="ds-h"><span class="ds-num">/ 03</span><h2>Type</h2></div>
+        <p class="ds-lede">
+          One family: <strong style="color:var(--fg);">JetBrains Mono</strong>
+          at weights 400 / 500 / 600 / 700. Used everywhere — display, body,
+          UI, labels. The choice carries the engineering tone without
+          requiring any further visual gestures. Body sits at 15px / 1.6.
+          Display uses tight negative tracking (<code>letter-spacing: -0.03em</code>
+          to <code>-0.04em</code>) to compensate for the mono's open counters.
+        </p>
+
+        <div class="spec">
+          <div class="type-row">
+            <div class="type-meta"><strong>Display L</strong>clamp(2.6rem, 7.2vw, 5.5rem)<br>700 · tracking -0.04em<br>line-height 0.95</div>
+            <div class="type-sample" style="font-weight: 700; font-size: clamp(2.6rem, 7.2vw, 5.5rem); letter-spacing: -0.04em; line-height: 0.95;">Constans<span class="dot">.</span></div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Page title</strong>clamp(2rem, 5vw, 3.5rem)<br>700 · tracking -0.03em</div>
+            <div class="type-sample" style="font-weight: 700; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.03em; line-height: 1;">Design system<span class="dot">.</span></div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Post H1</strong>clamp(1.8rem, 4vw, 2.6rem)<br>700 · text-wrap balance</div>
+            <div class="type-sample" style="font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.03em; line-height: 1.15;">What bets are you making with your attention<span class="qm">?</span></div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Section H2</strong>1.4rem · 600<br>tracking -0.02em</div>
+            <div class="type-sample" style="font-weight: 600; font-size: 1.4rem; letter-spacing: -0.02em;">Determinism under load</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Body</strong>15px · 1.6 · 400<br>color var(--fg)</div>
+            <div class="type-sample" style="font-size: 15px; line-height: 1.6;">Research-grounded systems architecture. Deterministic, audit-ready AI infrastructure for the enterprise.</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Secondary</strong>0.92rem · 400<br>color var(--fg-2)</div>
+            <div class="type-sample" style="font-size: 0.92rem; color: var(--fg-2);">A short summary of the project, in a single calm sentence. Sits beneath the title at a softer weight.</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Meta / label</strong>0.78rem · uppercase<br>tracking 0.08em · var(--fg-3)</div>
+            <div class="type-sample" style="font-size: 0.78rem; color: var(--fg-3); letter-spacing: 0.08em; text-transform: uppercase;">2026 may 18 · note</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta"><strong>Micro</strong>0.66–0.72rem<br>tracking 0.12–0.14em · uppercase</div>
+            <div class="type-sample" style="font-size: 0.72rem; color: var(--fg-3); letter-spacing: 0.14em; text-transform: uppercase;">/ section header</div>
+          </div>
+        </div>
+
+<pre class="snippet"><span class="c">/* The single font stack. No serif. No sans fallback by design. */</span>
+<span class="k">--font-mono</span>: "JetBrains Mono", ui-monospace, "SFMono-Regular",
+              Consolas, "Liberation Mono", Menlo, monospace;</pre>
+      </section>
+
+      <!-- ============================================================
+           04 · SPACING / SCALE
+           ============================================================ -->
+      <section class="ds" id="scale">
+        <div class="ds-h"><span class="ds-num">/ 04</span><h2>Spacing &amp; measure</h2></div>
+        <p class="ds-lede">
+          No formal spacing scale — the system reaches for round
+          fractions of <code>rem</code> and <code>vh</code> directly.
+          The values below are the ones used repeatedly; treat them as
+          a vocabulary rather than a grid.
+        </p>
+
+        <div class="spec compact">
+          <div class="scale-row"><div class="scale-name">0.5rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 8px;"></div></div><div class="scale-px">8px · gap</div></div>
+          <div class="scale-row"><div class="scale-name">0.75rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 12px;"></div></div><div class="scale-px">12px · gap</div></div>
+          <div class="scale-row"><div class="scale-name">1rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 16px;"></div></div><div class="scale-px">16px · gap</div></div>
+          <div class="scale-row"><div class="scale-name">1.5rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 24px;"></div></div><div class="scale-px">24px · gap / row</div></div>
+          <div class="scale-row"><div class="scale-name">2rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 32px;"></div></div><div class="scale-px">32px · row padding</div></div>
+          <div class="scale-row"><div class="scale-name">2.5rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 40px;"></div></div><div class="scale-px">40px · section break</div></div>
+          <div class="scale-row"><div class="scale-name">3rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 48px;"></div></div><div class="scale-px">48px · sidekick gap</div></div>
+          <div class="scale-row"><div class="scale-name">4rem</div><div class="scale-bar"><div class="scale-bar-fill" style="width: 64px;"></div></div><div class="scale-px">64px · section</div></div>
+        </div>
+
+        <div class="ds-sub">Layout constants</div>
+        <ul class="anatomy">
+          <li><code>--measure: 60ch</code> — default reading width</li>
+          <li>Post / paper body: <code>max-width: 68ch</code>; sidekick post: <code>60ch</code></li>
+          <li>Page shell: <code>max-width: 1100px</code>, padding <code>clamp(1.25rem, 4vw, 3rem)</code></li>
+          <li>Mobile breakpoint: <code>@media (max-width: 720px)</code></li>
+          <li>Border radii: <code>2–4px</code>. Nothing pill-shaped except the social pills.</li>
+        </ul>
+      </section>
+
+      <!-- ============================================================
+           05 · FLOURISHES (.dot, .qm)
+           ============================================================ -->
+      <section class="ds" id="flourishes">
+        <div class="ds-h"><span class="ds-num">/ 05</span><h2>Flourishes</h2></div>
+        <p class="ds-lede">
+          The terracotta dot has two officially-sanctioned forms.
+          <code>.dot</code> colors a literal period (or <code>@</code>) at a
+          terminal position. <code>.qm</code> overlays a small accent disc
+          on top of a question mark's own dot. Both belong only at the end
+          of titles, mastheads, and the trailing punctuation of post bodies.
+        </p>
+
+        <div class="closeup">
+          <div>
+            <div class="spec-label">.dot — period at title scale</div>
+            <div class="glyph">.<span style="color:var(--accent);">.</span></div>
+          </div>
+          <div>
+            <div class="spec-label">.qm — accent over '?'</div>
+            <div class="glyph"><span class="qm">?</span></div>
+          </div>
+        </div>
+
+        <p class="ds-lede">
+          The trailing period of a post body is wrapped automatically by
+          the autoscript in <code>_includes/footer.liquid</code>: it walks
+          the last paragraph of <code>.post-body</code> /
+          <code>.wp-body</code> and wraps a terminal <code>.</code> or
+          <code>?</code> in <code>.dot</code> / <code>.qm</code>.
+          Hand-authored markers win — the script won't double-wrap.
+        </p>
+
+<pre class="snippet"><span class="k">.dot</span> { color: var(--accent); }
+
+<span class="k">.qm</span> {
+  position: relative; display: inline-block;
+  line-height: 1; vertical-align: baseline;
+}
+<span class="k">.qm::after</span> {
+  content: ""; position: absolute; left: 50%;
+  bottom: var(--qm-bottom, 0.13em);
+  width:  var(--qm-w, 0.18em);
+  height: var(--qm-h, 0.14em);
+  background: var(--accent); border-radius: 50%;
+  transform: translateX(calc(-50% + var(--qm-x, 0em)));
+}</pre>
+      </section>
+
+      <!-- ============================================================
+           06 · COMPONENTS
+           ============================================================ -->
+      <section class="ds" id="components">
+        <div class="ds-h"><span class="ds-num">/ 06</span><h2>Components</h2></div>
+        <p class="ds-lede">
+          A small kit. Every component is reusable across pages — they're
+          what gives the site its consistency in spite of having no JS
+          framework and no build step.
+        </p>
+
+        <!-- Tag pill -->
+        <div class="ds-sub">.tag — inline metadata pill</div>
+        <div class="spec compact">
+          <div class="shelf">
+            <span class="tag">deterministic</span>
+            <span class="tag">audit</span>
+            <span class="tag">infra</span>
+            <span class="tag">2026</span>
+          </div>
+        </div>
+        <ul class="anatomy">
+          <li>0.72rem mono on <code>--bg-2</code> with 1px <code>--rule</code> border</li>
+          <li>Padding <code>1px 7px</code>, radius <code>3px</code>, color <code>--fg-2</code></li>
+          <li>Used in project meta, paper meta, post tags, anywhere a label needs containment</li>
+        </ul>
+
+        <!-- Kind badge -->
+        <div class="ds-sub">.kind — content-type badge</div>
+        <div class="spec compact">
+          <div class="shelf">
+            <span class="kind">note</span>
+            <span class="kind paper">paper</span>
+            <span class="kind" style="background: var(--fg); color: var(--bg); border-color: var(--fg);">white paper</span>
+          </div>
+        </div>
+        <ul class="anatomy">
+          <li>0.66rem mono, uppercase, tracking <code>0.12em</code></li>
+          <li><code>note</code> — default · <code>bg-2</code> fill, <code>rule</code> border</li>
+          <li><code>paper</code> — accent outlined · transparent fill, accent border + text</li>
+          <li><code>whitepaper</code> — inverse fill · matches <code>.act.primary</code>, signals weight</li>
+          <li>Lives in the <code>.w-mixed</code> writing feed, never alone</li>
+        </ul>
+
+        <!-- Action buttons -->
+        <div class="ds-sub">.act — primary &amp; ghost action</div>
+        <div class="spec compact">
+          <div class="act-row" style="margin: 0;">
+            <a class="act primary" href="#">Read paper <span class="arr">↗</span></a>
+            <a class="act" href="#">PDF <span class="arr">↓</span></a>
+            <a class="act" href="#">Cite <span class="arr">›</span></a>
+          </div>
+        </div>
+        <ul class="anatomy">
+          <li>Two variants only: <code>.act</code> (ghost) and <code>.act.primary</code> (inverted)</li>
+          <li>Hover swaps to <code>--accent</code> on both border and text (primary: background)</li>
+          <li>Arrow glyph in <code>.arr</code> dims to <code>--fg-3</code> at rest</li>
+        </ul>
+
+        <!-- Social pill -->
+        <div class="ds-sub">Social pill — home page outbound</div>
+        <div class="spec compact">
+          <div class="shelf">
+            <a href="#" style="font-size: 0.78rem; color: var(--fg-2); border: 1px solid var(--rule-strong); padding: 0.35rem 0.75rem; border-radius: 2px; border-bottom: 1px solid var(--rule-strong);">github</a>
+            <a href="#" style="font-size: 0.78rem; color: var(--fg-2); border: 1px solid var(--rule-strong); padding: 0.35rem 0.75rem; border-radius: 2px; border-bottom: 1px solid var(--rule-strong);">linkedin</a>
+            <a href="#" style="font-size: 0.78rem; color: var(--fg-2); border: 1px solid var(--rule-strong); padding: 0.35rem 0.75rem; border-radius: 2px; border-bottom: 1px solid var(--rule-strong);">public-key</a>
+            <a href="#" style="font-size: 0.78rem; color: var(--fg-2); border: 1px solid var(--rule-strong); padding: 0.35rem 0.75rem; border-radius: 2px; border-bottom: 1px solid var(--rule-strong);">email</a>
+          </div>
+        </div>
+
+        <!-- Post row / mixed feed -->
+        <div class="ds-sub">.post-row / .w-mixed — list rows</div>
+        <div class="spec" style="padding: 0 1.5rem;">
+          <div class="post-index">
+            <a class="post-row" href="#">
+              <span class="date">2026 may 18</span>
+              <div>
+                <div class="title">What bets are you making with your attention<span class="qm">?</span></div>
+                <p class="excerpt">Every minute is a wager. Returns are paid in patterns laid down.</p>
+              </div>
+            </a>
+            <a class="post-row" href="#">
+              <span class="date">2026 apr 02</span>
+              <div>
+                <div class="title">Determinism under load<span class="dot">.</span></div>
+                <p class="excerpt">Notes on building audit-ready inference that doesn't drift across deploys.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project case -->
+        <div class="ds-sub">.case — project case card</div>
+        <div class="spec" style="padding: 1.5rem;">
+          <article class="case">
+            <div class="case-thumb">screenshot · 21:9</div>
+            <div class="case-meta"><span>2026 · client</span><span>infra</span></div>
+            <h2><a href="#">Cobalt</a></h2>
+            <p class="body">Deterministic agent runtime. Schemas pinned, traces signed, replay
+              guaranteed bit-identical across the same input set.</p>
+            <div class="case-tags">
+              <span class="tag">determinism</span>
+              <span class="tag">audit</span>
+              <span class="tag">go</span>
+            </div>
+          </article>
+        </div>
+
+        <!-- Paper meta sidekick -->
+        <div class="ds-sub">.post-sidekick — paper / note layout</div>
+        <div class="spec" style="padding: 1.5rem;">
+          <div class="post-sidekick" style="max-width: none;">
+            <aside class="meta">
+              <div class="row"><span class="l">venue</span><span class="v">arXiv preprint</span></div>
+              <div class="row"><span class="l">date</span><span class="v">2026 mar 04</span></div>
+              <div class="row"><span class="l">tags</span><span class="v"><span class="tag">determinism</span><span class="tag">tooling</span></span></div>
+              <div class="row"><span class="l">cite</span><span class="v"><a href="#">bibtex</a></span></div>
+            </aside>
+            <article class="paper">
+              <header class="paper-head">
+                <p class="paper-kicker">preprint · march 2026</p>
+                <h1>Replay-stable inference for audit-grade agents<span class="dot">.</span></h1>
+                <p class="paper-meta"><span class="l">authors</span> J. Michael Constans</p>
+              </header>
+              <div class="abstract">
+                <h2>Abstract</h2>
+                <p>We describe a runtime that produces bit-identical traces across
+                the same input set under bounded deployment drift, and the
+                conditions under which that guarantee holds.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           07 · LAYOUT PRIMITIVES
+           ============================================================ -->
+      <section class="ds" id="layout">
+        <div class="ds-h"><span class="ds-num">/ 07</span><h2>Layout primitives</h2></div>
+        <p class="ds-lede">
+          Three frames cover the whole site: the page shell, the top
+          chrome (header + footer), and the sidekick grid for posts /
+          papers with metadata.
+        </p>
+
+        <div class="ds-sub">.page — root shell</div>
+        <ul class="anatomy">
+          <li><code>max-width: 1100px</code> centered, padding <code>4vh clamp(1.25rem, 4vw, 3rem) 6vh</code></li>
+          <li><code>display: flex; flex-direction: column; min-height: 100vh</code> — footer sticks down</li>
+        </ul>
+
+        <div class="ds-sub">header.top — masthead + nav</div>
+        <ul class="anatomy">
+          <li>Identity left, nav links right, both baseline-aligned</li>
+          <li>Bottom hairline (<code>--rule</code>), 2rem padding, 4vh margin</li>
+          <li>Current-page link gets <code>color: var(--accent)</code> and an <code>→</code> prefix</li>
+        </ul>
+
+        <div class="ds-sub">footer.site — micro-footer</div>
+        <ul class="anatomy">
+          <li>Two flex groups, justified ends, hairline divider above</li>
+          <li>0.74rem · <code>--fg-3</code>; separators rendered as a <code>·</code> in <code>--rule-strong</code></li>
+        </ul>
+
+        <div class="ds-sub">.post-sidekick — body + sticky meta</div>
+        <ul class="anatomy">
+          <li>Grid: <code>11rem 1fr</code>, gap <code>3rem</code>, max <code>980px</code></li>
+          <li>Side meta is <code>position: sticky; top: 2rem</code> on desktop, wraps to a horizontal row under 760px</li>
+        </ul>
+      </section>
+
+      <!-- ============================================================
+           08 · WHITE PAPER LAYOUT
+           ============================================================ -->
+      <section class="ds" id="whitepaper">
+        <div class="ds-h"><span class="ds-num">/ 08</span><h2>White paper</h2></div>
+        <p class="ds-lede">
+          A long-form layout with Tufte-style sidenotes — adapted to
+          monospace + terracotta. Used for formal, full-text-on-page
+          publications where <code>.paper</code> (abstract + PDF link)
+          would feel too thin. Lives in
+          <code>whitepaper.css</code>, scoped under
+          <code>.wp</code> so it doesn't disturb the
+          <code>.post</code> / <code>.paper</code> layouts.
+          See <a href="/writing/determinism-under-load/">determinism-under-load</a>
+          for a populated example.
+        </p>
+
+        <div class="ds-sub">Layout anatomy</div>
+        <ul class="anatomy">
+          <li>Container <code>max-width: 920px</code>, <code>padding-right: 260px</code> reserving the right rail</li>
+          <li>Body column <code>max-width: 55ch</code>, set wider line-height (<code>1.75</code>) and slightly smaller body (<code>0.95rem</code>) than <code>.post</code></li>
+          <li>Sidenotes <code>float: right; clear: right; margin-right: -260px</code> — float into the reserved rail</li>
+          <li>Mobile (<code>&lt; 880px</code>): rail collapses, sidenotes inline with a left-accent rule</li>
+        </ul>
+
+        <div class="ds-sub">Authoring contract — sidenotes &amp; refs</div>
+        <p class="ds-lede" style="margin-bottom: 0.75rem;">
+          Source order is the only thing the author manages. The CSS
+          counter increments on each <code>.sn-ref</code> and the
+          following <code>.sidenote</code> reads the same value — so
+          refs and notes auto-match as long as you write them in pairs.
+        </p>
+
+<pre class="snippet">&lt;p&gt;The signature binds output to input + config at the time of
+execution<span class="k">&lt;span class="sn-ref"&gt;&lt;/span&gt;</span><span class="k">&lt;aside class="sidenote"&gt;</span>Whether
+a field is "meaningful" is a policy decision, not a technical
+one.<span class="k">&lt;/aside&gt;</span>. Replay produces a <span class="s">new</span> trace; the audit
+question is whether the new trace agrees on the meaningful fields.&lt;/p&gt;
+
+<span class="c">/* Unnumbered aside — same position, no leading number */</span>
+&lt;<span class="k">aside class="marginnote"</span>&gt;Trace IDs use ULIDs. Sortable
+by time, collision-resistant under load.&lt;/aside&gt;</pre>
+
+        <div class="ds-sub">Section auto-numbering</div>
+        <p class="ds-lede" style="margin-bottom: 0.75rem;">
+          <code>h2</code> inside <code>.wp-body</code> auto-numbers with
+          <code>§ 01</code>, <code>§ 02</code>, … via CSS counters.
+          <code>h3</code> gets <code>1.1</code>, <code>1.2</code>, …
+          and resets per <code>h2</code>. No author work required.
+        </p>
+
+        <div class="ds-sub">Drop cap</div>
+        <p class="ds-lede" style="margin-bottom: 0.75rem;">
+          First paragraph in <code>.wp-body</code> (or any paragraph
+          tagged <code>.lede</code>) gets a 3.4em terracotta drop cap.
+          Pass <code>data.no_drop: true</code> in front-matter or add
+          <code>.no-drop</code> on the body to suppress.
+        </p>
+
+        <div class="ds-sub">Watermark overlay</div>
+        <p class="ds-lede" style="margin-bottom: 0.75rem;">
+          Set <code>data.watermark</code> in front-matter to any word and the
+          whitepaper layout stamps a tiled, diagonal watermark across the
+          whole viewport — for <code>draft</code>, <code>confidential</code>,
+          <code>preview</code>, and similar states. The word is uppercased
+          and drawn as an inline SVG data-URI tile, so it needs no image
+          asset and no JS. Omit the key in production.
+        </p>
+
+        <div class="spec">
+          <div class="spec-label">Contained demo · the real overlay is position: fixed, full-viewport</div>
+          <div class="wm-demo">
+            <p style="margin: 0 0 0.8rem; font-size: 0.95rem; line-height: 1.75; color: var(--fg);">Expressing the shape of a software architecture using Category Theory creates a skeleton upon which an LLM can iterate toward an implementation while catching intent drift at checkpoints.</p>
+            <p style="margin: 0; font-size: 0.95rem; line-height: 1.75; color: var(--fg-2);">The watermark tiles diagonally at 10% opacity, painted above the text but transparent to pointer events.</p>
+          </div>
+        </div>
+
+        <ul class="anatomy">
+          <li>Front-matter key <code>data.watermark</code> — any word; rendered uppercased</li>
+          <li>Tile: a 200×200 SVG <code>&lt;text&gt;</code>, 30px bold <code>grey</code>, <code>rotate(-45 100 100)</code>, centered</li>
+          <li>Overlay: <code>position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; pointer-events: none; opacity: 0.1; background-repeat: repeat</code></li>
+          <li>Theme-agnostic — fixed grey at 10% reads on both light and dark without referencing a token</li>
+          <li>The one rule in <code>whitepaper.css</code> not scoped under <code>.wp</code>: it's a viewport overlay, so it lives at the top level</li>
+        </ul>
+
+<pre class="snippet"><span class="c">--- front-matter ---</span>
+<span class="k">data</span>:
+  <span class="k">watermark</span>: <span class="s">"draft"</span>        <span class="c"># any word &rarr; tiled DRAFT overlay</span>
+
+<span class="c">/* whitepaper.css */</span>
+<span class="k">.wp-watermark-overlay</span> {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%; z-index: 9999;
+  pointer-events: none; opacity: 0.1;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml,&hellip;rotate(-45 100 100)&hellip;");
+}</pre>
+
+        <div class="ds-sub">Front-matter contract</div>
+<pre class="snippet"><span class="c">---</span>
+<span class="k">layout</span>:         whitepaper.liquid
+<span class="k">title</span>:          <span class="s">"Determinism under load"</span>
+<span class="k">published_date</span>: 2026-05-26 09:00:00 -0500
+<span class="k">tags</span>: [determinism, audit, inference]
+<span class="k">data</span>:
+  <span class="k">subtitle</span>:       <span class="s">"A working definition of audit-grade inference."</span>
+  <span class="k">version</span>:        <span class="s">"1.0"</span>            <span class="c"># shown in kicker</span>
+  <span class="k">pages</span>:          <span class="s">"8 min · ~1,400 words"</span>
+  <span class="k">epigraph</span>:       <span class="s">"An audit is only as deep as its replays."</span>
+  <span class="k">epigraph_attr</span>:  <span class="s">"engineering folklore"</span>
+  <span class="k">pdf_url</span>:        <span class="s">"/papers/determinism-v1.pdf"</span>
+  <span class="k">watermark</span>:      <span class="s">"draft"</span>           <span class="c"># tiled diagonal overlay; any word</span>
+  <span class="k">no_drop</span>:        false           <span class="c"># skip drop cap</span>
+<span class="c">---</span></pre>
+
+        <div class="ds-sub">Used elements</div>
+        <ul class="anatomy">
+          <li><code>.wp-head</code> · kicker, h1, subtitle, meta row (author / length / tags / PDF)</li>
+          <li><code>.epigraph</code> · italic quote with attribution</li>
+          <li><code>.lede</code> · gets the drop cap</li>
+          <li><code>.sn-ref</code> + <code>.sidenote</code> · numbered aside</li>
+          <li><code>.marginnote</code> · unnumbered aside, same column</li>
+          <li><code>figure</code> · auto-numbered as <code>FIG 01 ·</code>, optional <code>.full-bleed</code></li>
+          <li><code>table</code> · uppercase mono headers, hairline rows</li>
+          <li><code>.wp-footnotes</code> · numbered references at end of doc</li>
+          <li><code>.wp-foot</code> · "← all writing" + year</li>
+          <li><code>.wp-watermark-overlay</code> · tiled diagonal draft watermark, fixed full-viewport (set via <code>data.watermark</code>)</li>
+        </ul>
+
+        <div class="ds-sub">Promotion path</div>
+        <p class="ds-lede">
+          Currently lives in a separate <code>whitepaper.css</code> file,
+          following the same pattern the <code>.qm</code> flourish took
+          before it was promoted into <code>site.css</code>. Once two
+          or three white papers are out and the layout has stopped
+          churning, fold it into <code>site.css</code> proper.
+        </p>
+      </section>
+
+      <!-- ============================================================
+           09 · VOICE / RULES
+           ============================================================ -->
+      <section class="ds" id="voice">
+        <div class="ds-h"><span class="ds-num">/ 09</span><h2>Voice &amp; rules</h2></div>
+        <p class="ds-lede">
+          A small set of conventions worth writing down so the system
+          stays the system.
+        </p>
+
+        <ul class="anatomy">
+          <li>Lowercase nav labels (<code>work</code>, <code>writing</code>, <code>portal</code>) — never title case</li>
+          <li>Dates as <code>YYYY mon DD</code> — <code>2026 may 18</code> — uppercase, tracked</li>
+          <li>The dot belongs on title-end periods, the <code>@</code> of the masthead, and the trailing punctuation of post bodies — nowhere else</li>
+          <li>One accent color, one family, one set of borders. Don't introduce a second.</li>
+          <li>Saturated colors are reserved for the accent. Whites and blacks stay warm-neutral; never above <code>0.02</code> chroma</li>
+          <li>No icons. No emoji. Punctuation does the visual work where icons might otherwise</li>
+          <li>Borders are 1px hairlines (<code>--rule</code>) by default, 1px <code>--rule-strong</code> only on actionables</li>
+          <li>Animations: <code>transition: color 120ms, border-color 120ms</code> on links. No tween easings, no transforms on hover, no scaling</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer class="site">
+      <div class="lf">© 2026 J. Michael Constans</div>
+      <div class="rt">
+        <a href="/terms/privacy-policy/">privacy</a>
+        <span class="sep">·</span>
+        <a href="/terms/t-o-s/">terms</a>
+        <span class="sep">·</span>
+        <a href="/security/policy.txt">security.txt</a>
+        <span class="sep">·</span>
+        <a href="/publickey/">pgp 52E0…9355</a>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
