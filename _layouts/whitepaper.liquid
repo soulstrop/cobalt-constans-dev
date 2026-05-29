@@ -68,8 +68,9 @@
 
         <div class="wp-body{% if page.data.no_drop %} no-drop{% endif %}">
           {{ page.content }}
-          {%- if page.data.slop -%}
-               <div class="wp-watermark-overlay"></div>
+          {%- if page.data.watermark -%}
+               {%- assign wm_text = page.data.watermark | upcase -%}
+               <div class="wp-watermark-overlay" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27200%27 height=%27200%27%3E%3Ctext x=%2750%25%27 y=%2750%25%27 font-size=%2730%27 font-weight=%27bold%27 fill=%27grey%27 font-family=%27sans-serif%27 text-anchor=%27middle%27 dominant-baseline=%27middle%27 transform=%27rotate(-45 100 100)%27%3E{{ wm_text }}%3C/text%3E%3C/svg%3E');"></div>
           {%- endif -%}
         </div>
 
