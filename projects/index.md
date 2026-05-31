@@ -27,6 +27,12 @@ data:
 <span class="tag">edge</span>
 <span class="tag">multi-agent</span>
 </div>
+<div class="act-row">
+<a class="act act-sm"
+href="/projects/pi-agent-space/visualization.html">interactive
+visualization<span class="arr">↗</span></a>
+<a class="act act-sm" href="/projects/pi-agent-space/surrogate-model.pdf">surrogate-model math (pdf) <span class="arr">↓</span></a>
+</div>
 </article>
 
 <article class="case">
