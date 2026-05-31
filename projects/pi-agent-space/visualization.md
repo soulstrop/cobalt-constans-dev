@@ -31,10 +31,6 @@ data:
     max-width: 900px;
   }
   #gp-viz .tab.active { font-weight: 600; }
-</style>
-
-<div id="gp-viz">
-<style>
   .panel { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
   .section-label { font-size: 12px; color: var(--color-text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
   .eq { font-family: var(--font-mono); font-size: 13px; color: var(--color-text-primary); background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.5rem 0.75rem; margin: 0.5rem 0; border: 0.5px solid var(--color-border-tertiary); }
@@ -58,13 +54,15 @@ data:
   @media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
 </style>
 
+<div id="gp-viz">
+
 <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Interactive visualization of the Heteroscedastic GP Surrogate model</h2>
 
 <div class="tab-bar">
-  <button class="tab active" onclick="showTab('overview')">Overview</button>
-  <button class="tab" onclick="showTab('kernel')">Kernel & noise</button>
-  <button class="tab" onclick="showTab('posterior')">Posterior</button>
-  <button class="tab" onclick="showTab('regime')">Bootstrap regime</button>
+  <button type="button" class="tab active" onclick="showTab('overview')">Overview</button>
+  <button type="button" class="tab" onclick="showTab('kernel')">Kernel &amp; noise</button>
+  <button type="button" class="tab" onclick="showTab('posterior')">Posterior</button>
+  <button type="button" class="tab" onclick="showTab('regime')">Bootstrap regime</button>
 </div>
 
 <!-- OVERVIEW TAB -->
@@ -138,7 +136,7 @@ data:
 <!-- POSTERIOR TAB -->
 <div id="tab-posterior" style="display:none">
   <div class="panel">
-    <div class="section-label">Posterior mean & variance</div>
+    <div class="section-label">Posterior mean &amp; variance</div>
     <div class="eq">μ_N(x*) = k*ᵀ [K + Σ]⁻¹ y</div>
     <div class="eq">σ²_N(x*) = k(x*,x*) − k*ᵀ [K + Σ]⁻¹ k*</div>
     <p style="font-size:13px;color:var(--color-text-secondary);margin:0.5rem 0 1rem;line-height:1.5">
