@@ -59,10 +59,10 @@ data:
 <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Interactive visualization of the Heteroscedastic GP Surrogate model</h2>
 
 <div class="tab-bar">
-  <button type="button" class="tab active" onclick="showTab('overview')">Overview</button>
-  <button type="button" class="tab" onclick="showTab('kernel')">Kernel &amp; noise</button>
-  <button type="button" class="tab" onclick="showTab('posterior')">Posterior</button>
-  <button type="button" class="tab" onclick="showTab('regime')">Bootstrap regime</button>
+  <button class="tab active" onclick="showTab('overview')">Overview</button>
+  <button class="tab" onclick="showTab('kernel')">Kernel & noise</button>
+  <button class="tab" onclick="showTab('posterior')">Posterior</button>
+  <button class="tab" onclick="showTab('regime')">Bootstrap regime</button>
 </div>
 
 <!-- OVERVIEW TAB -->
@@ -136,7 +136,7 @@ data:
 <!-- POSTERIOR TAB -->
 <div id="tab-posterior" style="display:none">
   <div class="panel">
-    <div class="section-label">Posterior mean &amp; variance</div>
+    <div class="section-label">Posterior mean & variance</div>
     <div class="eq">μ_N(x*) = k*ᵀ [K + Σ]⁻¹ y</div>
     <div class="eq">σ²_N(x*) = k(x*,x*) − k*ᵀ [K + Σ]⁻¹ k*</div>
     <p style="font-size:13px;color:var(--color-text-secondary);margin:0.5rem 0 1rem;line-height:1.5">
