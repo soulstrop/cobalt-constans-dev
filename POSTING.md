@@ -9,8 +9,19 @@ production with `ship`.
 ## Order of operations
 
 ```
-clean → write → serve → commit → build:staging → deploy:staging → ship
+clean → write → serve → commit → push staging → deploy:staging → ship
 ```
+
+**Commit and push to `origin/staging` before deploying or shipping.**
+`deploy:staging` builds from the working tree (so it will show your
+changes), but `ship` → `promote` operates on `origin/staging` (committed,
+pushed history). If you haven't pushed, promote will skip your content.
+
+**Never run `mise run promote` directly.** Always use `mise run ship`,
+which runs `check` (full rebuild + html-validate + lychee) first. Running
+`promote` alone bypasses the validation gate and pushes unvalidated HTML
+to production. Use `mise run check` if you want to validate without
+promoting.
 
 ### 0. Start on the staging branch
 
@@ -74,29 +85,34 @@ git add _posts/YYYY-MM-DD-slug.md          # + projects/media/* if applicable
 git commit -m "post: <title>"
 ```
 
+Stage specific files rather than `git add .` — the latter can pick up
+build artifacts if `.gitignore` has a gap.
+
 This is the "content is done" checkpoint. Everything downstream operates
 on committed, pushed history — see [When to commit](#when-to-commit).
 
-### 5. build:staging
-
-Sanity-build the staging variant.
+### 5. Push staging
 
 ```sh
-mise run build:staging
+git push origin staging
 ```
+
+`origin/staging` must have the commit before you ship. `promote`
+fast-forwards `main` from `origin/staging`, not from your working tree.
 
 ### 6. deploy:staging
 
-Push the commit to the staging branch — this publishes staging:
+Publish to the staging Worker so you can eyeball the live URL:
 
 ```sh
-git push origin staging      # triggers deploy-staging.yml → mise run deploy:staging
+mise run deploy:staging      # depends on build:staging; runs it automatically
 ```
 
-(Or run `mise run deploy:staging` locally first for a faster preview
-before pushing.) Then eyeball **https://staging.constans.dev/** (basic
-auth: `preview` / your secret): check the post renders, the
-`/writing/<slug>/` URL works, the feed updated.
+Then check **https://staging.constans.dev/** (basic auth: `preview` /
+your secret): the post renders, `/writing/<slug>/` works, feed updated.
+
+`deploy:staging` also triggers via `git push` → `deploy-staging.yml` in
+CI, but running it locally is faster.
 
 ### 7. ship
 
@@ -106,9 +122,14 @@ Promote staging → production.
 mise run ship        # = check + promote
 ```
 
-`check` re-validates both builds (lychee + html-validate); `promote`
-fast-forwards `main` from `staging` and pushes it, which triggers
-`deploy-prod.yml` → GitHub Pages.
+`check` rebuilds both sites from scratch, then runs html-validate and
+lychee against the fresh output — it does not reuse whatever is in `_site/`.
+If validation passes, `promote` fast-forwards `main` from `origin/staging`
+and pushes it, triggering `deploy-prod.yml` → GitHub Pages.
+
+If `check` fails, nothing is promoted. Fix the source, commit, push
+staging, and re-run `ship`. Do not run `promote` to work around a
+failing `check`.
 
 ## When to commit
 
