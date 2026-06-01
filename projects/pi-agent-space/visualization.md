@@ -382,6 +382,6 @@ updateRegime();
 </div>
 
 <div class="act-row" style="margin-top:2rem">
-  <a class="act act-sm" href="/projects/pi-agent-space/surrogate-model.pdf">Full surrogate-model math (pdf) <span class="arr">&darr;</span></a>
+  <a class="act act-sm" href="https://raw.githubusercontent.com/soulstrop/pi-agent-space/0460d618899bd7c36175b9776af4fc6ba10a1e56/docs/surrogate-model.pdf">Full surrogate-model math (pdf) <span class="arr">&darr;</span></a>
   <a class="act act-sm" href="https://github.com/soulstrop/pi-agent-space">Repository <span class="arr">&#8599;</span></a>
 </div>
