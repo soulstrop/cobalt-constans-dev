@@ -59,10 +59,10 @@ data:
 <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Interactive visualization of the Heteroscedastic GP Surrogate model</h2>
 
 <div class="tab-bar">
-  <button class="tab active" onclick="showTab('overview')">Overview</button>
-  <button class="tab" onclick="showTab('kernel')">Kernel & noise</button>
-  <button class="tab" onclick="showTab('posterior')">Posterior</button>
-  <button class="tab" onclick="showTab('regime')">Bootstrap regime</button>
+  <button type="button" class="tab active" onclick="showTab('overview')">Overview</button>
+  <button type="button" class="tab" onclick="showTab('kernel')">Kernel &amp; noise</button>
+  <button type="button" class="tab" onclick="showTab('posterior')">Posterior</button>
+  <button type="button" class="tab" onclick="showTab('regime')">Bootstrap regime</button>
 </div>
 
 <!-- OVERVIEW TAB -->
@@ -136,7 +136,7 @@ data:
 <!-- POSTERIOR TAB -->
 <div id="tab-posterior" style="display:none">
   <div class="panel">
-    <div class="section-label">Posterior mean & variance</div>
+    <div class="section-label">Posterior mean &amp; variance</div>
     <div class="eq">μ_N(x*) = k*ᵀ [K + Σ]⁻¹ y</div>
     <div class="eq">σ²_N(x*) = k(x*,x*) − k*ᵀ [K + Σ]⁻¹ k*</div>
     <p style="font-size:13px;color:var(--color-text-secondary);margin:0.5rem 0 1rem;line-height:1.5">
@@ -290,7 +290,7 @@ function drawPosterior() {
   document.getElementById('n-val').textContent = N;
   document.getElementById('noise-val').textContent = noiseLevel.toFixed(2);
 
-  // Fixed training points & targets (reproducible)
+  // Fixed training points &amp; targets (reproducible)
   const seed = [0.2,0.7,1.4,1.9,2.5,3.1,3.8,4.4,4.9,5.3,5.8,6.0,6.3,6.7,6.9];
   const ytarg = [0.8,1.4,0.5,-0.3,0.2,1.1,0.7,-0.5,-0.2,0.4,1.0,0.6,-0.1,0.3,0.9];
   const Xs = seed.slice(0,N), Ys = ytarg.slice(0,N);
