@@ -31,5 +31,5 @@ away."](https://www.youtube.com/watch?v=kTdScE3Rqh8)
 that Tex Williams & His Western Caravan had a whole song titled [*The
 Big Print Giveth (And The Little Print Taketh
 Away)*](https://www.youtube.com/watch?v=Fh6wW7i0JsQ)  Give me Tom Waits
-anytime, but credit where credit is due.<sub>
+anytime, but credit where credit is due.</sub>
 
