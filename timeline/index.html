@@ -8,11 +8,14 @@
   <!-- Vendored vis-timeline and styles -->
   <link href="vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css">
   <link href="site.css" rel="stylesheet" type="text/css">
-  <script src="vis-timeline-graph2d.min.js"></script>
+  <!-- data-cfasync="false" opts these out of Cloudflare Rocket Loader, which otherwise
+       async-loads them and breaks both load order (vis before init) and the inline
+       DOMContentLoaded handler, leaving the page blank / unprompted. -->
+  <script src="vis-timeline-graph2d.min.js" data-cfasync="false"></script>
   <!-- Configuration variables (basePath, categories, protected) written by generator -->
-  <script src="config.js"></script>
+  <script src="config.js" data-cfasync="false"></script>
   <!-- Timeline data (plain object, or encrypted bundle) written by generator -->
-  <script src="data.js"></script>
+  <script src="data.js" data-cfasync="false"></script>
 </head>
 <body>
 
@@ -86,7 +89,7 @@
   <!-- Hover tooltip (title + description), positioned/filled by JS -->
   <div id="tl-tooltip" class="tl-tooltip" role="tooltip" aria-hidden="true"></div>
 
-  <script>
+  <script data-cfasync="false">
     let timeline = null;
     let itemsDataSet = null;
     let groupsDataSet = null;
