@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline Viewer</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Vendored vis-timeline and styles -->
+  <link href="vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css">
+  <link href="site.css" rel="stylesheet" type="text/css">
+  <script src="vis-timeline-graph2d.min.js"></script>
+  <!-- Configuration variables (basePath, categories, protected) written by generator -->
+  <script src="config.js"></script>
+  <!-- Timeline data (plain object, or encrypted bundle) written by generator -->
+  <script src="data.js"></script>
+</head>
+<body>
+
+  <!-- Passphrase Decryption Gate -->
+  <div id="passphrase-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+      <h2>Protected Timeline</h2>
+      <p style="font-size: 0.85rem; color: var(--fg-2); margin-bottom: 1.5rem;">
+        This timeline is encrypted. Please enter the passphrase to view the contents.
+      </p>
+      <form id="passphrase-form" onsubmit="handleDecrypt(event)">
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <input type="password" id="passphrase-input" placeholder="Passphrase" required autocomplete="current-password" style="width: 100%; text-align: center;" autofocus>
+        </div>
+        <button type="submit" class="btn primary" style="width: 100%;">Decrypt &amp; View</button>
+        <div id="passphrase-error" class="status-msg error" style="margin-top: 0.5rem; min-height: auto;"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-title" id="site-title">
+      Timeline<span class="dot">.</span>
+    </div>
+
+    <!-- Category toggles -->
+    <div id="category-toggles" class="header-actions" style="flex-wrap: wrap; gap: 0.75rem; justify-content: flex-end;">
+      <!-- Inserted dynamically on load -->
+    </div>
+  </header>
+
+  <main style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <!-- Timeline panel -->
+    <div class="panel" style="padding: 1rem;">
+      <div id="timeline-container"></div>
+
+      <div class="timeline-controls">
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn" onclick="timelinePan(-0.2)" title="Pan Left">[ &lt;&lt; ]</button>
+          <button type="button" class="btn" onclick="timelineZoom(0.2)" title="Zoom Out">[ - ]</button>
+          <button type="button" class="btn" onclick="timelineFit()" title="Fit all events">[ Fit All ]</button>
+          <button type="button" class="btn" onclick="timelineToday()" title="Go to today">[ Today ]</button>
+          <button type="button" class="btn" onclick="timelineZoom(-0.2)" title="Zoom In">[ + ]</button>
+          <button type="button" class="btn" onclick="timelinePan(0.2)" title="Pan Right">[ &gt;&gt; ]</button>
+        </div>
+
+        <label class="approx-toggle" style="font-weight: normal; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="markers-toggle" onchange="toggleMarkers()"> year/decade markers
+        </label>
+      </div>
+    </div>
+
+    <!-- Event Detail Panel -->
+    <div id="detail-panel" class="panel" style="padding: 1.5rem; display: none; background-color: var(--bg-2);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">
+        <h2 id="detail-title" style="margin-bottom: 0; font-size: 1.25rem;">Event Title</h2>
+        <span id="detail-date" style="font-size: 0.85rem; color: var(--fg-2); font-weight: bold; white-space: nowrap;">Date</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+        <div id="detail-category-container">
+          Category: <span id="detail-category" class="color-swatch" style="margin-right: 0.25rem;"></span> <strong id="detail-category-name">Category</strong>
+        </div>
+        <div id="detail-desc" style="white-space: pre-wrap; color: var(--fg-2); font-family: var(--font-mono); line-height: 1.5;">Description</div>
+        <div id="detail-link-container">
+          Link: <a id="detail-link" href="#" target="_blank">Visit link</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Hover tooltip (title + description), positioned/filled by JS -->
+  <div id="tl-tooltip" class="tl-tooltip" role="tooltip" aria-hidden="true"></div>
+
+  <script>
+    let timeline = null;
+    let itemsDataSet = null;
+    let groupsDataSet = null;
+    let itemsView = null;
+    let groupsView = null;
+    
+    // Set of active/visible group IDs
+    const activeGroupIds = new Set();
+    
+    // Cache for raw decrypted/loaded timeline data
+    let timelineData = null;
+
+    // WebCrypto AES-GCM Decryption helper
+    async function decryptData(saltBase64, ivBase64, ciphertextBase64, passphrase) {
+      const enc = new TextEncoder();
+      const passwordBytes = enc.encode(passphrase);
+      
+      const saltBytes = Uint8Array.from(atob(saltBase64), c => c.charCodeAt(0));
+      const ivBytes = Uint8Array.from(atob(ivBase64), c => c.charCodeAt(0));
+      const ciphertextBytes = Uint8Array.from(atob(ciphertextBase64), c => c.charCodeAt(0));
+      
+      const baseKey = await window.crypto.subtle.importKey(
+        "raw",
+        passwordBytes,
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+      );
+      
+      const aesKey = await window.crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt: saltBytes,
+          iterations: 100000,
+          hash: "SHA-256"
+        },
+        baseKey,
+        {
+          name: "AES-GCM",
+          length: 256
+        },
+        false,
+        ["decrypt"]
+      );
+      
+      const decrypted = await window.crypto.subtle.decrypt(
+        {
+          name: "AES-GCM",
+          iv: ivBytes
+        },
+        aesKey,
+        ciphertextBytes
+      );
+      
+      const dec = new TextDecoder();
+      return JSON.parse(dec.decode(decrypted));
+    }
+
+    // Modal display controllers
+    function openPassphraseModal() {
+      document.getElementById('passphrase-modal').style.display = 'flex';
+      document.getElementById('passphrase-input').focus();
+    }
+
+    function closePassphraseModal() {
+      document.getElementById('passphrase-modal').style.display = 'none';
+    }
+
+    // Handles decryption form submit
+    async function handleDecrypt(event) {
+      event.preventDefault();
+      const input = document.getElementById('passphrase-input');
+      const errorDiv = document.getElementById('passphrase-error');
+      errorDiv.textContent = '';
+
+      try {
+        const encryptedJson = window.TimelineData;
+        if (!encryptedJson) throw new Error("Could not load timeline data");
+
+        const data = await decryptData(
+          encryptedJson.salt,
+          encryptedJson.iv,
+          encryptedJson.ciphertext,
+          input.value
+        );
+
+        // Success - hide modal and render
+        closePassphraseModal();
+        renderTimeline(data);
+      } catch (err) {
+        console.error(err);
+        errorDiv.textContent = 'Incorrect passphrase or corrupt bundle.';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    // Initialize layout and load data
+    async function init() {
+      const config = window.TimelineConfig || { basePath: '/', categories: [], protected: false };
+      
+      // Update site title or other config meta if needed
+      const basePathLabel = config.basePath !== '/' ? config.basePath.replace(/\//g, '') : '';
+      if (basePathLabel) {
+        document.getElementById('site-title').innerHTML = `${basePathLabel}<span class="dot">.</span>`;
+      }
+
+      if (config.protected) {
+        openPassphraseModal();
+      } else {
+        try {
+          const data = window.TimelineData;
+          if (!data) throw new Error("Could not load timeline data");
+          renderTimeline(data);
+        } catch (err) {
+          console.error("Failed to load timeline data:", err);
+          document.getElementById('timeline-container').innerHTML =
+            `<div class="status-msg error" style="padding: 2rem; text-align: center;">Failed to load timeline data.</div>`;
+        }
+      }
+    }
+
+    // Render vis-timeline
+    function renderTimeline(data) {
+      timelineData = data;
+      const container = document.getElementById('timeline-container');
+      container.innerHTML = '';
+
+      // Initialize datasets
+      groupsDataSet = new vis.DataSet(data.groups);
+      itemsDataSet = new vis.DataSet(data.items);
+
+      // Default all groups to active
+      data.groups.forEach(g => activeGroupIds.add(g.id));
+
+      // Set up views for dynamic client-side filtering
+      groupsView = new vis.DataView(groupsDataSet, {
+        filter: (group) => activeGroupIds.has(group.id)
+      });
+      itemsView = new vis.DataView(itemsDataSet, {
+        filter: (item) => activeGroupIds.has(item.group)
+      });
+
+      // Build category toggles in header
+      buildCategoryToggles(data.groups);
+
+      // vis-timeline configuration
+      const options = {
+        start: '1960-01-01',
+        end: '2030-12-31',
+        stack: true,
+        horizontalScroll: true,
+        verticalScroll: true,
+        zoomKey: 'ctrlKey',
+        maxHeight: '460px',
+        orientation: 'top',
+        showMinorLabels: true,
+        showMajorLabels: true,
+        format: {
+          minorLabels: {
+            year: 'YYYY',
+            month: 'YYYY-MM',
+            day: 'YYYY-MM-DD'
+          },
+          majorLabels: {
+            year: '',
+            month: 'YYYY',
+            day: 'YYYY-MM'
+          }
+        }
+      };
+
+      timeline = new vis.Timeline(container, itemsView, groupsView, options);
+
+      // Handle item selection (display details)
+      timeline.on('select', function (properties) {
+        if (properties.items.length > 0) {
+          const itemId = properties.items[0];
+          const item = itemsDataSet.get(itemId);
+          displayDetail(item);
+        } else {
+          hideDetail();
+        }
+      });
+
+      // Hover tooltip: full title above, description below.
+      timeline.on('itemover', showTooltip);
+      timeline.on('itemout', hideTooltip);
+      if (!container.dataset.tooltipBound) {
+        container.addEventListener('mousemove', positionTooltip);
+        container.dataset.tooltipBound = 'true';
+      }
+    }
+
+    // Format an item's date range using the precision-aware labels (so a
+    // year-only event reads "1970", not "1970-01-01"), marking approximate
+    // dates with "c.". Falls back to the positioning dates if labels are absent.
+    function formatDateLabel(item) {
+      const start = item.start_label || item.start;
+      const end = item.end_label || item.end;
+      let label = item.approximate ? 'c. ' + start : start;
+      if (end) label += ' to ' + (item.approximate ? 'c. ' + end : end);
+      return label;
+    }
+
+    // Tooltip: title (bold), date, then description (muted), built via
+    // textContent so event data can never inject markup.
+    function showTooltip(props) {
+      const item = itemsDataSet.get(props.item);
+      if (!item) return;
+      const tip = document.getElementById('tl-tooltip');
+      tip.innerHTML = '';
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'tl-tooltip-title';
+      titleEl.textContent = item.content;
+      tip.appendChild(titleEl);
+
+      const dateEl = document.createElement('div');
+      dateEl.className = 'tl-tooltip-date';
+      dateEl.textContent = formatDateLabel(item);
+      tip.appendChild(dateEl);
+
+      if (item.description) {
+        const descEl = document.createElement('div');
+        descEl.className = 'tl-tooltip-desc';
+        descEl.textContent = item.description;
+        tip.appendChild(descEl);
+      }
+
+      tip.classList.add('visible');
+      tip.setAttribute('aria-hidden', 'false');
+      if (props.event) positionTooltip(props.event);
+    }
+
+    function positionTooltip(evt) {
+      const tip = document.getElementById('tl-tooltip');
+      if (!tip.classList.contains('visible')) return;
+      const offset = 14;
+      const rect = tip.getBoundingClientRect();
+      let x = evt.clientX + offset;
+      let y = evt.clientY + offset;
+      if (x + rect.width > window.innerWidth - 8) x = evt.clientX - rect.width - offset;
+      if (y + rect.height > window.innerHeight - 8) y = evt.clientY - rect.height - offset;
+      tip.style.left = Math.max(8, x) + 'px';
+      tip.style.top = Math.max(8, y) + 'px';
+    }
+
+    function hideTooltip() {
+      const tip = document.getElementById('tl-tooltip');
+      tip.classList.remove('visible');
+      tip.setAttribute('aria-hidden', 'true');
+    }
+
+    // Build toggle controls in header
+    function buildCategoryToggles(groups) {
+      const container = document.getElementById('category-toggles');
+      container.innerHTML = '';
+
+      groups.forEach(group => {
+        const label = document.createElement('label');
+        label.style.fontWeight = '500';
+        label.style.fontSize = '0.85rem';
+        label.style.display = 'inline-flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '0.25rem';
+        label.style.cursor = 'pointer';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = true;
+
+        if (group.id === 'uncategorized') {
+          checkbox.disabled = true; // Uncategorized lane cannot be toggled off
+          label.title = "Uncategorized events cannot be hidden";
+        } else {
+          checkbox.addEventListener('change', (e) => {
+            toggleCategory(group.id, e.target.checked);
+          });
+        }
+
+        const swatch = document.createElement('span');
+        swatch.className = 'color-swatch';
+        if (group.id === 'uncategorized') {
+          swatch.style.backgroundColor = 'var(--fg-3)';
+        } else {
+          // Parse color from style or attribute
+          const match = group.style.match(/background-color:\s*([^;]+)/);
+          swatch.style.backgroundColor = match ? match[1] : 'var(--accent)';
+        }
+
+        label.appendChild(checkbox);
+        label.appendChild(swatch);
+        label.appendChild(document.createTextNode(group.content));
+        container.appendChild(label);
+      });
+    }
+
+    // Toggle category visibility
+    function toggleCategory(groupId, show) {
+      if (show) {
+        activeGroupIds.add(groupId);
+      } else {
+        activeGroupIds.delete(groupId);
+      }
+      // Refresh views
+      groupsView.refresh();
+      itemsView.refresh();
+      
+      // If selected event belongs to hidden category, hide details
+      const selected = timeline.getSelection();
+      if (selected.length > 0) {
+        const item = itemsDataSet.get(selected[0]);
+        if (item && !activeGroupIds.has(item.group)) {
+          timeline.setSelection([]);
+          hideDetail();
+        }
+      }
+    }
+
+    // Display event details
+    function displayDetail(item) {
+      const panel = document.getElementById('detail-panel');
+      const titleEl = document.getElementById('detail-title');
+      const dateEl = document.getElementById('detail-date');
+      const catSwatch = document.getElementById('detail-category');
+      const catName = document.getElementById('detail-category-name');
+      const descEl = document.getElementById('detail-desc');
+      const linkContainer = document.getElementById('detail-link-container');
+      const linkEl = document.getElementById('detail-link');
+
+      titleEl.textContent = item.content;
+      dateEl.textContent = formatDateLabel(item);
+
+      // Find group color
+      const group = groupsDataSet.get(item.group);
+      if (group) {
+        const match = group.style.match(/background-color:\s*([^;]+)/);
+        catSwatch.style.backgroundColor = match ? match[1] : 'var(--accent)';
+        catName.textContent = group.content;
+        document.getElementById('detail-category-container').style.display = 'block';
+      } else {
+        document.getElementById('detail-category-container').style.display = 'none';
+      }
+
+      // Description
+      if (item.description) {
+        descEl.textContent = item.description;
+        descEl.style.display = 'block';
+      } else {
+        descEl.style.display = 'none';
+      }
+
+      // Link
+      if (item.link) {
+        linkEl.href = item.link;
+        linkEl.textContent = item.link;
+        linkContainer.style.display = 'block';
+      } else {
+        linkContainer.style.display = 'none';
+      }
+
+      panel.style.display = 'block';
+    }
+
+    // Hide event details
+    function hideDetail() {
+      document.getElementById('detail-panel').style.display = 'none';
+    }
+
+    // Pan and Zoom controls
+    function timelineZoom(percentage) {
+      if (!timeline) return;
+      if (percentage < 0) {
+        timeline.zoomIn(-percentage);
+      } else {
+        timeline.zoomOut(percentage);
+      }
+    }
+
+    // Pan left or right by percentage of window width
+    function timelinePan(percentage) {
+      if (!timeline) return;
+      const range = timeline.getWindow();
+      const interval = range.end - range.start;
+      timeline.setWindow({
+        start: range.start.valueOf() + interval * percentage,
+        end: range.end.valueOf() + interval * percentage
+      });
+    }
+
+    function timelineFit() {
+      if (!timeline) return;
+      timeline.fit();
+    }
+
+    // Center timeline around current date
+    function timelineToday() {
+      if (!timeline) return;
+      timeline.moveTo(new Date());
+    }
+
+    // Toggle year/decade gridlines
+    function toggleMarkers() {
+      const enabled = document.getElementById('markers-toggle').checked;
+      const container = document.getElementById('timeline-container');
+      if (enabled) {
+        container.classList.add('markers-enabled');
+      } else {
+        container.classList.remove('markers-enabled');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
