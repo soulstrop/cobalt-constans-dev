@@ -1,4 +1,4 @@
-g# Posting guide
+# Posting guide
 
 How to produce new posts or project content for constans.dev.
 
@@ -68,6 +68,28 @@ For **project content**, edit `projects/index.md` and drop assets in
 Custom fields must live under `data:` — Cobalt 0.20 only recognizes a
 fixed set of top-level frontmatter keys. See `README.md`.
 
+#### Footnotes — name them, don't number them
+
+Cobalt derives the footnote's HTML `id` from the footnote's *name*, so a
+numeric `[^1]` emits `id="1"` and fails `check` with:
+
+```
+error  element id "1" must begin with a letter  valid-id
+```
+
+Use a semantic name instead:
+
+```markdown
+...more robust! more resilient! simpler![^pascal]
+
+[^pascal]: Blaise Pascal, *Seizième Lettre Provincial*
+```
+
+**The visible numbering is unaffected** — Cobalt auto-numbers the
+superscript, so `[^pascal]` still renders as "1". Only the anchor changes
+(`href="#pascal"` / `id="pascal"`). Named footnotes are also stable when you
+reorder them, since the displayed number is computed at render time.
+
 ### 3. Serve — local iteration loop
 
 ```sh
@@ -130,6 +152,19 @@ and pushes it, triggering `deploy-prod.yml` → GitHub Pages.
 If `check` fails, nothing is promoted. Fix the source, commit, push
 staging, and re-run `ship`. Do not run `promote` to work around a
 failing `check`.
+
+#### The lychee "Followed 1 redirect" hint is expected — ignore it
+
+`check` prints a hint suggesting you replace redirecting URLs with their
+resolved ones. **Don't.** The one redirect is
+`https://openreview.net/forum?id=wGj8LU2EOf` — a sidenote link in
+*the-unreasonable-effectiveness-of-category-theory-in-preventing-llm-drift* —
+which 307s to an OpenReview anti-bot challenge page. That target is a
+transient gate that embeds the real URL as a `redirect=` parameter and
+bounces real browsers back; swapping it in would replace a good permanent
+link with a throwaway one. The link resolves `200 OK`, reports 0 errors, and
+never fails `check`. It's also deliberately *not* in `lychee.toml`'s exclude
+list — the entries there are for links that genuinely fail; this one passes.
 
 ## When to commit
 

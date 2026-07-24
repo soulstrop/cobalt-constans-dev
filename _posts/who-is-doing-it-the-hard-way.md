@@ -20,7 +20,7 @@ with code since I don't remember when.  The constraint is still time, but the
 tradeoffs in quality and features I have to make feels very different.
 Back in the days of hand-crafted code I would inevitably feel like I
 had gotten the hives there were so many itches I didn't get a chance
-to scratch.  Make it: more robust! more resilient! simpler![^1]
+to scratch.  Make it: more robust! more resilient! simpler![^pascal]
 
 Every step away from direct implementation of the code is a win.  The
 productivity gains we've been promised are going to come from here,
@@ -49,7 +49,7 @@ It took me from demo and tutorial "knowing" to "knowledgable" enough
 to be the go to guy when the k8s cluster started acting up.
 
 
-[^1]: Blaise Pascal, *Seizième Lettre Provincial*
+[^pascal]: Blaise Pascal, *Seizième Lettre Provincial*
 
      > Je n'ai fait celle-cí plus longue que parce que je n'ai pas
      > eu loiser de la faire plus courte.
