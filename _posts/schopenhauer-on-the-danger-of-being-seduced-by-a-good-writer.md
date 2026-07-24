@@ -29,7 +29,7 @@ contrafactual ideas, at minimum were shown to have been fully seduced
 by the power of the narrative that they have woven.
 
 It motivated me to look up the original essay and get some more
-context for the quote.  And it just get's juicier:
+context for the quote.  And it just gets juicier:
 
 > When we read, another person thinks for us: we merely repeat his
 > mental process. It is the same as the pupil, in learning to write,
