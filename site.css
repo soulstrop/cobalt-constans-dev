@@ -173,19 +173,39 @@ footer.site .sep { color: var(--rule-strong); }
   padding: clamp(2rem, 8vh, 6rem) 0 clamp(2rem, 6vh, 4rem);
   border-bottom: 2px solid var(--fg);
 }
-.home .name-block h1 {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: clamp(2.6rem, 7.2vw, 5.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  color: var(--fg);
+/* Tighten punctuation space inside monospace lockups */
+.home .name-block h1 .dot {
+  display: inline-block;
+  margin-left: -0.13em;
+  margin-right: 0.05em;
 }
-.home .name-block h1 .l1,
-.home .name-block h1 .l2 { display: block; }
+.home .name-block h1 .k-el {
+  display: inline-block; /* Required for transform or margin offsets to render reliably */
+  margin-right: -0.15em; /* Adjust this value to control the depth of the overlap */
+}
+.home .name-block h1 {
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 7.2vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+}
+.home .name-block h1 .l1 {
+    display: block;
+/*    font-size: 0.9em; */
+}
+.home .name-block h1 .l2 {
+    display: block;
+    /* Scale line 2 so 9ch and 10ch anturally align without forcing tracking */
+    letter-spacing: -0.04; /* Match parent tracking */
+}
 /* Kern "Constans." to match the width of "J. Michael" (10ch vs 9ch) */
-.home .name-block h1 .l2 { letter-spacing: calc(1ch / 8 - 0.04em); }
+/* .home .name-block h1 .l2 { letter-spacing: calc(1ch / 8 - 0.04em); } */
 
 .home .side {
   display: flex;
