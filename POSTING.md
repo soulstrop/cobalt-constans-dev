@@ -90,6 +90,47 @@ superscript, so `[^pascal]` still renders as "1". Only the anchor changes
 (`href="#pascal"` / `id="pascal"`). Named footnotes are also stable when you
 reorder them, since the displayed number is computed at render time.
 
+#### Math — opt in, and escape for markdown first
+
+Cobalt's markdown has no math support. LaTeX is rendered client-side by
+KaTeX, loaded from `_includes/head.liquid` only on posts that opt in:
+
+```yaml
+data:
+  math: true
+```
+
+Delimiters: `$...$` and `\(...\)` inline, `$$...$$` and `\[...\]` display.
+
+**Markdown runs before KaTeX**, so it rewrites your LaTeX first. Two rules:
+
+- **Escape `_` as `\_` inside math.** Two underscores in a paragraph pair
+  up into `<em>`, which breaks both formulas. Markdown strips the
+  backslash, so KaTeX still sees `_`.
+
+  ```markdown
+  $\varepsilon\_X: F(U(X)) \to X$       <!-- not $\varepsilon_X ...$ -->
+  $\text{Id}\_{\mathcal{C}}$
+  ```
+
+- **Double the backslash before ASCII punctuation.** Markdown treats `\`
+  + punctuation as an escape and drops the backslash, so `\{`, `\,`,
+  `\;`, `\!`, `\\` reach KaTeX as `{`, `,`, `;`, `!`, `\`. Write `\\{`,
+  `\\,`, `\\!`, and `\\\\` for a line break. Backslash + letter
+  (`\mathcal`, `\to`) is untouched.
+
+Hard-wrapping a formula across source lines is fine inside a paragraph or
+list item — the newline becomes a space. In the rendered page, inline
+formulas never break across lines (`.katex { white-space: nowrap }` in
+`site.css`); a long one moves to the next line whole. If an inline
+formula is too long for a phone screen, make it a `$$...$$` display
+block, which scrolls horizontally instead.
+
+Also keep a heading on one line — a `#### ...` heading can't wrap, so a
+formula hard-wrapped across lines gets split between the heading and the
+next paragraph. Check the result in `serve`; a formula KaTeX can't parse
+shows up as red source text rather than failing the build.
+
 ### 3. Serve — local iteration loop
 
 ```sh
