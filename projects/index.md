@@ -14,7 +14,7 @@ data:
 
 <article class="case">
 <div class="case-thumb">
-<img src="/projects/media/teamwork-loop-abstract.png" alt="teamwork-loop — the eight-step journey loop circling the repository, broken into cold-start sessions bridged by handoffs, inside widening release and process loops">
+<img src="/projects/media/teamwork-loop-abstract.svg" alt="teamwork-loop — the eight-step journey loop circling the repository, broken into cold-start sessions bridged by handoffs, inside widening release and process loops">
 </div>
 <div class="case-meta">
 <span>01 / teamwork-loop</span>
