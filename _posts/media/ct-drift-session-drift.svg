@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Intent drift over an agent session, with and without an executable oracle</title>
+  <desc id="desc">An illustrative chart. Distance from original intent rises steadily over sixty turns for an unanchored session, crossing the tolerance band around turn twenty. An anchored session drifts at the same rate between checkpoints but is reset to near zero every twelve turns when its output is checked against the Haskell oracle, so it never leaves the tolerance band.</desc>
+  <style>
+    text { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; fill: #4a4a47; }
+    .bg { fill: #fafaf7; } .b2 { fill: #f1f0eb; }
+    .fg { fill: #1a1a18; } .f3 { fill: #8a8a85; } .acc { fill: #d97757; }
+    .s-rule { stroke: #d5d3cc; } .s-strong { stroke: #a8a59c; } .s-f3 { stroke: #8a8a85; } .s-acc { stroke: #d97757; } .s-fg { stroke: #1a1a18; }
+    .cap { font-size: 10px; letter-spacing: .08em; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #c4c2ba; }
+      .bg { fill: #16161a; } .b2 { fill: #1f1f24; }
+      .fg { fill: #f4f3ef; } .f3 { fill: #7a7872; } .acc { fill: #e08a6a; }
+      .s-rule { stroke: #2e2e34; } .s-strong { stroke: #4a4a52; } .s-f3 { stroke: #7a7872; } .s-acc { stroke: #e08a6a; } .s-fg { stroke: #f4f3ef; }
+    }
+  </style>
+
+  <rect class="bg" width="720" height="360"/>
+
+  <!-- tolerance band: acceptable distance from intent -->
+  <rect class="b2" x="70" y="201" width="620" height="69"/>
+  <line class="s-f3" fill="none" stroke-dasharray="6 4" x1="70" y1="201" x2="690" y2="201"/>
+  <text class="f3" x="76" y="195">tolerance</text>
+
+  <!-- horizontal grid -->
+  <line class="s-rule" fill="none" stroke-dasharray="2 4" x1="70" y1="155" x2="690" y2="155"/>
+  <line class="s-rule" fill="none" stroke-dasharray="2 4" x1="70" y1="98"  x2="690" y2="98"/>
+  <line class="s-rule" fill="none" stroke-dasharray="2 4" x1="70" y1="40"  x2="690" y2="40"/>
+
+  <!-- checkpoints every 12 turns -->
+  <line class="s-acc" fill="none" stroke-dasharray="3 3" stroke-opacity=".55" x1="194" y1="40" x2="194" y2="270"/>
+  <line class="s-acc" fill="none" stroke-dasharray="3 3" stroke-opacity=".55" x1="318" y1="40" x2="318" y2="270"/>
+  <line class="s-acc" fill="none" stroke-dasharray="3 3" stroke-opacity=".55" x1="442" y1="40" x2="442" y2="270"/>
+  <line class="s-acc" fill="none" stroke-dasharray="3 3" stroke-opacity=".55" x1="566" y1="40" x2="566" y2="270"/>
+  <line class="s-acc" fill="none" stroke-dasharray="3 3" stroke-opacity=".55" x1="690" y1="40" x2="690" y2="270"/>
+
+  <!-- axes -->
+  <path class="s-strong" fill="none" d="M70,34 V270 H696"/>
+  <text class="f3" x="70" y="290" text-anchor="middle">0</text>
+  <text class="f3" x="194" y="290" text-anchor="middle">12</text>
+  <text class="f3" x="318" y="290" text-anchor="middle">24</text>
+  <text class="f3" x="442" y="290" text-anchor="middle">36</text>
+  <text class="f3" x="566" y="290" text-anchor="middle">48</text>
+  <text class="f3" x="690" y="290" text-anchor="middle">60</text>
+  <text class="f3 cap" x="380" y="312" text-anchor="middle">AGENT TURNS →</text>
+  <text class="f3 cap" transform="translate(30 155) rotate(-90)" text-anchor="middle">DISTANCE FROM INTENT →</text>
+
+  <!-- unanchored session -->
+  <path class="s-f3" fill="none" stroke-width="2" stroke-linejoin="round" d="M70.0,260.8 L80.3,258.4 L90.7,252.1 L101.0,249.6 L111.3,247.5 L121.7,248.6 L132.0,246.0 L142.3,236.6 L152.7,230.8 L163.0,221.9 L173.3,217.0 L183.7,211.3 L194.0,206.7 L204.3,211.4 L214.7,203.4 L225.0,197.2 L235.3,191.0 L245.7,195.8 L256.0,201.0 L266.3,201.8 L276.7,200.5 L287.0,195.3 L297.3,191.8 L307.7,185.5 L318.0,185.1 L328.3,179.8 L338.7,174.1 L349.0,173.8 L359.3,161.4 L369.7,154.9 L380.0,145.2 L390.3,144.7 L400.7,144.7 L411.0,142.8 L421.3,139.7 L431.7,132.8 L442.0,127.8 L452.3,126.4 L462.7,127.6 L473.0,126.5 L483.3,116.7 L493.7,117.1 L504.0,112.2 L514.3,106.3 L524.7,110.2 L535.0,106.3 L545.3,96.0 L555.7,102.5 L566.0,100.4 L576.3,97.3 L586.7,97.7 L597.0,91.5 L607.3,88.2 L617.7,91.9 L628.0,84.0 L638.3,77.0 L648.7,68.5 L659.0,57.5 L669.3,52.0 L679.7,47.7 L690.0,50.6"/>
+
+  <!-- anchored session: reset at each oracle checkpoint -->
+  <path class="s-acc" fill="none" stroke-width="2.25" stroke-linejoin="round" d="M70.0,260.8 L80.3,258.4 L90.7,252.1 L101.0,249.6 L111.3,247.5 L121.7,248.6 L132.0,246.0 L142.3,236.6 L152.7,230.8 L163.0,221.9 L173.3,217.0 L183.7,211.3 L194.0,258.5 L204.3,253.9 L214.7,258.6 L225.0,250.6 L235.3,244.4 L245.7,238.2 L256.0,243.1 L266.3,248.2 L276.7,249.0 L287.0,247.7 L297.3,242.5 L307.7,239.0 L318.0,258.5 L328.3,252.2 L338.7,251.8 L349.0,246.5 L359.3,240.8 L369.7,240.5 L380.0,228.1 L390.3,221.6 L400.7,211.9 L411.0,211.4 L421.3,211.4 L431.7,209.5 L442.0,258.5 L452.3,255.4 L462.7,248.5 L473.0,243.5 L483.3,242.1 L493.7,243.3 L504.0,242.2 L514.3,232.4 L524.7,232.8 L535.0,227.9 L545.3,222.0 L555.7,225.9 L566.0,258.5 L576.3,254.6 L586.7,244.3 L597.0,250.8 L607.3,248.7 L617.7,245.6 L628.0,246.1 L638.3,239.9 L648.7,236.5 L659.0,240.2 L669.3,232.4 L679.7,225.3 L690.0,258.5"/>
+  <circle class="acc" cx="194" cy="258.5" r="3"/>
+  <circle class="acc" cx="318" cy="258.5" r="3"/>
+  <circle class="acc" cx="442" cy="258.5" r="3"/>
+  <circle class="acc" cx="566" cy="258.5" r="3"/>
+  <circle class="acc" cx="690" cy="258.5" r="3"/>
+
+  <!-- direct labels -->
+  <text class="fg" x="200" y="118">unanchored session</text>
+  <text class="f3" x="200" y="133">drift compounds, unnoticed</text>
+  <text class="acc" x="452" y="186">anchored to the Haskell oracle</text>
+  <text class="acc cap" x="198" y="52">ORACLE CHECKPOINT</text>
+
+  <text class="f3 cap" x="24" y="344">ILLUSTRATIVE · SHAPE OF THE ARGUMENT, NOT MEASURED DATA</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" role="img" aria-labelledby="title desc">
+  <title id="title">The CT to Haskell to production pipeline, with drift and gap feedback loops</title>
+  <desc id="desc">Five stages left to right: problem domain, category theory held in the architect's head, a Haskell oracle of types, laws and properties, an LLM translation step, and production code in Python or Go. The first three stages are the human side, where intent is made explicit; the last two are the machine side, where intent is enforced. A lower feedback loop runs from production code back to the Haskell oracle: typecheck and differential tests on shared inputs catch drift. An upper loop runs from the LLM back to the category theory: gaps the contract leaves open are escalated to the human rather than guessed.</desc>
+  <style>
+    text { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; fill: #4a4a47; }
+    .bg { fill: #fafaf7; } .b2 { fill: #f1f0eb; }
+    .fg { fill: #1a1a18; } .f3 { fill: #8a8a85; } .acc { fill: #d97757; }
+    .s-rule { stroke: #d5d3cc; } .s-strong { stroke: #a8a59c; } .s-f3 { stroke: #8a8a85; } .s-acc { stroke: #d97757; } .s-fg { stroke: #1a1a18; }
+    .cap { font-size: 10px; letter-spacing: .08em; }
+    .ttl { font-size: 12.5px; }
+    .sub { font-size: 10.5px; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #c4c2ba; }
+      .bg { fill: #16161a; } .b2 { fill: #1f1f24; }
+      .fg { fill: #f4f3ef; } .f3 { fill: #7a7872; } .acc { fill: #e08a6a; }
+      .s-rule { stroke: #2e2e34; } .s-strong { stroke: #4a4a52; } .s-f3 { stroke: #7a7872; } .s-acc { stroke: #e08a6a; } .s-fg { stroke: #f4f3ef; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="f3" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+    <marker id="ah-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="acc" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="720" height="350"/>
+
+  <!-- upper loop: gaps escalate from the LLM back to the human -->
+  <path class="s-acc" fill="none" stroke-width="1.5" stroke-dasharray="5 4" d="M500,78 V52 H220 V74" marker-end="url(#ah-acc)"/>
+  <text class="acc" x="360" y="44" text-anchor="middle">gaps the contract leaves open → escalate</text>
+
+  <!-- stages -->
+  <g text-anchor="middle">
+    <rect class="b2 s-rule" x="18"  y="78" width="124" height="64" rx="4"/>
+    <text class="fg ttl" x="80"  y="106">problem domain</text>
+    <text class="f3 sub" x="80"  y="124">study the shape</text>
+
+    <rect class="b2 s-rule" x="158" y="78" width="124" height="64" rx="4"/>
+    <text class="fg ttl" x="220" y="106">category theory</text>
+    <text class="f3 sub" x="220" y="124">in your head</text>
+
+    <rect class="b2 s-acc" stroke-width="2" x="298" y="78" width="124" height="64" rx="4"/>
+    <text class="acc ttl" x="360" y="106">Haskell oracle</text>
+    <text class="f3 sub" x="360" y="124">types·laws·props</text>
+
+    <rect class="b2 s-rule" x="438" y="78" width="124" height="64" rx="4"/>
+    <text class="fg ttl" x="500" y="106">LLM translation</text>
+    <text class="f3 sub" x="500" y="124">implement exactly</text>
+
+    <rect class="b2 s-rule" x="578" y="78" width="124" height="64" rx="4"/>
+    <text class="fg ttl" x="640" y="106">production</text>
+    <text class="f3 sub" x="640" y="124">Python · Go · …</text>
+  </g>
+
+  <!-- forward arrows -->
+  <g class="s-f3" stroke-width="1.5" fill="none">
+    <line x1="143" y1="110" x2="156" y2="110" marker-end="url(#ah)"/>
+    <line x1="283" y1="110" x2="296" y2="110" marker-end="url(#ah)"/>
+    <line x1="423" y1="110" x2="436" y2="110" marker-end="url(#ah)"/>
+    <line x1="563" y1="110" x2="576" y2="110" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- lower loop: drift is caught against the oracle -->
+  <path class="s-acc" fill="none" stroke-width="1.5" d="M640,142 V196 H360 V146" marker-end="url(#ah-acc)"/>
+  <text class="acc" x="500" y="188" text-anchor="middle">drift caught here</text>
+  <text class="f3" x="500" y="214" text-anchor="middle">typecheck + differential tests</text>
+  <text class="f3" x="500" y="228" text-anchor="middle">on shared inputs</text>
+
+  <!-- human / machine brackets -->
+  <path class="s-strong" fill="none" d="M18,258 V266 H422 V258"/>
+  <text class="f3 cap" x="220" y="284" text-anchor="middle">HUMAN SIDE · INTENT MADE EXPLICIT</text>
+  <path class="s-strong" fill="none" d="M438,258 V266 H702 V258"/>
+  <text class="f3 cap" x="570" y="284" text-anchor="middle">MACHINE SIDE · INTENT ENFORCED</text>
+
+  <text class="f3" x="360" y="326" text-anchor="middle">The LLM never reads the category theory — only its shadow in Haskell.</text>
+</svg>

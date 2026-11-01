@@ -9,6 +9,7 @@ wrangler = "latest"
 actionlint = "latest"
 rg = "latest"
 yamllint = "latest"
+claude = "latest"
 
 [env]
 # Loaded automatically when you cd into the repo.
@@ -37,6 +38,7 @@ description = "Build production site to $SITE_DEST_PROD"
 depends = ["install-cobalt"]
 run = '''
 cobalt build --destination $SITE_DEST_PROD
+./tasks/relocate-post-media $SITE_DEST_PROD
 ./tasks/fingerprint $SITE_DEST_PROD
 '''
 
@@ -53,6 +55,7 @@ cobalt build \
   --config _cobalt.staging.generated.yml \
   --destination $SITE_DEST_STAGING
 
+./tasks/relocate-post-media $SITE_DEST_STAGING
 ./tasks/fingerprint $SITE_DEST_STAGING
 '''
 

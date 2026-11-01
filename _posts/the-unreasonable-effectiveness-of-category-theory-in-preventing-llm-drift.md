@@ -24,7 +24,17 @@ The architectural half of your claim rests on solid, decades-old ground. Categor
 
 The LLM half is where the recent and most relevant evidence lives, and it's encouraging for the spirit of my thesis. The strongest single data point: in a 2025 study on type-constrained generation, on average 94% of compilation errors stem from failing type checks, and constraining the model's decoding with the type system measurably improves well-typedness<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/pdf/2504.09246">Type-Constrained Code Generation with Language Models</a> demonstrates that constraining decoding with strict types drastically reduces hallucinatory paths and improves well-typedness.</span>. The mechanism that keeps recurring is entropy reduction — a structured specification collapses the LLM's option space. One practitioner framing puts it starkly: vague types leave millions of valid-but-wrong implementations, whereas precise types reduce the space to under a thousand<span class="sn-ref"></span><span class="sidenote">Practitioner accounts like <a href="https://understandingdata.com/posts/type-driven-development/">Type-Driven Development: Specifications Over Implementation</a> emphasize that precise types reduce the search space to a manageable handful of valid solutions.</span>, with type errors immediately flagging invalid approaches and guiding the model toward correct solutions. The spec-driven-generation papers say the same thing in formal terms: symbolic-execution-guided specs work by structurally constraining the LLM's output space, significantly reducing hallucinations and syntactic errors<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/abs/2506.09550">Integrating Symbolic Execution with LLMs for Automated Generation of Program Specifications</a> shows how explicit constraints collapse the LLM's state space, curbing syntactic errors.</span>, and multi-agent frameworks like ReDeFo use formal specifications to bridge the gap between ambiguous natural language requirements and precise executable code<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/pdf/2508.18675">Requirements Development and Formalization for Reliable Code Generation: A Multi-Agent Vision</a> illustrates how moving from ambiguous requirements to precise specifications enables rigorous reasoning about correctness.</span>, enabling rigorous reasoning about correctness.
 
+<figure>
+<img src="/_posts/media/ct-drift-constraint-funnel.svg" alt="Log-scale bar chart: a prose spec admits millions of implementations, type signatures cut that to under a thousand, laws as property tests to dozens, and an abstract Contract type to a handful.">
+<figcaption>Each layer of executable specification shrinks the space the model can wander in, and each one is checked by a machine rather than a reviewer.</figcaption>
+</figure>
+
 The "intent drift" intuition is also empirically real and addressable. Drift is now a named failure mode — the model gradually loses track of original intent over a session, introducing logic that wasn't in the spec — and the MAST taxonomy (a NeurIPS 2025 spotlight over 1,600+ traces) attributes a large share of multi-agent failures to requirement/specification drift<span class="sn-ref"></span><span class="sidenote"><a href="https://leonas5555.github.io/ai-tech-site/articles/v1-llm-context-drift/">Keeping AI Programmers on Track: Minimizing Context Drift in LLM-Assisted Workflows</a> documents how models gradually lose original intent without living specifications to tether them.</span>, which "living specifications" are claimed to mitigate. SpecRover demonstrates the corrective loop directly: inferring intent as an explicit specification and having a reviewer agent vet patches against it yielded more than 50% improvement in efficacy over its predecessor on SWE-Bench<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/pdf/2408.02232">SpecRover: Code Intent Extraction via LLMs</a> proves that explicit intent extraction and iterative vetting against it yields massive improvements on industry benchmarks.</span>. That's the closest existing analog to your "skeleton catches drift" claim.
+
+<figure>
+<img src="/_posts/media/ct-drift-session-drift.svg" alt="Illustrative chart of distance from intent over sixty agent turns. An unanchored session drifts steadily out of the tolerance band. A session checked against the Haskell oracle every twelve turns is reset at each checkpoint and stays inside the band.">
+<figcaption>Illustrative, not measured. Drift accumulates at the same rate in both sessions; the oracle checkpoint is what resets it.</figcaption>
+</figure>
 
 ## Evidence undermining the theses
 
@@ -39,7 +49,35 @@ Finally, your "more legible, less slop" claim cuts both ways. The accessibility 
 The thesis is right in its weak form and unsupported (partly contradicted) in its strong form.
 The weak form — *a precise, compositional specification skeleton, kept external to the prose, lowers the LLM's output entropy and gives a stable oracle against which intent drift is detected and corrected* — is well-evidenced. That's the consistent finding across type-constrained decoding, spec2code, ReDeFo, and SpecRover. If that's what we mean, build it; we'll get cleaner code and less drift.
 
-The strong form — *Category Theory specifically is the right expressive medium, and an LLM iterates better against a categorical skeleton than against alternatives* — I'd bet against on current evidence. The active ingredient is a low-entropy constraint surface plus a mechanical checker (compiler, type system, property tests, verifier). CT is a fine *human* discipline for *deriving* such a surface — its emphasis on composition and interface laws is exactly what produces good decomposition — but the artifact the model should consume is the projection of that thinking into types, contracts, and executable tests, not the categorical diagrams themselves. Use CT to think; hand the LLM the types. 
+The strong form — *Category Theory specifically is the right expressive medium, and an LLM iterates better against a categorical skeleton than against alternatives* — I'd bet against on current evidence. The active ingredient is a low-entropy constraint surface plus a mechanical checker (compiler, type system, property tests, verifier). CT is a fine *human* discipline for *deriving* such a surface — its emphasis on composition and interface laws is exactly what produces good decomposition — but the artifact the model should consume is the projection of that thinking into types, contracts, and executable tests, not the categorical diagrams themselves. Use CT to think; hand the LLM the types.
+
+<figure>
+<img src="/_posts/media/ct-drift-shadow.svg" alt="Left: a commuting triangle from Governed P to Contract P to P, with governance rules forming a monoid. Right: the same structure projected into Haskell type signatures, which is all the LLM receives.">
+<figcaption>Use CT to think; hand the LLM the types. The diagram stays in the architect's head, and the signatures go into the prompt.</figcaption>
+</figure>
+
+In categorical-insurance, the monoid in the diagram becomes two short instances, and "contracts arise only from validation" becomes an export list:
+
+```haskell
+-- Governance.hs
+instance Semigroup (Governance p) where
+    Governance r1 t1 <> Governance r2 t2 = Governance (r1 <> r2) (t1 <> t2)
+
+instance Monoid (Governance p) where
+    mempty = Governance [] []
+
+-- Contract.hs
+module Contract
+    ( Contract        -- the type, but not its constructor
+    , contractView
+    , validate
+    , unsafeContract  -- the one escape hatch, named so it shows up in review
+    ) where
+
+validate :: Governed p p -> Either [Violation] (Contract p)
+```
+
+Nothing in it says "functor" or "comonad" to the model, yet everything the categorical picture constrains is still constrained.
 
 A genuinely testable prediction falls out of this: take a fixed problem, give one cohort an LLM with a rich typed/contract skeleton derived via categorical reasoning but expressed as ordinary types+tests, and another the same skeleton expressed in explicit categorical terms (functor/monad/natural-transformation framing in the prompt). My expectation is the two perform similarly on correctness and drift, with the explicit-CT cohort possibly worse on legibility-to-reviewers. If the CT framing wins on a held-out drift metric, that would be the real evidence the strong thesis needs — and as far as I can find, nobody has run that experiment yet. That gap is, honestly, the most interesting thing here.
 
@@ -48,6 +86,11 @@ A genuinely testable prediction falls out of this: take a fixed problem, give on
 My sense is that it is more about clarity of intent being communicated than llms being better at reasoning over abstract formalism. You mention that the effect may result from forcing the human to clarify intent being communicated rather than the llm being able to better reason over the abstraction.
 
 My current architectural method is to explore the shape of the solution being expressed through study of the problem domain. Then take the Category Theory produced and implement it in Haskell to give it the rigor of compile time proof. And it is from the Haskell expression of the solution that an LLM can create the ultimate solution in a programming language suitable for production deployment, while minimizing drift and creation of slop by correcting drift at regular checkpoints using the Haskell. If the llm encounters a challenge that is not expressed in the Category Theory, it can better recognize that and signal that further thinking is required from the human in the loop.
+
+<figure class="full-bleed">
+<img src="/_posts/media/ct-drift-pipeline.svg" alt="The method as a pipeline: problem domain, category theory, Haskell oracle, LLM translation, production code. A lower loop runs from production back to the Haskell oracle to catch drift. An upper loop runs from the LLM back to the category theory to escalate gaps.">
+<figcaption>The method. Two feedback loops: drift is checked against the Haskell oracle, and gaps are escalated to the human instead of guessed.</figcaption>
+</figure>
 
 ## Evaluating the update
 
@@ -59,11 +102,111 @@ Two places where the method is still weaker than it sounds.
 
 First, "compile-time proof" overstates what vanilla Haskell gives you. Haskell's type system pins down shape and whatever invariants you bother to lift into the types, but it isn't total — partial functions, bottom, non-termination, and effects sliding through IO all mean a well-typed Haskell program is not a proved-correct one. Genuine compile-time proof is Idris/Agda/Lean territory, or Haskell pushed hard with GADTs, refinement types (Liquid Haskell), or dependent-ish encodings. This matters concretely for the drift oracle: the LLM's production code can only be checked against intent to the degree that intent actually lives in the signatures. If a lot of it lives in function bodies, the Haskell catches less drift than hoped, and slop re-enters through the under-specified parts. The fix is to deliberately migrate intent up into types and property tests (QuickCheck/Hedgehog) so the checkpoint has more to bite on — the strength of the checkpoint is the strength of what the types encode.
 
+The categorical-insurance code shows the gap concretely. `Governance` declares a `Monoid` instance, but nothing in the types says the instance obeys the monoid laws, or that combining two rule sets means "both must pass." Those are exactly the properties a translation can quietly break. A sketch of lifting them into QuickCheck properties, run against the repository's real `Governance` and `Contract` modules:
+
+```haskell
+import Contract
+import Governance
+import Test.QuickCheck
+
+-- A toy rule: a proposal is just an Int that must exceed a floor.
+ruleAbove :: Int -> Rule Int
+ruleAbove n = Rule name check
+  where
+    name = "above " <> show n
+    check p
+      | p > n = Nothing
+      | otherwise = Just (Violation name (show p <> " <= " <> show n))
+
+gov :: [Int] -> Governance Int
+gov floors = Governance (map ruleAbove floors) []
+
+admits :: Governance Int -> Int -> Bool
+admits g p = either (const False) (const True) (validate (withGovernance g p))
+
+-- Combining governance conjoins it: g1 <> g2 admits p iff both do.
+prop_conjoin :: [Int] -> [Int] -> Int -> Bool
+prop_conjoin xs ys p =
+  admits (gov xs <> gov ys) p == (admits (gov xs) p && admits (gov ys) p)
+
+-- The identity adds no rules: mempty admits everything.
+prop_identity :: Int -> Bool
+prop_identity = admits mempty
+```
+
+Each property is now part of the oracle. A Python port that, say, short-circuits on the first rule set or treats an empty rule list as "deny" fails the same properties when they are ported over, instead of passing review because the diff looked reasonable.
+
 Second, the gap-recognition claim — the LLM noticing "this isn't covered by the CT" and escalating to you — is the most optimistic part, and unprompted it's poorly supported. AbstentionBench reports that state-of-the-art models, including reasoning-tuned ones, fail to abstain on unanswerable questions<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/pdf/2506.09038">AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions</a> shows a fundamental inability in current models to recognize and signal their own uncertainty.</span>, possibly from a fundamental inability to reason about uncertainty; the Ambig-SWE work finds models struggle to distinguish well-specified from underspecified instructions<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/pdf/2502.13069">Ambig-SWE: Interactive Agents to Overcome Underspecificity in software engineering</a> highlights the model's blindness to its own missing constraints.</span>; and there's a documented "hallucination tax" where RL-tuned models invent missing constraints and answer with high confidence when queries omit necessary conditions, traced partly to reward structures that incentivize guessing over abstention<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/abs/2604.17073">Abstrain-R1: Calibrated Abstention and Post-Refusal Clarification via Verifiable RL</a> details the "hallucination tax" where models confidently invent missing conditions rather than asking for help.</span>. So a model running on vibes will tend to confabulate plausible filler for the uncovered case rather than flag it.
 
 But — and this is the part that actually rescues the design — the gap detection gets dramatically more reliable when there's an explicit external artifact to diff against, which is exactly what the Haskell provides. The "Ask or Assume" study used an intent agent that watches state to detect underspecification and found interactive agents can identify and retrieve missing information<span class="sn-ref"></span><span class="sidenote"><a href="https://arxiv.org/html/2603.26233">Ask or Assume? Uncertainty-Aware Clarification-Seeking in Coding Agents</a> shows that external intent monitoring helps agents resolve ambiguities as effectively as if given a full spec.</span>, reaching resolve rates comparable to an autonomous agent given a fully specified issue, and Ambig-SWE shows that once models do interact on underspecified inputs, performance climbs by up to 74%<span class="sn-ref"></span><span class="sidenote">The interactive setting in <a href="https://arxiv.org/abs/2502.13069">AMBIG-SWE</a> proves that pushing the model to explicitly seek clarification against a concrete spec yields massive performance gains.</span> over the non-interactive setting. The lesson: don't ask the model to introspect on whether it's uncertain; frame the task as "implement exactly this contract, and enumerate anything the production target requires that the contract doesn't determine." That converts an unreliable metacognitive judgment into a tractable diff against a concrete spec — and Haskell's own machinery (non-exhaustive pattern warnings, types that simply don't admit the case) mechanically surfaces a subset of those gaps for free. So the weakest claim in the thesis becomes a structural strength, but only because the spec is explicit and executable, not because the LLM got smarter.
 
+The free part is easy to see. Say the business adds a cyber line, and someone extends the sum type without updating every function that matches on it:
+
+```haskell
+data ProductLine = Auto | Health | Life | PropertyCasualty | Cyber
+
+reserveFloor :: ProductLine -> Double
+reserveFloor Auto             = 0.10
+reserveFloor Health           = 0.15
+reserveFloor Life             = 0.25
+reserveFloor PropertyCasualty = 0.20
+```
+
+GHC with `-Wall` names the gap before anyone has to notice it:
+
+```text
+Reserve.hs:6:1: warning: [GHC-62161] [-Wincomplete-patterns]
+    Pattern match(es) are non-exhaustive
+    In an equation for ‘reserveFloor’:
+        Patterns of type ‘ProductLine’ not matched: Cyber
+```
+
+What the reserve floor for cyber should be is a business decision, and it belongs to the human. The prompt contract should make the model hand it back rather than invent a number:
+
+```text
+Implement exactly the contract in src/Contract.hs and
+src/Governance.hs in Python. Every exported Haskell
+function gets one Python function with the same behaviour.
+
+Then list GAPS: anything the Python target requires that
+the Haskell does not determine (missing cases, defaults,
+error handling, invariants Python cannot enforce).
+Do not resolve gaps. Do not add behaviour the Haskell lacks.
+```
+
 One risk worth naming that the literature doesn't foreground: lossy projection across the chain. Categorical laws you can state but can't encode in Haskell's types, and Haskell invariants that have no home in, say, Go's type system, both vanish silently at the boundary. The most valuable thing your gap-detector can flag isn't "this case is undefined" but "this Haskell invariant cannot be expressed in the target language" — that boundary is precisely where the slop we're trying to eliminate creeps back in, and it's invisible to a checkpoint that only compares behavior on the cases both layers happen to express.
+
+The [categorical-insurance](https://github.com/soulstrop/categorical-insurance) project has both a Haskell core and a Python port, and it shows the loss plainly. In Haskell, `Contract` is an abstract type: the module exports the type but not its constructor, so the only way to get a `Contract` is through `validate`. Python has no module-level way to hide a constructor, so the same invariant becomes a docstring and a leading underscore:
+
+```python
+class Contract[M](BaseModel):
+    """A constructed insurance contract.
+
+    The constructor is conventionally private. Use `_from_validated`
+    within the framework to construct contracts.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    proposal: Proposal
+    payload: M
+
+    @classmethod
+    def _from_validated(cls, proposal: Proposal, payload: M) -> "Contract[M]":
+        """Internal constructor for validated contracts."""
+        return cls(proposal=proposal, payload=payload)
+
+
+# Nothing stops this. The Haskell equivalent does not compile.
+rogue = Contract(proposal=p, payload=[])
+```
+
+`frozen=True` keeps immutability, but only as a runtime check. "Contracts come only from validation" is now a convention, and a convention is exactly what an LLM under pressure will route around. Laid out invariant by invariant, the projection looks like this:
+
+<figure class="full-bleed">
+<img src="/_posts/media/ct-drift-lossy-projection.svg" alt="A matrix of six invariants from categorical-insurance, showing each one enforced by the compiler in Haskell but often only by convention in the Python port.">
+<figcaption>What survives each projection. Every hollow circle in the Python column is a place where an LLM can drift without anything failing.</figcaption>
+</figure>
  
 ## Net 
 

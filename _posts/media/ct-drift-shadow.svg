@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="title desc">
+  <title id="title">Use category theory to think; hand the LLM the types</title>
+  <desc id="desc">Left panel, the categorical picture: a commuting triangle in which Governed P maps to Contract P by validate, which succeeds only for admitted values, Contract P maps to P by contractView, and Governed P maps directly to P by extract. The triangle commutes on admitted values. Beneath it, governance rules form a monoid under the operator diamond with identity mempty. Right panel, the shadow of that picture in Haskell: the type signatures validate, contractView, extract, and the Semigroup and Monoid instances for Governance. An arrow labelled projection runs from the left panel to the right panel. Only the right panel is shown to the LLM.</desc>
+  <style>
+    text { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; fill: #4a4a47; }
+    .bg { fill: #fafaf7; } .b2 { fill: #f1f0eb; }
+    .fg { fill: #1a1a18; } .f3 { fill: #8a8a85; } .acc { fill: #d97757; }
+    .s-rule { stroke: #d5d3cc; } .s-strong { stroke: #a8a59c; } .s-f3 { stroke: #8a8a85; } .s-acc { stroke: #d97757; } .s-fg { stroke: #1a1a18; }
+    .cap { font-size: 10px; letter-spacing: .08em; }
+    .obj { font-size: 13px; }
+    .code { font-size: 11.5px; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #c4c2ba; }
+      .bg { fill: #16161a; } .b2 { fill: #1f1f24; }
+      .fg { fill: #f4f3ef; } .f3 { fill: #7a7872; } .acc { fill: #e08a6a; }
+      .s-rule { stroke: #2e2e34; } .s-strong { stroke: #4a4a52; } .s-f3 { stroke: #7a7872; } .s-acc { stroke: #e08a6a; } .s-fg { stroke: #f4f3ef; }
+    }
+  </style>
+  <defs>
+    <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="f3" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+    <marker id="sa-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="acc" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="720" height="340"/>
+
+  <!-- left: the categorical picture -->
+  <text class="f3 cap" x="24" y="32">IN YOUR HEAD · CATEGORY THEORY</text>
+
+  <text class="fg obj" x="40"  y="96">Governed P</text>
+  <text class="fg obj" x="222" y="96">Contract P</text>
+  <text class="fg obj" x="168" y="226" text-anchor="middle">P</text>
+
+  <!-- validate: Governed P -> Contract P -->
+  <line class="s-acc" stroke-width="1.5" x1="128" y1="92" x2="214" y2="92" marker-end="url(#sa-acc)"/>
+  <text class="acc" x="171" y="80" text-anchor="middle">validate</text>
+  <text class="f3" x="171" y="110" text-anchor="middle">(if admitted)</text>
+
+  <!-- extract: Governed P -> P -->
+  <line class="s-f3" stroke-width="1.5" x1="82" y1="106" x2="158" y2="210" marker-end="url(#sa)"/>
+  <text x="108" y="168" text-anchor="end">extract</text>
+
+  <!-- contractView: Contract P -> P -->
+  <line class="s-f3" stroke-width="1.5" x1="262" y1="106" x2="178" y2="210" marker-end="url(#sa)"/>
+  <text x="230" y="168">contractView</text>
+
+  <text class="f3" x="168" y="150" text-anchor="middle">↻</text>
+
+  <!-- monoid -->
+  <rect class="b2 s-rule" x="24" y="250" width="300" height="56" rx="4"/>
+  <text class="fg" x="40" y="273">(Governance p, &lt;&gt;, mempty)</text>
+  <text class="f3" x="40" y="292">rules compose; identity adds none</text>
+
+  <!-- projection arrow -->
+  <line class="s-strong" stroke-width="1.5" stroke-dasharray="4 4" x1="342" y1="170" x2="378" y2="170" marker-end="url(#sa)"/>
+  <text class="f3 cap" x="360" y="158" text-anchor="middle">PROJECT</text>
+
+  <!-- right: the shadow in Haskell -->
+  <text class="f3 cap" x="392" y="32">HANDED TO THE LLM · HASKELL TYPES</text>
+  <rect class="b2 s-acc" stroke-width="1.5" x="392" y="52" width="304" height="254" rx="4"/>
+  <g class="code">
+    <text class="fg" x="408" y="80">validate</text>
+    <text x="424" y="97">:: Governed p p</text>
+    <text x="424" y="114">-&gt; Either [Violation] (Contract p)</text>
+
+    <text class="fg" x="408" y="142">contractView</text>
+    <text x="424" y="159">:: Contract p -&gt; p</text>
+
+    <text class="fg" x="408" y="187">extract</text>
+    <text x="424" y="204">:: Governed p a -&gt; a</text>
+
+    <text class="fg" x="408" y="232">instance Monoid (Governance p)</text>
+    <text class="f3" x="408" y="252">-- module Contract exports the</text>
+    <text class="f3" x="408" y="269">-- type, not its constructor</text>
+  </g>
+  <text class="acc" x="408" y="292">no category theory required</text>
+
+  <text class="f3 cap" x="24" y="330">THE TRIANGLE COMMUTES ON ADMITTED VALUES · THE TYPES ARE ITS SHADOW</text>
+</svg>

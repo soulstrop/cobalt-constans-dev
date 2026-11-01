@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Usage: tasks/relocate-post-media <site-dir>
+# Post media lives in _posts/media/ and Cobalt copies it verbatim to
+# <site-dir>/_posts/media/. Move it to <site-dir>/writing/media/ (next to the
+# posts it belongs to) and rewrite /_posts/media/ references in the built HTML.
+# Posts reference /_posts/media/… so `cobalt serve` keeps working unchanged.
+set -euo pipefail
+
+DIR="${1:?usage: relocate-post-media <site-dir>}"
+SRC="$DIR/_posts/media"
+DEST="$DIR/writing/media"
+
+if [[ ! -d "$SRC" ]]; then
+  echo "relocate-post-media: nothing at $SRC, skipping"
+  exit 0
+fi
+
+mkdir -p "$DEST"
+cp -a "$SRC/." "$DEST/"
+rm -rf "$SRC"
+rmdir "$DIR/_posts" 2>/dev/null || true
+
+find "$DIR" -name "*.html" -exec sed -i "s|/_posts/media/|/writing/media/|g" {} +
+
+echo "✓ relocated post media: /writing/media/"

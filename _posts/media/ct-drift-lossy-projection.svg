@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-labelledby="title desc">
+  <title id="title">What survives the projection from category theory to Haskell to Python</title>
+  <desc id="desc">A matrix of six invariants from the categorical-insurance project, showing how each is enforced in Haskell and in its Python port. Contracts can only be made by validate: a type-level guarantee in Haskell, a naming convention in Python. Governance is a monoid: an instance with untested laws in Haskell, a Protocol in Python. Rules conjoin under the monoid operator: checkable by property test in Haskell, lost in Python unless the tests are ported. Product-line cases are handled exhaustively: a compiler warning under -Wall in Haskell, dependent on tooling in Python. Learner state is hidden: an existential type in Haskell, convention in Python. Immutability: the default in Haskell, a runtime frozen flag in Python. Overall, guarantees degrade from compiler-enforced, to test or runtime enforced, to convention only.</desc>
+  <style>
+    text { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; fill: #4a4a47; }
+    .bg { fill: #fafaf7; } .b2 { fill: #f1f0eb; }
+    .fg { fill: #1a1a18; } .f3 { fill: #8a8a85; } .acc { fill: #d97757; }
+    .s-rule { stroke: #d5d3cc; } .s-strong { stroke: #a8a59c; } .s-f3 { stroke: #8a8a85; } .s-acc { stroke: #d97757; } .s-fg { stroke: #1a1a18; }
+    .cap { font-size: 10px; letter-spacing: .08em; }
+    .lbl { font-size: 11.5px; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #c4c2ba; }
+      .bg { fill: #16161a; } .b2 { fill: #1f1f24; }
+      .fg { fill: #f4f3ef; } .f3 { fill: #7a7872; } .acc { fill: #e08a6a; }
+      .s-rule { stroke: #2e2e34; } .s-strong { stroke: #4a4a52; } .s-f3 { stroke: #7a7872; } .s-acc { stroke: #e08a6a; } .s-fg { stroke: #f4f3ef; }
+    }
+  </style>
+  <defs>
+    <!-- glyphs: full = compiler, half = test/runtime, empty = convention -->
+    <g id="g-full"><circle class="acc" r="5.5"/></g>
+    <g id="g-half"><circle class="bg s-acc" stroke-width="1.5" r="5"/><path class="acc" d="M0,-5 A5,5 0 0 0 0,5 z"/></g>
+    <g id="g-none"><circle class="bg s-f3" stroke-width="1.5" r="5"/></g>
+  </defs>
+
+  <rect class="bg" width="720" height="380"/>
+
+  <!-- column headers -->
+  <text class="f3 cap" x="24"  y="34">INVARIANT</text>
+  <text class="f3 cap" x="250" y="34">CATEGORY THEORY</text>
+  <text class="f3 cap" x="374" y="34">HASKELL</text>
+  <text class="f3 cap" x="560" y="34">PYTHON</text>
+  <line class="s-strong" x1="24" y1="46" x2="696" y2="46"/>
+
+  <!-- row bands -->
+  <rect class="b2" x="24" y="94"  width="672" height="44"/>
+  <rect class="b2" x="24" y="182" width="672" height="44"/>
+  <rect class="b2" x="24" y="270" width="672" height="44"/>
+
+  <!-- rows: centre y = 72, 116, 160, 204, 248, 292 -->
+  <g class="lbl">
+    <text class="fg" x="36" y="76">contracts only via validate</text>
+    <text class="fg" x="36" y="120">governance is a monoid</text>
+    <text class="fg" x="36" y="164">rules conjoin under &lt;&gt;</text>
+    <text class="fg" x="36" y="208">every product line handled</text>
+    <text class="fg" x="36" y="252">learner state is hidden</text>
+    <text class="fg" x="36" y="296">values are immutable</text>
+  </g>
+
+  <!-- CT column: all stated, by construction -->
+  <g class="f3">
+    <text x="250" y="76">a morphism</text>
+    <text x="250" y="120">a monoid</text>
+    <text x="250" y="164">monoid law</text>
+    <text x="250" y="208">a coproduct</text>
+    <text x="250" y="252">an existential</text>
+    <text x="250" y="296">by definition</text>
+  </g>
+
+  <!-- Haskell column -->
+  <use href="#g-full" x="380" y="72"/>  <text x="394" y="76">abstract type</text>
+  <use href="#g-half" x="380" y="116"/> <text x="394" y="120">instance, laws untested</text>
+  <use href="#g-half" x="380" y="160"/> <text x="394" y="164">QuickCheck property</text>
+  <use href="#g-full" x="380" y="204"/> <text x="394" y="208">-Wall warning</text>
+  <use href="#g-full" x="380" y="248"/> <text x="394" y="252">existential type</text>
+  <use href="#g-full" x="380" y="292"/> <text x="394" y="296">the default</text>
+
+  <!-- Python column -->
+  <use href="#g-none" x="566" y="72"/> <text x="580" y="76">_from_validated</text>
+  <use href="#g-none" x="566" y="116"/> <text x="580" y="120">a Protocol</text>
+  <use href="#g-none" x="566" y="160"/> <text x="580" y="164">lost if unported</text>
+  <use href="#g-half" x="566" y="204"/> <text x="580" y="208">tooling-dependent</text>
+  <use href="#g-none" x="566" y="248"/> <text x="580" y="252">convention</text>
+  <use href="#g-half" x="566" y="292"/> <text x="580" y="296">frozen=True</text>
+
+  <line class="s-strong" x1="24" y1="314" x2="696" y2="314"/>
+
+  <!-- legend -->
+  <use href="#g-full" x="30"  y="340"/> <text class="f3" x="44"  y="344">compiler enforces</text>
+  <use href="#g-half" x="200" y="340"/> <text class="f3" x="214" y="344">tests or runtime catch it</text>
+  <use href="#g-none" x="420" y="340"/> <text class="f3" x="434" y="344">convention only</text>
+
+  <text class="f3 cap" x="24" y="370">EACH PROJECTION LOSES GUARANTEES · THE ORACLE KEEPS THE STRONGEST COPY</text>
+</svg>

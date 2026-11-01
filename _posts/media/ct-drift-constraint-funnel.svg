@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-labelledby="title desc">
+  <title id="title">Each layer of executable specification shrinks the space of admissible implementations</title>
+  <desc id="desc">A log-scale bar chart of illustrative orders of magnitude. A prose specification admits millions of plausible programs and is checked only by a human reviewer. Adding type signatures cuts this to under a thousand, checked by the compiler. Adding laws as property tests cuts it to dozens, checked by QuickCheck. Adding an abstract Contract type whose constructor is hidden leaves a handful, checked by the module boundary.</desc>
+  <style>
+    text { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; fill: #4a4a47; }
+    .bg { fill: #fafaf7; } .b2 { fill: #f1f0eb; }
+    .fg { fill: #1a1a18; } .f3 { fill: #8a8a85; } .acc { fill: #d97757; }
+    .s-rule { stroke: #d5d3cc; } .s-strong { stroke: #a8a59c; } .s-f3 { stroke: #8a8a85; } .s-acc { stroke: #d97757; } .s-fg { stroke: #1a1a18; }
+    .cap { font-size: 10px; letter-spacing: .08em; }
+    .lbl { font-size: 12.5px; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #c4c2ba; }
+      .bg { fill: #16161a; } .b2 { fill: #1f1f24; }
+      .fg { fill: #f4f3ef; } .f3 { fill: #7a7872; } .acc { fill: #e08a6a; }
+      .s-rule { stroke: #2e2e34; } .s-strong { stroke: #4a4a52; } .s-f3 { stroke: #7a7872; } .s-acc { stroke: #e08a6a; } .s-fg { stroke: #f4f3ef; }
+    }
+  </style>
+
+  <rect class="bg" width="720" height="380"/>
+
+  <text class="f3 cap" x="24" y="34">LAYER ADDED</text>
+  <text class="f3 cap" x="250" y="34">ADMISSIBLE IMPLEMENTATIONS · LOG SCALE</text>
+
+  <!-- decade gridlines: x = 250 + 62.86·k -->
+  <g class="s-rule" fill="none" stroke-dasharray="2 4">
+    <line x1="250"   y1="50" x2="250"   y2="318"/>
+    <line x1="312.9" y1="50" x2="312.9" y2="318"/>
+    <line x1="375.7" y1="50" x2="375.7" y2="318"/>
+    <line x1="438.6" y1="50" x2="438.6" y2="318"/>
+    <line x1="501.4" y1="50" x2="501.4" y2="318"/>
+    <line x1="564.3" y1="50" x2="564.3" y2="318"/>
+    <line x1="627.1" y1="50" x2="627.1" y2="318"/>
+    <line x1="690"   y1="50" x2="690"   y2="318"/>
+  </g>
+
+  <!-- row 1: prose -->
+  <text class="fg lbl" x="24" y="80">prose spec</text>
+  <text class="f3" x="24" y="96">checked by: a reviewer's eye</text>
+  <rect class="f3" fill-opacity=".45" x="250" y="72" width="408.6" height="24" rx="2"/>
+  <text class="fg" x="650" y="88" text-anchor="end">millions</text>
+
+  <!-- row 2: types -->
+  <text class="fg lbl" x="24" y="146">+ type signatures</text>
+  <text class="f3" x="24" y="162">checked by: the compiler</text>
+  <rect class="f3" fill-opacity=".45" x="250" y="138" width="188.6" height="24" rx="2"/>
+  <text x="446" y="154">under a thousand</text>
+
+  <!-- row 3: laws -->
+  <text class="fg lbl" x="24" y="212">+ laws as properties</text>
+  <text class="f3" x="24" y="228">checked by: QuickCheck</text>
+  <rect class="f3" fill-opacity=".45" x="250" y="204" width="88" height="24" rx="2"/>
+  <text x="346" y="220">dozens</text>
+
+  <!-- row 4: abstract contract -->
+  <text class="fg lbl" x="24" y="278">+ abstract Contract</text>
+  <text class="f3" x="24" y="294">checked by: module boundary</text>
+  <rect class="acc" x="250" y="270" width="18.9" height="24" rx="2"/>
+  <text class="acc" x="276" y="286">the intended handful</text>
+
+  <!-- axis -->
+  <line class="s-strong" x1="250" y1="318" x2="690" y2="318"/>
+  <g class="f3" text-anchor="middle">
+    <text x="250"   y="336">1</text>
+    <text x="312.9" y="336">10</text>
+    <text x="375.7" y="336">100</text>
+    <text x="438.6" y="336">1k</text>
+    <text x="501.4" y="336">10k</text>
+    <text x="564.3" y="336">100k</text>
+    <text x="627.1" y="336">1M</text>
+    <text x="690"   y="336">10M</text>
+  </g>
+
+  <text class="f3 cap" x="24" y="366">ILLUSTRATIVE ORDERS OF MAGNITUDE · EACH LAYER IS SOMETHING A MACHINE CAN CHECK</text>
+</svg>
