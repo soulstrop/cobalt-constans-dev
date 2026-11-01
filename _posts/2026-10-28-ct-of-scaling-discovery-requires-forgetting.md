@@ -15,6 +15,7 @@ data:
   kind: note
   read_time: "15 min"
   math: true
+  watermark: "rough-draft"
 ---
 
 
@@ -89,8 +90,7 @@ U$ on $\mathcal{C}$).
  * **Product projection ($\pi\_1: A \times B \to A$):** A natural
    transformation that forgets the second component $B$ of a pair
    (which, in a Cartesian category, is equivalent to applying the
-   terminal map $!\_B$ to $B$: $A \times B \xrightarrow{\text{id}\_A
-   \times !\_B} A \times 1 \cong A$).
+   terminal map $!\_B$ to $B$: $A \times B \xrightarrow{\text{id}\_A \times !\_B} A \times 1 \cong A$).
 
 ### Reference
 

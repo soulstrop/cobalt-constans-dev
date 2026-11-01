@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="The recent paper from Shangyin Tan, et al ‘Scaling Discovery Requires forgetting’ becomes far more legible to me by applying the Natural Transformation of Forgetting: The Counit" />
+  <title>The Category Theory of ‘Scaling Discovery Requires Forgetting’</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">The Category Theory of ‘Scaling Discovery Requires
+Forgetting’</h1>
+</header>
+<p>In category theory, the concept of “forgetting” is primarily
+formalized as a <strong>Forgetful Functor</strong> (often denoted <span
+class="math inline"><em>U</em></span>), along with its associated
+<strong>natural transformations</strong> (specifically the
+<strong>counit of an adjunction</strong> or
+<strong>projections</strong>).</p>
+<p>Depending on whether you mean the mapping between categories itself
+or a specific <em>natural transformation</em>, here are the exact
+categorical constructs:</p>
+<h3 id="the-forgetful-functor-u-mathcalc-to-mathcald">1. The Forgetful
+Functor (<span class="math inline"><em>U</em> : 𝒞 → 𝒟</span>)</h3>
+<p>Strictly speaking, “forgetting” is first and foremost a
+<strong>functor</strong>, not a natural transformation. A
+<strong>forgetful functor</strong> (also called a <em>stripping
+functor</em>) maps objects and morphisms from a richly structured
+category <span class="math inline">𝒞</span> to a less structured
+category <span class="math inline">𝒟</span> by discarding structure,
+axioms, or properties: * <strong>Forgetting structure:</strong> <span
+class="math inline"><em>U</em> : <strong>G</strong><strong>r</strong><strong>p</strong> → <strong>S</strong><strong>e</strong><strong>t</strong></span>
+takes a group <span
+class="math inline">(<em>G</em>, ⋅, <em>e</em>)</span> and forgets the
+group operation, returning its underlying set <span
+class="math inline"><em>G</em></span>, and maps group homomorphisms to
+plain set functions. * <strong>Forgetting properties:</strong> <span
+class="math inline"><em>U</em> : <strong>A</strong><strong>b</strong> → <strong>G</strong><strong>r</strong><strong>p</strong></span>
+takes an abelian group and forgets that the operation is
+commutative.</p>
+<hr />
+<h3
+id="the-natural-transformation-of-forgetting-the-counit-varepsilon-and-comonads">2.
+The Natural Transformation of Forgetting: The Counit (<span
+class="math inline"><em>ε</em></span>) and Comonads</h3>
+<p>If you are looking specifically for a <strong>natural
+transformation</strong> that performs “forgetting” or “extracting”
+inside a category, there are two main candidates:</p>
+<h4
+id="a.-the-counit-of-a-free-forgetful-adjunction-varepsilon-f-u-rightarrow-textid_mathcalc">A.
+The Counit of a Free-Forgetful Adjunction (<span
+class="math inline"><em>ε</em> : <em>F</em><em>U</em> ⇒ Id_𝒞</span>)</h4>
+<p>A forgetful functor <span
+class="math inline"><em>U</em> : 𝒞 → 𝒟</span> almost always has a left
+adjoint—the <strong>Free Functor</strong> <span
+class="math inline"><em>F</em> : 𝒟 → 𝒞</span> (<span
+class="math inline"><em>F</em> ⊣ <em>U</em></span>). * Their
+relationship is governed by two natural transformations: the
+<strong>unit</strong> (<span
+class="math inline"><em>η</em> : Id_𝒟 ⇒ <em>U</em><em>F</em></span>) and
+the <strong>counit</strong> (<span
+class="math inline"><em>ε</em> : <em>F</em><em>U</em> ⇒ Id_𝒞</span>). *
+While <span class="math inline"><em>U</em></span> forgets the structure
+of <span class="math inline">𝒞</span>, the counit <span
+class="math inline"><em>ε</em>_<em>X</em> : <em>F</em>(<em>U</em>(<em>X</em>)) → <em>X</em></span>
+takes the “freely generated” structure built on the forgotten underlying
+object <span class="math inline"><em>U</em>(<em>X</em>)</span> and
+collapses/evaluates it back into the original structured object <span
+class="math inline"><em>X</em></span>, effectively <strong>forgetting
+the formal scaffolding</strong> of the free construction.</p>
+<h4 id="b.-the-comonad-counit-extract-varepsilon-w-rightarrow-textid">B.
+The Comonad Counit / Extract (<span
+class="math inline"><em>ε</em> : <em>W</em> ⇒ Id</span>)</h4>
+<p>Dual to a Monad (which adds context/effects), a
+<strong>Comonad</strong> <span
+class="math inline">(<em>W</em>, <em>ε</em>, <em>δ</em>)</span> models
+objects situated in a context (Note: every <span
+class="math inline"><em>F</em> ⊣ <em>U</em></span> adjunction induces a
+comonad <span
+class="math inline"><em>W</em> = <em>F</em><em>U</em></span> on <span
+class="math inline">𝒞</span>). * Its primary natural transformation is
+the <strong>counit</strong> <span
+class="math inline"><em>ε</em> : <em>W</em> ⇒ Id</span> (called
+<code>extract</code> in functional programming). * Given a value wrapped
+in a context <span class="math inline"><em>W</em>(<em>A</em>)</span>
+(such as an environment, a stream history, or a store), <span
+class="math inline"><em>ε</em>_<em>A</em> : <em>W</em>(<em>A</em>) → <em>A</em></span>
+<strong>forgets the surrounding context</strong> and extracts the
+underlying value <span class="math inline"><em>A</em></span>.</p>
+<h4 id="c.-terminal-and-projection-transformations">C. Terminal and
+Projection Transformations</h4>
+<ul>
+<li><strong>Terminal morphism (<span
+class="math inline">! : <em>X</em> → 1</span>):</strong> Viewed as a
+natural transformation from the identity functor to the constant functor
+at the terminal object (<span
+class="math inline">! : Id ⇒ <em>Δ</em>_1</span>), this forgets
+<em>all</em> internal information of an object <span
+class="math inline"><em>X</em></span>, collapsing it to a single
+point.</li>
+<li><strong>Product projection (<span
+class="math inline"><em>π</em>_1 : <em>A</em> × <em>B</em> → <em>A</em></span>):</strong>
+A natural transformation that forgets the second component <span
+class="math inline"><em>B</em></span> of a pair (which, in a Cartesian
+category, is equivalent to applying the terminal map <span
+class="math inline">!_<em>B</em></span> to <span
+class="math inline"><em>B</em></span>: <span class="math inline">$A
+\times B \xrightarrow{\text{id}\_A \times !\_B} A \times 1 \cong
+A$</span>).</li>
+</ul>
+<h3 id="reference">Reference</h3>
+<ul>
+<li><strong>Scaling Discovery Requires Forgetting</strong><br />
+Shangyin Tan, Ben Zhou, Lakshya A. Agrawal, Jialin Zhang, Yilin Chen,
+Qiuyang Mang, Donghyun Lee, Dennis Jacob, Koushik Sen, Alex Dimakis, and
+Matei Zaharia.<br />
+<em>arXiv preprint arXiv:2610.20563</em> (2026).<br />
+[<a href="https://arxiv.org/pdf/2610.20563">PDF</a>] • [<a
+href="https://arxiv.org/abs/2610.20563">arXiv</a>]</li>
+</ul>
+<details>
+<summary>
+BibTeX
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">tan2026scalingdiscoveryrequiresforgetting</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>         = {Scaling Discovery Requires Forgetting},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>        = {Shangyin Tan and Ben Zhou and Lakshya A. Agrawal and Jialin Zhang and Yilin Chen and Qiuyang Mang and Donghyun Lee and Dennis Jacob and Koushik Sen and Alex Dimakis and Matei Zaharia},</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>          = {2026},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">eprint</span>        = {2610.20563},</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">archivePrefix</span> = {arXiv},</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">primaryClass</span>  = {cs.AI},</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>           = {https://arxiv.org/pdf/2610.20563}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+</body>
+</html>

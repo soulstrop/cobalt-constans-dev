@@ -3,6 +3,7 @@ _site/
 _site_staging/
 worker/node_modules/
 worker/.wrangler/
+_posts/ltximg/
 .notes/
 secrets.json
 /.secrets.json

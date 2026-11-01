@@ -17,6 +17,7 @@ data:
   kind: note
   read_time: "20 min"
   math: true
+  watermark: "rough-draft"
 ---
 
 
