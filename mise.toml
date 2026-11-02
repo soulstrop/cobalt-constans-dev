@@ -10,7 +10,6 @@ actionlint = "latest"
 rg = "latest"
 yamllint = "latest"
 claude = "latest"
-hx = "latest"
 ghcup = "latest"
 
 [env]
