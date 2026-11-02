@@ -42,6 +42,8 @@ ignore:
   - "tasks/**"
   - "scratch/**"
   - "worker/**"
+  - "_posts/ltximg/**"   # org-mode LaTeX preview images
+  - "_posts/*.html"      # org-mode HTML exports of posts
   - "!.well-known"
   - "!.well-known/**"
 
