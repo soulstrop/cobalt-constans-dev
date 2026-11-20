@@ -8,16 +8,37 @@ data:
   section: projects
 ---
 <h1 class="page-title">— work<span class="dot">.</span></h1>
-<p class="page-sub">selected open-source &amp; client projects · 03 entries</p>
+<p class="page-sub">selected open-source &amp; client projects · 04 entries</p>
 
 <div class="proj-cases">
+
+<article class="case">
+<div class="case-thumb">
+<img src="/projects/media/isolate-abstract.svg" alt="isolate — coding agents running with full permissions inside a microVM with its own guest kernel behind a KVM hardware boundary; the repository goes in as a copy on a disk image, shared tool stores are mounted read-only, egress reaches the internet but not the host or LAN, and work comes back only as a git bundle into a separate ref namespace with risky paths flagged before merge">
+</div>
+<div class="case-meta">
+<span>01 / isolate</span>
+<span>2026 – present</span>
+</div>
+<h2><a href="https://github.com/soulstrop/isolate">isolate</a></h2>
+<p class="body">A launcher that runs coding agents — Claude Code, Codex, pi and others — inside a disposable Firecracker or QEMU microVM, so they can work with full permissions without touching the workstation. Unlike an OCI container, which shares the host kernel and usually bind-mounts the working tree, each session gets its own kernel behind KVM hardware virtualization, so a kernel exploit or a stray <code>rm -rf</code> stays inside the VM. The host shares nothing with the guest: the repository goes in as a copy on a disk image, egress is firewalled away from the host and the LAN, and shared tool stores are read-only at the VMM level. Work comes back only as a git bundle, fetched into a separate ref namespace and flagged for risky paths like CI configs and git hooks before you merge.</p>
+<div class="case-tags">
+<span class="tag">shell</span>
+<span class="tag">microvm</span>
+<span class="tag">sandboxing</span>
+</div>
+<div class="act-row">
+<a class="act act-sm" href="https://github.com/soulstrop/isolate">repository <span class="arr">↗</span></a>
+<a class="act act-sm" href="https://github.com/soulstrop/isolate/blob/main/docs/architecture.md">architecture <span class="arr">↗</span></a>
+</div>
+</article>
 
 <article class="case">
 <div class="case-thumb">
 <img src="/projects/media/teamwork-loop-abstract.svg" alt="teamwork-loop — the eight-step journey loop circling the repository, broken into cold-start sessions bridged by handoffs, inside widening release and process loops">
 </div>
 <div class="case-meta">
-<span>01 / teamwork-loop</span>
+<span>02 / teamwork-loop</span>
 <span>2026 – present</span>
 </div>
 <h2><a href="https://github.com/soulstrop/teamwork-loop">teamwork-loop</a></h2>
@@ -38,7 +59,7 @@ data:
 <img src="/projects/media/pi-agent-space-abstract.svg" alt="pi-agent-space — multidimensional exploration system diagram…">
 </div>
 <div class="case-meta">
-<span>02 / pi-agent-space</span>
+<span>03 / pi-agent-space</span>
 <span>2025 – present</span>
 </div>
 <h2><a href="https://github.com/soulstrop/pi-agent-space">pi-agent-space</a></h2>
@@ -61,7 +82,7 @@ visualization<span class="arr">↗</span></a>
 <img src="/projects/media/categorical-insurance.svg" alt="categorical-insurance — a policy DSL compiled by a functor F into a category of claim resolution, where resolution is composition of morphisms that preserves identity and composition laws: auditable, total, provably consistent">
 </div>
 <div class="case-meta">
-<span>03 / categorical-insurance</span>
+<span>04 / categorical-insurance</span>
 <span>2024 – present</span>
 </div>
 <h2><a href="https://github.com/soulstrop/categorical-insurance">categorical-insurance</a></h2>
